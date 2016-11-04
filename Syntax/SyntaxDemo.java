@@ -3,14 +3,12 @@ package Syntax;
 import java.util.ArrayList;
 
 public class SyntaxDemo {
-    public static void main(String[] args){
-        ArrayList<Token> tokens;
-        
-        String test = "(x-4)*(x^2+2*(x+5*x^3))";
+    public static void main(String[] args){        
+        String test = "x+1";
         
         Lexer lexer = Lexer.getInstance();
-        tokens = lexer.lex(test);
-        
+        ArrayList<Token> tokens = lexer.lex(test);
+        System.out.println("Tokens:");
         System.out.println(tokens);
         
         ExpressionTree tree = new ExpressionTree();

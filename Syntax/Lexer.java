@@ -1,10 +1,9 @@
 package Syntax;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Lexer {
-    private final String separators = "+-*^()";
+    private static final String separators = "+-*^()";
     private Lexer() {
     }
     

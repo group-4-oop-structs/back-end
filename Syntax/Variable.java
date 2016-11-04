@@ -1,5 +1,6 @@
 package Syntax;
 
+// What is the difference between this class and the Identifier class?
 public class Variable extends TerminalExpression{
 
     Variable() {

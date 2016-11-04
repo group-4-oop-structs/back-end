@@ -16,7 +16,7 @@ public class Parser {
     
     private Parser() {
     }
-    
+    // TODO: get rid of this singleton pattern
     public static Parser getInstance() {
         return ParserHolder.INSTANCE;
     }
@@ -47,7 +47,7 @@ public class Parser {
         
         return true;
     }
-    
+    // PLEASE avoid naming things with just a single letter
     private void E(){
         T();
         while(eat(PLUSSYM) || eat(MINUSSYM)){
@@ -101,6 +101,7 @@ public class Parser {
         System.exit(0);
     }
     
+    // omg this method
     private boolean eat(TokenType tok){
         if (s.isEmpty()) return false;
         Token temp = s.pop();
