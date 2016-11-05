@@ -5,6 +5,8 @@
  */
 package Syntax;
 
+import Parser.Expression;
+
 public class Negate extends UnaryExpression{   
     
     @Override

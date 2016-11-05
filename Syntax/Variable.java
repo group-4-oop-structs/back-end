@@ -1,6 +1,9 @@
 package Syntax;
 
 // What is the difference between this class and the Identifier class?
+
+import Parser.Expression;
+
 public class Variable extends TerminalExpression{
 
     Variable() {

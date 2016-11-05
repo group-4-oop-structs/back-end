@@ -4,6 +4,6 @@ public abstract class Token {
     @Override
     public abstract String toString();
     
-    public abstract double getValue();
-    public abstract char getName();
+    public abstract TokenType getType();
+    public abstract boolean isType(TokenType type);
 }

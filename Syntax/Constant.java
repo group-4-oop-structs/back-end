@@ -1,5 +1,7 @@
 package Syntax;
 
+import Parser.Expression;
+
 public class Constant extends TerminalExpression {
     double value;
     

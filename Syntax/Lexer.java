@@ -1,5 +1,6 @@
 package Syntax;
 
+import Parser.Number;
 import java.util.ArrayList;
 
 public class Lexer {

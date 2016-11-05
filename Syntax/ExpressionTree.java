@@ -5,6 +5,13 @@
  */
 package Syntax;
 
+import Parser.BinaryExpression;
+import Parser.Product;
+import Parser.Sum;
+import Parser.Expression;
+import Parser.Power;
+import Parser.Difference;
+
 public class ExpressionTree {
     private Expression root;
     private Expression cur;

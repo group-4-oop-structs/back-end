@@ -1,6 +1,10 @@
-package Syntax;
+package Parser;
 
 public class Difference extends BinaryExpression{   
+
+    public Difference(Expression lhs, Expression rhs) {
+	super(lhs, rhs);
+    }
 
     @Override
     public Expression getDerivative() {

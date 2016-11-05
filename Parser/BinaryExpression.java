@@ -1,7 +1,9 @@
-package Syntax;
+package Parser;
+
+import Parser.Expression;
 
 abstract public class BinaryExpression extends Expression{       
-    private Expression left, right;
+    private final Expression left, right;
     
     public Expression getRight() {
         return right;
@@ -11,11 +13,8 @@ abstract public class BinaryExpression extends Expression{
         return left;
     }
     
-    public void setLeft(Expression l){
-        this.left = l;
-    }
-    
-    public void setRight(Expression r){
-        this.right = r;
+    BinaryExpression(Expression lhs, Expression rhs){
+	this.left = lhs;
+	this.right = rhs;
     }
 }

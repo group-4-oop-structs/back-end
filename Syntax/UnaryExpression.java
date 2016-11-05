@@ -5,6 +5,8 @@
  */
 package Syntax;
 
+import Parser.Expression;
+
 public abstract class UnaryExpression extends Expression{
     Expression base;
     

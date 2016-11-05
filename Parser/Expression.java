@@ -1,4 +1,4 @@
-package Syntax;
+package Parser;
 
 public abstract class Expression {
     private Expression parent;

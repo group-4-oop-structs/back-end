@@ -7,6 +7,7 @@ package Syntax;
 
 public class Identifier extends Token{
     private final char name; 
+    public static TokenType type = TokenType.IDENTSYM;
     
     public Identifier(char content){
         this.name = content;
@@ -19,9 +20,6 @@ public class Identifier extends Token{
     public String toString(){
         return "\nIdentifier: " + this.name;
     }
-
-    @Override
-    public double getValue() {
-        return '\0';
-    }
+    
+    
 }
