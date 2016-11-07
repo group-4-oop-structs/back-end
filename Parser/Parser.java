@@ -16,7 +16,7 @@ public class Parser {
     private final TokenType NUMBERSYM = TokenType.NUMBERSYM;
     private final TokenType IDENTSYM = TokenType.IDENTSYM;
     
-    Parser() {
+    public Parser() {
     }
     public Expression parse(ArrayList<Token> l) throws SyntaxError{
         int numrparent = 0;
@@ -85,7 +85,6 @@ public class Parser {
 	} else if(next(TokenType.NUMBERSYM)){
 	    Token num = eat(TokenType.NUMBERSYM);
 	    
-	    if ((atom = this.atom()) != null)
 	}
     }
     

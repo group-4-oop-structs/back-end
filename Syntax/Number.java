@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Parser;
+package Syntax;
 
 import Syntax.Token;
 import Syntax.TokenType;
@@ -18,6 +18,9 @@ public class Number extends Token{
     @Override
     public String toString(){
         return "\nNumber: " + this.value;
+    }
+    public double getValue(){
+	return value;
     }
 
     @Override

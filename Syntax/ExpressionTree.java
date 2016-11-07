@@ -5,6 +5,7 @@
  */
 package Syntax;
 
+import Parser.Constant;
 import Parser.BinaryExpression;
 import Parser.Product;
 import Parser.Sum;

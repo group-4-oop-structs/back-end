@@ -14,7 +14,8 @@ public class SyntaxDemo {
         
         ExpressionTree tree = new ExpressionTree();
         
-        Parser parser = Parser.getInstance();
+        Parser parser = new Parser();
+	parser.parse(tokens);
         System.out.println("Valid Expression? " + parser.parse(tokens));
         
         
