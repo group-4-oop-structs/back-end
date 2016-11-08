@@ -1,18 +1,23 @@
 package Parser;
 
 import Parser.Expression;
-import Syntax.TerminalExpression;
+import SyntaxVisitor.ExpressionVisitor;
 
-public class Constant extends TerminalExpression {
+public class Constant implements Expression {
     double value;
     
     public Constant(double v){
         this.value = v;
     }
-    
+
+    public double getValue(){
+	return this.value;
+    }
     
     @Override
-    public Expression getDerivative(){
-        return new Constant(0);
+    public void accept(ExpressionVisitor v) {
+	v.visitConstant(this);
     }
+    
+    
 }

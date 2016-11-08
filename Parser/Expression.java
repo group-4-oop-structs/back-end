@@ -1,14 +1,9 @@
 package Parser;
 
-public abstract class Expression {
-    private Expression parent;
+import SyntaxVisitor.ExpressionVisitor;
+
+public interface Expression {
     
-    public void setParent(Expression e){
-        this.parent = e;
-    }
-    
-    public Expression getParent(){
-        return this.parent;
-    }
-    abstract public Expression getDerivative();
+    public abstract void accept(ExpressionVisitor v);
 }
+

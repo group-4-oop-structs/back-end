@@ -2,14 +2,15 @@ package Parser;
 
 import SyntaxVisitor.ExpressionVisitor;
 
-public class Sum extends BinaryExpression{
+public class Variable implements Expression{
 
-    public Sum(Expression lhs, Expression rhs){
-	super(lhs,rhs);
+    Variable() {
     }
 
     @Override
     public void accept(ExpressionVisitor v) {
-	v.visitSum(this);
+	v.visitVariable(this);
     }
+    
+    
 }

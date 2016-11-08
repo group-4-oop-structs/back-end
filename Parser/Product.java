@@ -1,5 +1,7 @@
 package Parser;
 
+import SyntaxVisitor.ExpressionVisitor;
+
 public class Product extends BinaryExpression{
 
     public Product(Expression lhs, Expression rhs){
@@ -7,7 +9,10 @@ public class Product extends BinaryExpression{
     }
 
     @Override
-    public Expression getDerivative() {
-	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void accept(ExpressionVisitor v) {
+	v.visitProduct(this);
     }
+
+    
+    
 }

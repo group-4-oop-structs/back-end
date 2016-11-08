@@ -1,14 +1,17 @@
 package Parser;
 
+import SyntaxVisitor.ExpressionVisitor;
+
 public class Difference extends BinaryExpression{   
 
     public Difference(Expression lhs, Expression rhs) {
 	super(lhs, rhs);
-    }
+    } 
 
     @Override
-    public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void accept(ExpressionVisitor v) {
+	v.visitDifference(this);
     }
+    
     
 }

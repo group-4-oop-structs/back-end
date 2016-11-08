@@ -2,7 +2,7 @@ package Parser;
 
 import Parser.Expression;
 
-abstract public class BinaryExpression extends Expression{       
+abstract public class BinaryExpression implements Expression{       
     private final Expression left, right;
     
     public Expression getRight() {

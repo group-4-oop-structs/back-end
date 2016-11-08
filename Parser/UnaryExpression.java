@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Syntax;
+package Parser;
 
 import Parser.Expression;
 
-public abstract class UnaryExpression extends Expression{
-    Expression base;
+public abstract class UnaryExpression implements Expression{
+    Expression inner;
     
-    public void setBase(Expression b){
-        this.base = b;
+    public UnaryExpression(Expression in){
+	this.inner = in;
     }
-    
-    public Expression getBase(){
-        return this.base;
+    public Expression getInner(){
+        return this.inner;
     }
 }
