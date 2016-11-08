@@ -13,8 +13,8 @@ public class Parser {
     public Expression parse(ArrayList<Token> l) throws SyntaxError{
         int numrparent = 0;
         int numlparent = 0;
-        s.addAll(l);
-	
+	for(int i=l.size()-1; i >=0; i--)
+	    s.add(l.get(i));
 	return gatherTerms();
     }
     
@@ -86,9 +86,7 @@ public class Parser {
 	else if(eat(TokenType.LPARENTSYM) != null){
 	    Expression inside = gatherTerms();
 	    
-	    if(inside == null)
-		throw new SyntaxError("Error: empty set of ()'s");
-	    else if(eat(TokenType.RPARENTSYM) == null)
+	    if(eat(TokenType.RPARENTSYM) == null)
 		throw new SyntaxError("Missing ')'");
 	    else
 		return inside;
@@ -101,6 +99,8 @@ public class Parser {
 	    String[] split = str.split(" ");
 	    double d = Double.parseDouble(split[1]);
 	    return new Constant(d);
+	} else if(next(TokenType.RPARENTSYM)){
+	    throw new SyntaxError("Error: unmatched )");
 	}
 	
 	throw new SyntaxError("Unknown Error");

@@ -3,16 +3,14 @@
  *  COP 3330
  *  Author: Jonathan Gillis
  */
-package Parser;
+package Test;
 
 /**
  *
  * @author gillis
  */
-public class SyntaxError extends Throwable {
-
-    SyntaxError(String missing_) {
-	super(missing_);
+public class TestLexer {
+    public static void main(String[] args){
+	
     }
-    
 }

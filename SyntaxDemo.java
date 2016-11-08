@@ -7,13 +7,26 @@ import SyntaxVisitor.*;
 
 public class SyntaxDemo {
     public static void main(String[] args){        
-        String test = "x+1";
-        
+	test("x+1"); 
+	test("x*2");
+	test("(x)");
+//	test("(x+1)*(30*x)^4");
+//	test("x^2");
+//	test("x*x");
+	test("()^3");
+	
+	
+    }
+    
+    public static void test(String input){
+
+	
+	System.out.println("Input: " + input);
+	System.out.println();
         Lexer lexer = new Lexer();
-        ArrayList<Token> tokens = lexer.lex(test);
+        ArrayList<Token> tokens = lexer.lex(input);
         System.out.println("Tokens:");
         System.out.println(tokens);
-        
         Parser parser = new Parser();
 	try {
 	   Expression expression = parser.parse(tokens); 
@@ -25,11 +38,12 @@ public class SyntaxDemo {
 	   System.out.println(sb.toString());
 	   
 	} catch ( SyntaxError e) {
-	    System.out.println("The expression is not valid" + e.getMessage());
+	    System.out.println("The expression is not valid: " + e.getMessage());
 	    e.printStackTrace();	   
-	}
-        
-        
-        
+	}   
+	
+	System.out.println("\n");
     }
+    
+    
 }

@@ -24,6 +24,6 @@ public class Separator extends Token{
 
     @Override
     public double getValue() {
-        return '\0';
+        return 100;  // TODO: this is arbitrary and stupid
     }
 }
