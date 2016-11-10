@@ -4,6 +4,7 @@ import SyntaxVisitor.ExpressionVisitor;
 
 public class Variable implements Expression{
 
+    String name = "x";
     Variable() {
     }
 

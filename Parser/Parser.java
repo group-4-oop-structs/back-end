@@ -3,6 +3,7 @@ package Parser;
 import Lexer.Token;
 import Lexer.TokenType;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class Parser {
@@ -10,12 +11,22 @@ public class Parser {
     
     public Parser() {
     }
-    public Expression parse(ArrayList<Token> l) throws SyntaxError{
+    public Expression parse(List<Token> l) throws SyntaxError{
         int numrparent = 0;
         int numlparent = 0;
 	for(int i=l.size()-1; i >=0; i--)
-	    s.add(l.get(i));
+	    s.add(l.get(i));  // could just use iterators, but w.e.
 	return gatherTerms();
+    }
+    
+    public Expression asTree(List<Token> l){
+	Expression tree;
+	try {
+	    tree = parse(l);
+	} catch(SyntaxError e){
+	    tree = null;
+	}
+	return tree;
     }
     
     private Expression gatherTerms() throws SyntaxError{
@@ -94,10 +105,10 @@ public class Parser {
 	    // Check for a numeric constant
 	    // TODO: this is a really stupid way of doing this
 	    Token num = eat(TokenType.NUMBERSYM);
-	    String str = num.toString();
-	    
+	    String str = num.toString();	    
 	    String[] split = str.split(" ");
 	    double d = Double.parseDouble(split[1]);
+	    
 	    return new Constant(d);
 	} else if(next(TokenType.RPARENTSYM)){
 	    throw new SyntaxError("Error: unmatched )");

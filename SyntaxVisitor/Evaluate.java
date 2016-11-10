@@ -21,15 +21,21 @@ import Parser.Variable;
 public class Evaluate implements ExpressionVisitor {
     double value = 0.0;
     double xval;
+    Expression expr;
     
     public static double evaluate(Expression expr, double x){
-	Evaluate e = new Evaluate(x);
-	expr.accept(e);
-	return e.value;
+	Evaluate e = new Evaluate(expr);
+	return e.at(x);
     }
     
-    Evaluate(double x){
-	this.xval = x;
+    public Evaluate(Expression e){
+	this.expr = e;
+    }
+    
+    public double at(double xval){
+	this.xval = xval;
+	expr.accept(this);
+	return value;
     }
     
     @Override
