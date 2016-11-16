@@ -27,13 +27,31 @@ public class TestEvaluate {
 	Expression tree = p.parse(lex.lex(input));
 	
 	Evaluate eval = new Evaluate(tree);
-	List<Double> values= new ArrayList<Double>();
-	for(double d = -10000.0; d<= 10000.0; d+= 0.01){
+	StringBuilder sb = new StringBuilder();
+	sb.append("[");
+	for(double d = -10000.0; d<= 10000.0; d+= 0.05, sb.append(",")){
 	    Double y = eval.at(d);
 //	    System.out.printf("(%.2f,%.2f)\n", d, y);
-	    values.add(y);
+	    sb.append(y);
 	}
+	sb.append("]");
+	
 	System.out.println("Done");
+	System.out.println(sb.toString().length());
 	    
     }
+}
+
+class EvalTestCase
+{
+    String input;
+    List<Double> xvals;
+    List<Double> expected_vals;
+    
+    EvalTestCase(String in, List<Double> x, List<Double> y){
+	input = in;
+	this.xvals = x;
+	this.expected_vals = y;
+    }
+    
 }
