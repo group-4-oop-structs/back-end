@@ -6,9 +6,9 @@
 package Lexer;
 
 public class Identifier extends Token{
-    private final char name; 
+    private final String name; 
     
-    public Identifier(char content){
+    public Identifier(String content){
         this.name = content;
     }
     @Override

@@ -3,13 +3,16 @@
  *  COP 3330
  *  Author: Jonathan Gillis
  */
-package Test;
+package Parser;
+
+import java.util.Map;
 
 /**
  *
  * @author gillis
  */
-public class TestStringify {
+public class FunctionTable {
+    Map<String, Expression> table;
     
     
 }

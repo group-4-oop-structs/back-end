@@ -1,5 +1,6 @@
 package Parser;
 
+import Lexer.Lexer;
 import Lexer.Token;
 import Lexer.TokenType;
 import java.util.ArrayList;
@@ -88,6 +89,16 @@ public class Parser {
 	if (next(TokenType.IDENTSYM)){
 	    //check for the presence of an identifier
 	    Token id = eat(TokenType.IDENTSYM);
+	    if(next(TokenType.LPARENTSYM)){
+		eat(TokenType.LPARENTSYM);
+		Expression inner = gatherTerms();
+		if(eat(TokenType.RPARENTSYM) == null) {
+		    throw new SyntaxError("Missing ')'");
+		}
+		UnaryExpression f = UnaryExpression.factory(String.valueOf(id.getName()), inner);
+		return f;
+
+	    }
 	    // TODO: for now only identifiers which represent a variable 
 	    // are supported
 	    return new Variable();
@@ -164,5 +175,14 @@ public class Parser {
         if(!next(tok))
 	    return null;
 	return s.pop();
+    }
+    
+    
+    public static Expression parseString(String input) throws SyntaxError{
+	Lexer l = new Lexer();
+	Parser p = new Parser();
+	
+	return p.parse(l.lex(input));
+	
     }
 }

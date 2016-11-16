@@ -3,13 +3,12 @@
  *  COP 3330
  *  Author: Jonathan Gillis
  */
-package Test;
+package Parser;
 
 /**
  *
  * @author gillis
  */
-public class TestStringify {
-    
+public class CustomFunction {
     
 }

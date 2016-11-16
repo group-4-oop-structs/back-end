@@ -23,17 +23,19 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class Differentiate implements ExpressionVisitor {
 
-    Expression input, result;
+    Expression result;
     
-    public Expression getDerivitive(){
-	if(result == null){
-	    input.accept(this);
-	}
+    public static Expression differentiate(Expression e){
+	Differentiate d = new Differentiate();
+	e.accept(d);
+	return d.getResult();
+    }
+    
+    public Expression getResult(){
 	return result;
     }
     
-    public Differentiate(Expression input){
-	this.input = input;
+    public Differentiate(){
     }
     
     @Override
