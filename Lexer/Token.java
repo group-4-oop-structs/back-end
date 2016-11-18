@@ -1,4 +1,4 @@
-package Syntax;
+package Lexer;
 
 public abstract class Token {
     @Override

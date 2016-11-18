@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Syntax;
+package Lexer;
+
+import Lexer.Token;
+import Lexer.TokenType;
 
 public class Number extends Token{
     private final double value;

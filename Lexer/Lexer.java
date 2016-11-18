@@ -1,22 +1,9 @@
-package Syntax;
+package Lexer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Lexer {
-    private final String separators = "+-*^()";
-    private Lexer() {
-    }
-    
-    public static Lexer getInstance() {
-        return LexerHolder.INSTANCE;
-    }
-    
-    private static class LexerHolder {
-
-        private static final Lexer INSTANCE = new Lexer();
-    }
-    
+    private static final String separators = "+-*^()";
     public ArrayList<Token> lex(String expression){
         char[] content = expression.toCharArray();
         char[] buffer = new char[expression.length()];
