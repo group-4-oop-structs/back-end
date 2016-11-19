@@ -16,7 +16,7 @@ public class Identifier extends Token{
         return this.name;
     }
     @Override
-    public String toString(){
+    public String toString(){ 
         return "\nIdentifier: " + this.name;
     }
 
