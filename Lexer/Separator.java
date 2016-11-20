@@ -7,9 +7,11 @@ package Lexer;
 
 public class Separator extends Token{
     private final char name;
+    private final TokenType t;
     
-    public Separator(char content){
-       this.name = content; 
+    public Separator(char content, TokenType t){
+       this.name = content;
+       this.t = t;
     }
     
     @Override
@@ -25,5 +27,10 @@ public class Separator extends Token{
     @Override
     public double getValue() {
         return 100;  // TODO: this is arbitrary and stupid
+    }
+    
+    @Override
+    public TokenType getSym(){
+        return this.t;
     }
 }

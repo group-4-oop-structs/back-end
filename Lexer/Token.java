@@ -6,4 +6,5 @@ public abstract class Token {
     
     public abstract double getValue();
     public abstract char getName();
+    public abstract TokenType getSym();
 }
