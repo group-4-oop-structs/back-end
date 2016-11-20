@@ -10,9 +10,11 @@ import Lexer.TokenType;
 
 public class Number extends Token{
     private final double value;
+    private final TokenType t;
     
-    public Number(double content){
+    public Number(double content, TokenType t){
         this.value = content;
+        this.t = t;
     }
     
     @Override
@@ -28,5 +30,9 @@ public class Number extends Token{
     @Override
     public char getName() {
         return '\0';
+    }
+    
+    public TokenType getSym(){
+        return this.t;
     }
 }

@@ -43,13 +43,36 @@ public class Lexer {
         for (int i = 0; i < numWords; i++){
             if (separators.contains(separated[i])){
                 int e = separators.indexOf(separated[i]);
-                holder.add(new Separator(separators.charAt(e)));
+                switch (separators.charAt(e)){
+                    case '+':
+                        holder.add(new Separator(separators.charAt(e), TokenType.PLUSSYM));
+                        break;
+                    case '-':
+                        holder.add(new Separator(separators.charAt(e), TokenType.MINUSSYM));
+                        break;
+                    case '*':
+                        holder.add(new Separator(separators.charAt(e), TokenType.MULTSYM));
+                        break;
+                    case '/':
+                        holder.add(new Separator(separators.charAt(e), TokenType.DIVSYM));
+                        break;
+                    case '^':
+                        holder.add(new Separator(separators.charAt(e), TokenType.POWSYM));
+                        break;
+                    case '(':
+                        holder.add(new Separator(separators.charAt(e), TokenType.LPARENTSYM));
+                        break;
+                    case ')':
+                        holder.add(new Separator(separators.charAt(e), TokenType.RPARENTSYM));
+                        break;
+                }
+                
             }            
             else if (separated[i].compareToIgnoreCase("x") == 0){
-                holder.add(new Identifier('x'));
+                holder.add(new Identifier('x', TokenType.IDENTSYM));
             }
             else if (isNumeric(separated[i])){
-                holder.add(new Number(Double.parseDouble(separated[i])));
+                holder.add(new Number(Double.parseDouble(separated[i]), TokenType.NUMBERSYM));
             }
             else {
                 System.out.println(separated[i] + " is invalid token or identifier.");

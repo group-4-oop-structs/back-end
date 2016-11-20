@@ -6,10 +6,12 @@
 package Lexer;
 
 public class Identifier extends Token{
-    private final char name; 
+    private final char name;
+    private final TokenType t;
     
-    public Identifier(char content){
+    public Identifier(char content, TokenType t){
         this.name = content;
+        this.t = t;
     }
     @Override
     public char getName(){
@@ -23,5 +25,9 @@ public class Identifier extends Token{
     @Override
     public double getValue() {
         return '\0';
+    }
+    
+    public TokenType getSym(){
+        return this.t;
     }
 }
