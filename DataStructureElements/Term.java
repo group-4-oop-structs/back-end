@@ -33,4 +33,9 @@ public class Term extends Element{
         Term t = new Term(1,e.getDerivative());
         return new Term(t.getCoefficient() * this.coefficient, t.getExpression());
     }    
+
+    @Override
+    public Expression getIntegral() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

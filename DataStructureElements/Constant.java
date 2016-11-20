@@ -18,5 +18,10 @@ public class Constant extends TerminalExpression{
     public Expression getDerivative() {
         return new Term(0, new Constant());
     }
+
+    @Override
+    public Expression getIntegral() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

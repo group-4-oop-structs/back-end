@@ -11,4 +11,5 @@ package DataStructureElements;
  */
 public abstract class Expression {
     public abstract Expression getDerivative();
+    public abstract Expression getIntegral();
 }

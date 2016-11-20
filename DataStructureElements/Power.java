@@ -50,5 +50,13 @@ public class Power extends UnaryExpression{
             return new Product(f);
         }
     }
+
+    @Override
+    public Expression getIntegral() {
+        if (e instanceof Variable){
+            
+        }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

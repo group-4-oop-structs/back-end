@@ -39,5 +39,10 @@ public class Sum extends Container{
         
         return new Sum(holderD);
     }
+
+    @Override
+    public Expression getIntegral() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

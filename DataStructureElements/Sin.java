@@ -25,5 +25,10 @@ public class Sin extends UnaryExpression{
     public Expression getDerivative() {
         return (new Cos(e));
     }
+
+    @Override
+    public Expression getIntegral() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

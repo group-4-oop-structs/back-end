@@ -24,4 +24,9 @@ public class Factor extends Element{
     public Expression getDerivative() {
         return e.getDerivative();
     }
+
+    @Override
+    public Expression getIntegral() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

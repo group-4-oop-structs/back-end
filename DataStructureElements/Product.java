@@ -43,5 +43,10 @@ public class Product extends Container{
         
         return new Sum(derivative);
     }
+
+    @Override
+    public Expression getIntegral() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
