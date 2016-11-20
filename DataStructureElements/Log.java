@@ -9,21 +9,20 @@ package DataStructureElements;
  *
  * @author rthec
  */
-public class Sin extends UnaryExpression{
+public class Log extends UnaryExpression{
     Expression e;
 
-    public Sin(Expression e) {
+    public Log(Expression e) {
         this.e = e;
     }
 
-    public Expression getExpression() {
+    public Expression getE() {
         return e;
-    }
+    }       
     
-        
     @Override
     public Expression getDerivative() {
-        return (new Cos(e));
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

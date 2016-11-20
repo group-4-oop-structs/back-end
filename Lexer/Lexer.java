@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Lexer {
     private static final String separators = "+-*/^()";
-    private static final String[] reservedWords = {"sin", "cos", "tan", "ln", "log"};
+    private static final String[] reservedWords = {"sin", "cos", "tan", "ln", "log", 
+        "csc", "sec", "cot", "arcsin", "arccos", "arctan", "arccsc", "arcsec", "arccot"};
     public ArrayList<Token> lex(String expression){
         char[] content = expression.toCharArray();
         char[] buffer = new char[expression.length()];
@@ -84,6 +85,28 @@ public class Lexer {
                             holder.add(new Identifier(reservedWords[j], TokenType.COSSYM));
                         else if (j == 2)
                             holder.add(new Identifier(reservedWords[j], TokenType.TANSYM));
+                        else if (j == 3)
+                            holder.add(new Identifier(reservedWords[j], TokenType.LNSYM));
+                        else if (j == 4)
+                            holder.add(new Identifier(reservedWords[j], TokenType.LOGSYM));
+                        else if (j == 5)
+                            holder.add(new Identifier(reservedWords[j], TokenType.CSCSYM));
+                        else if (j == 6)
+                            holder.add(new Identifier(reservedWords[j], TokenType.SECSYM));
+                        else if (j == 7)
+                            holder.add(new Identifier(reservedWords[j], TokenType.COTSYM));
+                        else if (j == 8)
+                            holder.add(new Identifier(reservedWords[j], TokenType.ARCSINSYM));
+                        else if (j == 9)
+                            holder.add(new Identifier(reservedWords[j], TokenType.ARCCOSSYM));
+                        else if (j == 10)
+                            holder.add(new Identifier(reservedWords[j], TokenType.ARCTANSYM));
+                        else if (j == 11)
+                            holder.add(new Identifier(reservedWords[j], TokenType.ARCCSCSYM));
+                        else if (j == 12)
+                            holder.add(new Identifier(reservedWords[j], TokenType.ARCSECSYM));
+                        else if (j == 13)
+                            holder.add(new Identifier(reservedWords[j], TokenType.ARCCOTSYM));
                     }
                 }
             }
