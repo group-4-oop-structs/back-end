@@ -6,15 +6,15 @@
 package Lexer;
 
 public class Identifier extends Token{
-    private final char name;
+    private final String name;
     private final TokenType t;
     
-    public Identifier(char content, TokenType t){
+    public Identifier(String content, TokenType t){
         this.name = content;
         this.t = t;
     }
     @Override
-    public char getName(){
+    public String getName(){
         return this.name;
     }
     @Override

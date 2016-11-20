@@ -16,5 +16,9 @@ public class TestLexer {
         for (int i = 0; i < test.size(); i++){
             System.out.println(test.get(i).toString());
         }
+        test = lexer.lex("sin x - cos x + x^2");
+        for (int i = 0; i < test.size(); i++){
+            System.out.println(test.get(i).toString());
+        }
     }
 }

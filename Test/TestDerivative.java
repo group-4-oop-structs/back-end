@@ -6,13 +6,12 @@
 package Test;
 
 import DataStructureElements.*;
-import Utilities.*;
-import Lexer.Lexer;
-import Lexer.Token;
-import java.util.ArrayList;
+import Lexer.*;
 import Parser.*;
+import Utilities.*;
+import java.util.*;
 
-public class TestParser {
+public class TestDerivative {
     
     public static void main(String[] args){
         ArrayList<Token> test;
@@ -23,8 +22,9 @@ public class TestParser {
         Expression e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        
-        test = lexer.lex("sin x - cos x + x^2");
-        
+        Expression d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
     }
+    
 }

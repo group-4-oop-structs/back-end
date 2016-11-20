@@ -5,6 +5,6 @@ public abstract class Token {
     public abstract String toString();
     
     public abstract double getValue();
-    public abstract char getName();
+    public abstract String getName();
     public abstract TokenType getSym();
 }

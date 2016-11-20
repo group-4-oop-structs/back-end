@@ -61,7 +61,7 @@ public class Parser {
             else {
                 product.add(new Factor(new Variable()));
             }
-        }
+        }      
         else if (stack.peek().getSym() == TokenType.LPARENTSYM){
             stack.pop();
             Expression temp = gatherTerms();
@@ -76,7 +76,6 @@ public class Parser {
                 product.add(new Factor(temp));
             }
         }
-        
         
         while (!stack.isEmpty() && stack.peek().getSym() == TokenType.MULTSYM){
             stack.pop();

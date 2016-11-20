@@ -28,8 +28,8 @@ public class Number extends Token{
     }
 
     @Override
-    public char getName() {
-        return '\0';
+    public String getName() {
+        return "\0";
     }
     
     public TokenType getSym(){

@@ -3,7 +3,8 @@ package Lexer;
 import java.util.ArrayList;
 
 public class Lexer {
-    private static final String separators = "+-*^()";
+    private static final String separators = "+-*/^()";
+    private static final String[] reservedWords = {"sin", "cos", "tan", "ln", "log"};
     public ArrayList<Token> lex(String expression){
         char[] content = expression.toCharArray();
         char[] buffer = new char[expression.length()];
@@ -69,13 +70,22 @@ public class Lexer {
                 
             }            
             else if (separated[i].compareToIgnoreCase("x") == 0){
-                holder.add(new Identifier('x', TokenType.IDENTSYM));
+                holder.add(new Identifier("x", TokenType.IDENTSYM));
             }
             else if (isNumeric(separated[i])){
                 holder.add(new Number(Double.parseDouble(separated[i]), TokenType.NUMBERSYM));
             }
             else {
-                System.out.println(separated[i] + " is invalid token or identifier.");
+                for (int j = 0; j < reservedWords.length; j++){
+                    if (separated[i].compareToIgnoreCase(reservedWords[j]) == 0){
+                        if (j == 0)
+                            holder.add(new Identifier(reservedWords[j], TokenType.SINSYM));
+                        else if (j == 1)
+                            holder.add(new Identifier(reservedWords[j], TokenType.COSSYM));
+                        else if (j == 2)
+                            holder.add(new Identifier(reservedWords[j], TokenType.TANSYM));
+                    }
+                }
             }
         }
         return holder;

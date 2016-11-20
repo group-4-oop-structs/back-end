@@ -6,16 +6,18 @@
 package Lexer;
 
 public class Separator extends Token{
-    private final char name;
+    private final String name;
     private final TokenType t;
     
     public Separator(char content, TokenType t){
-       this.name = content;
+       char[] temp = new char[1];
+       temp[0] = content;
+       this.name = String.valueOf(temp);
        this.t = t;
     }
     
     @Override
-    public char getName(){
+    public String getName(){
         return this.name;
     }
     
