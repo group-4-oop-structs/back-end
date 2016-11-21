@@ -5,9 +5,11 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
+
 /**
  *
- * @author rthec
+ * @author rthec 
  */
 public class Log extends UnaryExpression{
     Expression e;
@@ -33,6 +35,16 @@ public class Log extends UnaryExpression{
     @Override
     public Expression getExpression() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getName() {
+	throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 
 public class Product extends Container{
@@ -31,6 +32,16 @@ public class Product extends Container{
     @Override
     public Expression getExpression() {
         return this; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitProduct(this);
+    }
+
+    @Override
+    public int getPEMDASLevel() {
+	return 2;
     }
     
 }

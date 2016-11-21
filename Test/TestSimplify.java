@@ -24,11 +24,18 @@ public class TestSimplify {
 	test("2*x+x");
 	test("2*x+2*x");
 	test("2*x+x*3");
+	test("(x+1)+(x+1)^2");
+	
 	test("x*x");
 	test("x*x^2");
 	test("x^2*x");
 	test("x^2*x^3");
-	test("(x+1)+(x+1)^2");
+	test("x*(x+1)*x^2");
+	
+	test("sin x + sin x");
+	
+
+	
     }
     
     static int testNum = 1;

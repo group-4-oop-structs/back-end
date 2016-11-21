@@ -5,9 +5,10 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 
-public class Power extends UnaryExpression{
+public class Power extends Expression{
     private double power;
     private Expression base;
 
@@ -33,5 +34,15 @@ public class Power extends UnaryExpression{
     @Override
     public Expression getIntegral() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitPower(this);
+    }
+
+    @Override
+    public int getPEMDASLevel() {
+	return 3;
     }
 }

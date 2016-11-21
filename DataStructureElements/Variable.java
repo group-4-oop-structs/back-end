@@ -5,6 +5,8 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
+
 /**
  *
  * @author rthec
@@ -27,6 +29,11 @@ public class Variable extends TerminalExpression{
     @Override
     public Expression getExpression() {
         return this;
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitVariable(this);
     }
     
 }
