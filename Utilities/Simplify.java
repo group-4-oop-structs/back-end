@@ -3,26 +3,59 @@ package Utilities;
 import DataStructureElements.*;
 import java.util.*;
 
-public class Simplify {    
+public class Simplify {
+
+    static boolean isSimplifying = false;
     public static Sum simplifySum(Sum s){
+	if(isSimplifying){
+	    return s;
+	} else
+	    isSimplifying = true;
+	
         ArrayList<Expression> terms = s.getSum();
-        ArrayList<Expression> newTerms = new ArrayList<>();
+        Map<String, Double> newTerms = new HashMap<>();
         boolean hit = false;
         
-        newTerms.add(terms.get(0));
+        newTerms.put(makeSumString(terms.get(0)),getCoefficient(terms.get(0)));
+	
         
         for (int i = 1; i < terms.size(); i++){
-            for (int j = 0; j < newTerms.size(); j++){
-		String s1 = makeSumString(terms.get(i));
-		String s2 = makeSumString(newTerms.get(j));
-                if (s1.equals(s2)){
-		    newTerms.add(terms.get(i));
-                    break;
-                }
-            }   
+	    String key = makeSumString(terms.get(i));
+	    double newcoeff = getCoefficient(terms.get(i));
+	    double old = newTerms.getOrDefault(key, 0.0d);
+	    newTerms.put(key, old+newcoeff);
         }
-        Sum simple = new Sum(newTerms);
-        return simple;
+        
+	ArrayList<Expression> newtermslist = new ArrayList<>();
+	for (Iterator<String> it = newTerms.keySet().iterator(); it.hasNext();) {
+	    String str = it.next();
+	    double ncoeff = newTerms.get(str);
+	    if(ncoeff == 0){
+		continue; // note: this may not always be the thing to do
+		// like, what if there is an empty list? 
+	    } else if( ncoeff ==1.0 ){
+		newtermslist.add(Parser.Parser.parseString(str));
+	    } else {
+		String nstring = ncoeff + " * (" + str + ")";
+		newtermslist.add(Parser.Parser.parseString(nstring));
+	    }
+	}
+	
+	isSimplifying = false;
+        return new Sum(newtermslist);
+    }
+    
+    static double getCoefficient(Expression e){
+	if(e instanceof Product){
+	    ArrayList<Expression> l = ((Product)e).getList();
+	    for(Expression ex : l){
+		if(ex instanceof Constant)
+		    return( (Constant) ex).getValue();
+	    }
+	} else if (e instanceof Constant){
+	    return ((Constant) e).getValue();
+	}
+	return 1;	    
     }
     
     static String makeSumString(Expression e){
@@ -59,6 +92,12 @@ public class Simplify {
     }
     
     public static Product simplifyProduct(Product p){
+	if(isSimplifying){
+	    return p;
+	} else
+	    isSimplifying = true;
+	
+	
 	double coeff = 1;
 	List<Expression> list = p.getList();
 	Map<String, Double> powers =  new HashMap<>();
@@ -106,7 +145,7 @@ public class Simplify {
 		newFactors.add(Parser.Parser.parseString(s));
 	    }
 	}
-	
+	isSimplifying = false;
 	return new Product(newFactors);
     }
 }

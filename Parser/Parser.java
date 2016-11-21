@@ -40,8 +40,8 @@ public class Parser {
             sum.add(gatherFactors());
         }
         Sum s = new Sum(sum);
-        //Sum simple = Simplify.simplifySum(s);
-        return s;
+        Sum simple = Simplify.simplifySum(s);
+        return simple;
     }
     
     private Expression gatherFactors(){
@@ -58,7 +58,7 @@ public class Parser {
             return product.get(0);
         }
         else if (product.size() > 1){
-            return new Product(product);
+            return Simplify.simplifyProduct(new Product(product));
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");

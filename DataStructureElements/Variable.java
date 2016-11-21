@@ -26,7 +26,7 @@ public class Variable extends TerminalExpression{
 
     @Override
     public Expression getExpression() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this;
     }
     
 }
