@@ -20,7 +20,16 @@ public class Sum extends Container{
     
     @Override
     public Expression getDerivative() {
-       throw new UnsupportedOperationException("Not supported yet.");
+       Sum s;
+       ArrayList<Expression> holderD = new ArrayList<>();
+       
+       for (int i = 0; i < holder.size(); i++){
+           holderD.add(holder.get(i).getDerivative());
+       }
+       
+       s = new Sum(holderD);
+       
+       return s;
     }
 
     @Override

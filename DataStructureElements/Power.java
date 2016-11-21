@@ -27,7 +27,25 @@ public class Power extends UnaryExpression{
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Product p;
+        ArrayList<Expression> product = new ArrayList<>();
+        
+        if (power > 2){
+            product.add(new Constant(power));
+            product.add(new Power(power-1,e));
+        }
+        else {
+            product.add(new Constant(power));
+            product.add(e);
+        }
+        
+        if (!(e instanceof Variable)){
+            product.add(e.getDerivative());
+        }
+        
+        p = new Product(product);
+        
+        return p;
     }
 
     @Override
