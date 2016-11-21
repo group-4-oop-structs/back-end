@@ -6,35 +6,35 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
-
-/**
- *
- * @author rthec
- */
 import java.util.*;
-
-public class Sin extends UnaryExpression{
+import java.lang.Math;
+public class Exponential extends Expression{
+    Double base;
     Expression e;
 
-    public Sin(Expression e) {
+    public Exponential(Double base, Expression e) {
+        this.base = base;
         this.e = e;
     }
 
+    public Double getBase() {
+        return base;
+    }
+    
+    @Override
     public Expression getExpression() {
         return e;
     }
-    
-        
+
     @Override
     public Expression getDerivative() {
-        Cos c = new Cos(e);
         ArrayList<Expression> product = new ArrayList<>();
-        
+        product.add(new Constant(Math.log(this.base)));
+        product.add(this);
         if (e instanceof Variable){
-            return c;
+            return new Product(product);
         }
-        else {
-            product.add(c);
+        else{
             product.add(e.getDerivative());
             return new Product(product);
         }
@@ -46,13 +46,13 @@ public class Sin extends UnaryExpression{
     }
 
     @Override
-    public String getName() {
-	return "sin";
+    public void accept(DSEVisitor v) {
+	v.visitExponential(this);
     }
 
     @Override
-    public void accept(DSEVisitor v) {
-	v.visitSin(this);
+    public int getPEMDASLevel() {
+	return 3;
     }
     
-}
+} 

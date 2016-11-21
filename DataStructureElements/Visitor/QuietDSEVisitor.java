@@ -6,12 +6,18 @@
 package DataStructureElements.Visitor;
 
 import DataStructureElements.Arccos;
+import DataStructureElements.Arccot;
+import DataStructureElements.Arccsc;
+import DataStructureElements.Arcsec;
 import DataStructureElements.Arcsin;
 import DataStructureElements.Arctan;
 import DataStructureElements.Constant;
 import DataStructureElements.Cos;
+import DataStructureElements.Cot;
+import DataStructureElements.Csc;
 import DataStructureElements.Power;
 import DataStructureElements.Product;
+import DataStructureElements.Sec;
 import DataStructureElements.Sin;
 import DataStructureElements.Sum;
 import DataStructureElements.Tan;
@@ -67,6 +73,30 @@ public class QuietDSEVisitor extends DSEVisitor {
 
     @Override
     public void visitASin(Arcsin aThis) {
+    }
+
+    @Override
+    public void visitACot(Arccot aThis) {
+    }
+
+    @Override
+    public void visitSec(Sec aThis) {
+    }
+
+    @Override
+    public void visitCSC(Csc aThis) {
+    }
+
+    @Override
+    public void visitASec(Arcsec aThis) {
+    }
+
+    @Override
+    public void visitACSC(Arccsc aThis) {
+    }
+
+    @Override
+    public void visitCot(Cot aThis) {
     }
     
 }

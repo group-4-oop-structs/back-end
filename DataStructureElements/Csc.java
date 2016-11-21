@@ -6,25 +6,36 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
+import java.util.ArrayList;
 
 /**
  *
  * @author rthec
  */
 public class Csc extends UnaryExpression{
-    Expression inner;    
+    Expression e;    
 
     public Csc(Expression e) {
-        this.inner = e;
+        this.e = e;
     }
 
     public Expression getExpression() {
-        return inner;
+        return e;
     }
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Expression> product = new ArrayList<>();
+        product.add(new Constant(-1));
+        product.add(new Csc(e));
+        product.add(new Cot(e));
+        if (e instanceof Variable){
+            return new Product(product);
+        }
+        else {
+            product.add(e.getDerivative());
+            return new Product(product);
+        }
     }
 
     @Override

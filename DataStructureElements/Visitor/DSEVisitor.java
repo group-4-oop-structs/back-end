@@ -15,6 +15,7 @@ import DataStructureElements.Constant;
 import DataStructureElements.Cos;
 import DataStructureElements.Cot;
 import DataStructureElements.Csc;
+import DataStructureElements.Exponential;
 import DataStructureElements.Expression;
 import DataStructureElements.Power;
 import DataStructureElements.Product;
@@ -77,4 +78,6 @@ public abstract class DSEVisitor {
     public abstract void visitACSC(Arccsc aThis);
 
     public abstract void visitCot(Cot aThis);
+
+    public void visitExponential(Exponential aThis);
 }

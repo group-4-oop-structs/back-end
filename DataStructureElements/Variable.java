@@ -18,7 +18,7 @@ public class Variable extends TerminalExpression{
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new Constant(1);
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import java.util.ArrayList;
 import DataStructureElements.Visitor.DSEVisitor;
 
 /**
@@ -24,7 +25,16 @@ public class Sec extends UnaryExpression{
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Expression> product = new ArrayList<>();
+        product.add(new Sec(e));
+        product.add(new Tan(e));
+        if (e instanceof Variable){
+            return new Product(product);
+        }
+        else {
+            product.add(e.getDerivative());
+            return new Product(product);
+        }
     }
 
     @Override

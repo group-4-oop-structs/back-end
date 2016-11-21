@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import java.util.ArrayList;
 import DataStructureElements.Visitor.DSEVisitor;
 
 /**
@@ -12,19 +13,29 @@ import DataStructureElements.Visitor.DSEVisitor;
  * @author rthec
  */
 public class Cot extends UnaryExpression{
-    Expression inner;
+    Expression e;
 
     public Cot(Expression e) {
-        this.inner = e;
+        this.e = e;
     }
 
     public Expression getExpression() {
-        return inner;
+        return e;
     }
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Power p = new Power(2, new Csc(e));
+        ArrayList<Expression> product = new ArrayList<>();
+        product.add(new Constant(-1));
+        product.add(p);
+        if (e instanceof Variable){
+            return new Product(product);
+        }
+        else{
+            product.add(e.getDerivative());
+            return new Product(product);
+        }
     }
 
     @Override

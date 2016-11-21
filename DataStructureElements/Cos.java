@@ -6,26 +6,38 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
+import java.util.*;
 
 /**
  *
  * @author rthec
  */
 public class Cos extends UnaryExpression{
-    Expression inner;
+    Expression e;
 
     public Cos(Expression e) {
-        this.inner = e;
+        this.e = e;
     }
 
+    @Override
     public Expression getExpression() {
-        return inner;
+        return e;
     }
     
         
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Sin s = new Sin(e);
+        ArrayList<Expression> product = new ArrayList<>();
+        product.add(new Constant(-1));
+        product.add(s);
+        if (e instanceof Variable){
+            return new Product(product);
+        }
+        else {
+            product.add(e.getDerivative());
+            return new Product(product);
+        }
     }
 
     @Override

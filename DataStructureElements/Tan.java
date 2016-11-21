@@ -6,6 +6,7 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,7 +25,17 @@ public class Tan extends UnaryExpression{
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Power p = new Power(2, new Sec(e));
+        ArrayList<Expression> product = new ArrayList<>();
+        
+        if (e instanceof Variable){
+            return p;
+        }
+        else{
+            product.add(p);
+            product.add(e.getDerivative());
+            return new Product(product);
+        }
     }
 
     @Override
