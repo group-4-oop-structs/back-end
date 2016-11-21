@@ -5,10 +5,12 @@
  */
 package DataStructureElements;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author rthec
  */
 public abstract class Container extends Expression{
-    
+    public abstract ArrayList<Expression> getList();
 }

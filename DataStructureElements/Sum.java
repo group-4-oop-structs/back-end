@@ -7,6 +7,8 @@ package DataStructureElements;
 
 import static DataStructureElements.Visitor.Compare.cmp;
 import DataStructureElements.Visitor.DSEVisitor;
+import Utilities.ShrinkTree;
+import Utilities.Simplify;
 import java.util.*;
 
 public class Sum extends Container{
@@ -15,14 +17,15 @@ public class Sum extends Container{
     public Sum(ArrayList<Expression> holder){
         this.holder = holder;        
     }
-
-    public ArrayList<Expression> getSum() {
+    
+    @Override
+    public ArrayList<Expression> getList() {
         return (ArrayList<Expression>) holder.clone();
     }
     
     @Override
     public Expression getDerivative() {
-       Sum s;
+       Expression s;
        ArrayList<Expression> holderD = new ArrayList<>();
        
        for (int i = 0; i < holder.size(); i++){
@@ -30,7 +33,8 @@ public class Sum extends Container{
        }
        
        s = new Sum(holderD);
-       
+       s = ShrinkTree.shrink(s);
+       s = Simplify.simplifySum((Sum) s);
        return s;
     }
 
@@ -55,8 +59,8 @@ public class Sum extends Container{
     }
     
     public boolean equals(Sum so){
-	List<Expression> aterms = this.getSum(), 
-		oterms = so.getSum();
+	List<Expression> aterms = this.getList(), 
+		oterms = so.getList();
 	if(oterms.size() != aterms.size()){
 	    return false;
 	}
