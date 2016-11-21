@@ -21,14 +21,13 @@ public class Simplify {
         
         for (int i = 1; i < terms.size(); i++){
 	    String key = makeSumString(terms.get(i));
-	    double newcoeff = getCoefficient(terms.get(i));
 	    double old = newTerms.getOrDefault(key, 0.0d);
+	    double newcoeff = getCoefficient(terms.get(i));
 	    newTerms.put(key, old+newcoeff);
         }
         
 	ArrayList<Expression> newtermslist = new ArrayList<>();
-	for (Iterator<String> it = newTerms.keySet().iterator(); it.hasNext();) {
-	    String str = it.next();
+	for (String str : newTerms.keySet()){
 	    double ncoeff = newTerms.get(str);
 	    if(ncoeff == 0){
 		continue; // note: this may not always be the thing to do
@@ -61,15 +60,26 @@ public class Simplify {
     static String makeSumString(Expression e){
 	if(e instanceof Product){
 	    Product p = (Product) e;
-	    ArrayList<Expression> l= p.getList(),
+	    ArrayList<Expression> l= (ArrayList<Expression>) p.getList().clone(),
 		    temp = new ArrayList();
 	    for(Expression ex : l){
 		if(!(ex instanceof Constant)){ 
 	 	    temp.add(ex);
 		}
 	    }
-	    p = new Product(temp);
-	    return Stringifier.stringify(p);   
+	    if(temp.size() == 1){
+		String result = Stringifier.stringify(temp.get(0));
+		if(result.startsWith("(") && result.endsWith(")")){
+		    return result.substring(1, result.length());
+		}
+		return result;
+	    } else if (temp.size() ==0){
+		return "1.0"; // only case where a constant is returned
+		//              (when there is only a constant)
+	    } else {
+		 Product prod = new Product(temp);
+		return Stringifier.stringify(prod);   
+	    }
 	} else {
 	    return Stringifier.stringify(e);
 	}
@@ -141,7 +151,7 @@ public class Simplify {
 	    if(e != 1.0){
 		// this is janky
 		newFactors.add(new Power(e, Parser.Parser.parseString(s)));
-	    } else if (coeff == 0){
+	    } else if (coeff != 0){
 		newFactors.add(Parser.Parser.parseString(s));
 	    }
 	}

@@ -15,7 +15,7 @@ public class Sum extends Container{
     }
 
     public ArrayList<Expression> getSum() {
-        return holder;
+        return (ArrayList<Expression>) holder.clone();
     }
     
     @Override

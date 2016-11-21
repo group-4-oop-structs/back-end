@@ -8,14 +8,14 @@ package DataStructureElements;
 import java.util.*;
 
 public class Product extends Container{
-    private ArrayList<Expression> holder = new ArrayList<>();
+    private final ArrayList<Expression> holder;
 
     public Product(ArrayList<Expression> holder) {
-        this.holder = holder;
+        this.holder = (ArrayList<Expression>) holder.clone();
     }
     
     public ArrayList<Expression> getList() {
-        return holder;
+        return (ArrayList<Expression>) holder.clone();
     }   
     
     @Override
