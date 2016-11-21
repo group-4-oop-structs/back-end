@@ -105,11 +105,11 @@ public class Stringifier {
         
         for (int i = 1; i < list.size(); i++){
             string += " * ";
-            if (list.get(i) instanceof Sum){
+            if (list.get(i).getClass() == s.getClass()){
                 s = (Sum) list.get(i);
                 if (s.getSum().size() > 1){
                     string += "(";
-                    printExpression(list.get(0));
+                    printExpression(list.get(i));
                     string += ")";
                 }
             }

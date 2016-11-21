@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import static DataStructureElements.Visitor.Compare.cmp;
 import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 
@@ -95,6 +96,26 @@ public class Product extends Container{
     @Override
     public int getPEMDASLevel() {
 	return 2;
+    }
+
+    public boolean equals(Product po) {
+
+	List<Expression> aterms = this.getList(), 
+		oterms = po.getList();
+	if(oterms.size() != aterms.size()){
+	    return false;
+	}
+	
+	for(int i =0; i< oterms.size(); i++){
+	    Expression
+		    oexpr = oterms.get(i),
+		    aexpr = aterms.get(i);
+	    
+	    if(cmp(oexpr,aexpr) != 0){
+		return false;
+	    }
+	}	
+	return true;
     }
     
 }
