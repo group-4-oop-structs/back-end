@@ -19,7 +19,7 @@ public class TestDerivative {
         String testString;
         Expression e, d;
         Parser parser = new Parser();
-        /*
+        
         //Test Case 1
         System.out.println();
         System.out.println("Test Case 1");
@@ -64,7 +64,7 @@ public class TestDerivative {
         d = e.getDerivative();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
-        */
+        
         //Test Case 5
         System.out.println();
         System.out.println("Test Case 5");
