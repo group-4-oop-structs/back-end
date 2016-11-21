@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.Compare;
 import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 
@@ -66,5 +67,12 @@ public class Power extends Expression{
     @Override
     public int getPEMDASLevel() {
 	return 3;
+    }
+
+    public boolean equals(Power o) {
+	if(getPower() == o.getPower() && Compare.cmp(base, o.base) ==0)
+	    return true;
+	else
+	    return false;
     }
 }

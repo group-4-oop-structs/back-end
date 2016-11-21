@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import static DataStructureElements.Visitor.Compare.cmp;
 import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 
@@ -51,6 +52,25 @@ public class Sum extends Container{
     @Override
     public int getPEMDASLevel(){
 	return 1;
+    }
+    
+    public boolean equals(Sum so){
+	List<Expression> aterms = this.getSum(), 
+		oterms = so.getSum();
+	if(oterms.size() != aterms.size()){
+	    return false;
+	}
+	
+	for(int i =0; i< oterms.size(); i++){
+	    Expression
+		    oexpr = oterms.get(i),
+		    aexpr = aterms.get(i);
+	    
+	    if(cmp(oexpr,aexpr) != 0){
+		return false;
+	    }
+	}	
+	return true;
     }
     
 }

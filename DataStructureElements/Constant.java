@@ -11,7 +11,7 @@ import DataStructureElements.Visitor.DSEVisitor;
  *
  * @author rthec
  */
-public class Constant extends TerminalExpression{
+public class Constant extends TerminalExpression implements Comparable<Constant>{
     double value;
     
     public Constant(double v) {
@@ -44,6 +44,11 @@ public class Constant extends TerminalExpression{
     @Override
     public void accept(DSEVisitor v) {
 	v.visitConstant(this);
+    }
+
+    @Override
+    public int compareTo(Constant o) {
+	return (int) (this.getValue() - o.value);
     }
     
 }
