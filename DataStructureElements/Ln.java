@@ -14,7 +14,7 @@ public class Ln extends UnaryExpression{
 
     public Ln(Expression e) {
         this.e = e;
-    }   
+    }
 
     public Expression getExpression() {
         return e;

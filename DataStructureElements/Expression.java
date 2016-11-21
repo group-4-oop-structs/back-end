@@ -10,6 +10,7 @@ package DataStructureElements;
  * @author rthec
  */
 public abstract class Expression {
+    public abstract Expression getExpression();
     public abstract Expression getDerivative();
     public abstract Expression getIntegral();
 }

@@ -8,41 +8,29 @@ package DataStructureElements;
 import java.util.*;
 
 public class Sum extends Container{
-    private ArrayList<Term> holder = new ArrayList<>();
+    private ArrayList<Expression> holder = new ArrayList<>();
     
-    public Sum(ArrayList<Term> holder){
-        this.holder = holder;
+    public Sum(ArrayList<Expression> holder){
+        this.holder = holder;        
     }
 
-    public ArrayList<Term> getSum() {
+    public ArrayList<Expression> getSum() {
         return holder;
     }
     
     @Override
     public Expression getDerivative() {
-        ArrayList<Term> holderD = new ArrayList<>();
-        for (int i = 0; i < holder.size(); i++){
-            Expression d = holder.get(i).getExpression().getDerivative();
-            Term castd;
-            if (d instanceof Term){
-                castd = (Term) d;
-                castd.setCoefficient(castd.getCoefficient() * holder.get(i).getCoefficient());
-                holderD.add(castd);
-            }
-            else if(d instanceof Sum){
-                holderD.add(new Term(holder.get(i).getCoefficient(), d));
-            }
-            else if(d instanceof Product){
-                holderD.add(new Term(1, d));
-            }
-        }
-        
-        return new Sum(holderD);
+       throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Expression getIntegral() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Expression getExpression() {
+        return this; //To change body of generated methods, choose Tools | Templates.
     }
     
 }

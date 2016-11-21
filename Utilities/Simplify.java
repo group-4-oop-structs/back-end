@@ -5,8 +5,8 @@ import java.util.*;
 
 public class Simplify {
     public static Sum simplifySum(Sum s){
-        ArrayList<Term> terms = s.getSum();
-        ArrayList<Term> newTerms = new ArrayList<>();
+        ArrayList<Expression> terms = s.getSum();
+        ArrayList<Expression> newTerms = new ArrayList<>();
         boolean hit = false;
         
         newTerms.add(terms.get(0));
@@ -15,7 +15,7 @@ public class Simplify {
             hit = false;
             for (int j = 0; j < newTerms.size(); j++){
                 if (Equivalent.isEqual(terms.get(i).getExpression(), newTerms.get(j).getExpression())){
-                    newTerms.get(j).setCoefficient(newTerms.get(j).getCoefficient() + terms.get(i).getCoefficient());
+                    
                     hit = true;
                     break;
                 }
@@ -27,8 +27,8 @@ public class Simplify {
         return simple;
     }
     public static Product simplifyProduct(Product p){
-        ArrayList<Factor> factors = p.getProduct();
-        ArrayList<Factor> newFactors = new ArrayList<>();
+        ArrayList<Expression> factors = p.getProduct();
+        ArrayList<Expression> newFactors = new ArrayList<>();
         
         newFactors.add(factors.get(0));
 

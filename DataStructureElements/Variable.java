@@ -16,11 +16,16 @@ public class Variable extends TerminalExpression{
     
     @Override
     public Expression getDerivative() {
-        return new Term(1, new Constant());
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Expression getIntegral() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Expression getExpression() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

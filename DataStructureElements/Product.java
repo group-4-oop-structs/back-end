@@ -8,45 +8,29 @@ package DataStructureElements;
 import java.util.*;
 
 public class Product extends Container{
-    private ArrayList<Factor> holder = new ArrayList<>();
+    private ArrayList<Expression> holder = new ArrayList<>();
 
-    public Product(ArrayList<Factor> holder) {
+    public Product(ArrayList<Expression> holder) {
         this.holder = holder;
     }
     
-    public ArrayList<Factor> getProduct() {
+    public ArrayList<Expression> getProduct() {
         return holder;
     }   
     
     @Override
     public Expression getDerivative() {
-        ArrayList<Factor> holderD = new ArrayList<>();
-        ArrayList<Term> derivative = new ArrayList<>();
-        double coefficient = 1;
-
-        for (int i = 0; i < holder.size(); i++){
-            Expression d = holder.get(i).getDerivative();
-            Term castd;
-            holderD.add(new Factor(holder.get(i).getDerivative()));
-            ArrayList<Factor> temp = new ArrayList<>();
-            for (int j = 0; j < holder.size(); j++){
-                if (i == j){
-                    temp.add(holderD.get(i));
-                }
-                else{
-                    temp.add(holder.get(j));
-                }
-            }
-            Product ptemp = new Product(temp);            
-            derivative.add(new Term(1, ptemp));  
-        }
-        
-        return new Sum(derivative);
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Expression getIntegral() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Expression getExpression() {
+        return this; //To change body of generated methods, choose Tools | Templates.
     }
     
 }

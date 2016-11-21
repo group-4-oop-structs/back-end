@@ -10,5 +10,5 @@ package DataStructureElements;
  * @author rthec
  */
 public abstract class Element extends Expression{
-    
+
 }

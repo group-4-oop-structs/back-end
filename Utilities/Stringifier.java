@@ -29,64 +29,54 @@ public class Stringifier {
         else if (e instanceof Variable){
             string += "x";
         }
-        else if (e instanceof Term){
-            string += ((Term)e).getCoefficient();
-            string += "*";
-            printExpression(((Term)e).getExpression());
+        else if (e instanceof Constant){
+            string += ((Constant) e).getValue();
         }
     }
     
     private static void printSum(Sum s){
-        ArrayList<Term> list = s.getSum();
-        string += list.get(0).getCoefficient() + "*";
-        if (list.get(0).getExpression() instanceof Sum){
-            string += "(";
-            printExpression(list.get(0).getExpression());
-            string += ")";
-        }
-        else{
-            printExpression(list.get(0).getExpression());
-        }
+        ArrayList<Expression> list = s.getSum();        
+        
+        printExpression(list.get(0));
         
         for(int i = 1; i < list.size(); i++){
             string += " + ";
-            string += list.get(i).getCoefficient() + "*";
-            printExpression(list.get(i).getExpression());            
+            printExpression(list.get(i));            
         }
     }
     
     private static void printProduct(Product p){
-        ArrayList<Factor> list = p.getProduct();
+        ArrayList<Expression> list = p.getProduct();
         if (list.get(0).getExpression() instanceof Sum){
             string += "(";
-            printExpression(list.get(0).getExpression());
+            printExpression(list.get(0));
             string += ")";
         }
         else{
-            printExpression(list.get(0).getExpression());
+            printExpression(list.get(0));
         }
         
         for (int i = 1; i < list.size(); i++){
             string += " * ";
             if (list.get(i).getExpression() instanceof Sum){
                 string += "(";
-                printExpression(list.get(i).getExpression());
+                printExpression(list.get(i));
                 string += ")";
             }
             else{
-                printExpression(list.get(i).getExpression());   
+                printExpression(list.get(i));   
             }    
                      
         }
     }
     
     private static void printPower(Power p){
-        if (p.getE() instanceof Variable){
+        if (p.getExpression() instanceof Variable){
             string += "x";
         }
         else {
             string += "(";
-            printExpression(p.getE());
+            printExpression(p.getExpression());
             string += ")";
         }
         string += "^";

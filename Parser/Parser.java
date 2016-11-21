@@ -25,7 +25,7 @@ public class Parser {
     }
     
     private Expression gatherTerms(){
-        ArrayList<Term> sum = new ArrayList<>();
+        ArrayList<Expression> sum = new ArrayList<>();
         
         sum.add(gatherFactors());
         while (!stack.isEmpty() && (stack.peek().getSym() == TokenType.PLUSSYM || stack.peek().getSym() == TokenType.MINUSSYM)){
@@ -35,31 +35,48 @@ public class Parser {
             sum.add(gatherFactors());
         }
         Sum s = new Sum(sum);
-        Sum simple = Simplify.simplifySum(s);
-        return simple;
+        //Sum simple = Simplify.simplifySum(s);
+        return s;
     }
     
-    private Term gatherFactors(){
-        ArrayList<Factor> product = new ArrayList<>();
-        double coefficient = 1;
+    private Expression gatherFactors(){
+        ArrayList<Expression> product = new ArrayList<>();        
         
+        gatherer(product);
         
+        while (!stack.isEmpty() && stack.peek().getSym() == TokenType.MULTSYM){
+            stack.pop();
+            gatherer(product);
+        }        
+        
+        if (product.size() == 1){
+            return product.get(0);
+        }
+        else if (product.size() > 1){
+            return new Product(product);
+        }
+        else{
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+    
+    private void gatherer(ArrayList<Expression> product){
         if (stack.peek().getSym() == TokenType.MINUSSYM){
-            coefficient *= -1;
+            product.add(new Constant(-1));
             stack.pop();
         }
         if (stack.peek().getSym() == TokenType.NUMBERSYM){
-            coefficient *= stack.pop().getValue();
+            product.add(new Constant(stack.pop().getValue()));
         }
         else if (stack.peek().getSym() == TokenType.IDENTSYM){
             stack.pop();
             if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
                 stack.pop();
                 //insert error if not a number
-                product.add(new Factor(new Power(stack.pop().getValue(), new Variable())));
+                product.add(new Power(stack.pop().getValue(), new Variable()));
             }
             else {
-                product.add(new Factor(new Variable()));
+                product.add(new Variable());
             }
         }      
         else if (stack.peek().getSym() == TokenType.LPARENTSYM){
@@ -70,58 +87,11 @@ public class Parser {
             if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
                 stack.pop();
                 Power p = new Power(stack.pop().getValue(), temp);
-                product.add(new Factor(p));
+                product.add(p);
             }
             else {
-                product.add(new Factor(temp));
+                product.add(temp);
             }
-        }
-        
-        while (!stack.isEmpty() && stack.peek().getSym() == TokenType.MULTSYM){
-            stack.pop();
-            if (stack.peek().getSym() == TokenType.MINUSSYM){
-                coefficient = -1;
-                stack.pop();
-            }
-            if (stack.peek().getSym() == TokenType.NUMBERSYM){
-                coefficient *= stack.pop().getValue();
-            }
-            else if (stack.peek().getSym() == TokenType.IDENTSYM){
-                stack.pop();
-                if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
-                    stack.pop();
-                    //insert error if not a number
-                    product.add(new Factor(new Power(stack.pop().getValue(), new Variable())));
-                }
-                else {
-                    product.add(new Factor(new Variable()));
-                }
-            }
-            else if (stack.peek().getSym() == TokenType.LPARENTSYM){
-                stack.pop();
-                Expression temp = gatherTerms();
-                //insert error if no rparent
-                stack.pop();
-                if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
-                    stack.pop();
-                    Power p = new Power(stack.pop().getValue(), temp);
-                    product.add(new Factor(p));
-                }
-                else {
-                    product.add(new Factor(temp));
-                }
-            }
-        }
-        
-        
-        if (product.isEmpty()){
-            return new Term(coefficient, new Constant());
-        }        
-        else if (product.size() == 1){
-            return new Term(coefficient, product.get(0).getExpression());
-        }
-        else {
-            return new Term(coefficient, new Product(product));
         }
     }
 }

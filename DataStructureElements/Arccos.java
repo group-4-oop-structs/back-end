@@ -9,6 +9,7 @@ package DataStructureElements;
  *
  * @author rthec
  */
+
 public class Arccos extends UnaryExpression{
     Expression e;
 

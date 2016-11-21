@@ -10,18 +10,29 @@ package DataStructureElements;
  * @author rthec
  */
 public class Constant extends TerminalExpression{
+    double value;
+    
+    public Constant(double v) {
+        this.value = v;
+    }
 
-    public Constant() {
+    public double getValue() {
+        return value;
     }
     
     @Override
     public Expression getDerivative() {
-        return new Term(0, new Constant());
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public Expression getIntegral() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Expression getExpression() {
+        return this; //To change body of generated methods, choose Tools | Templates.
     }
     
 }
