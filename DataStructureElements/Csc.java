@@ -10,14 +10,14 @@ package DataStructureElements;
  * @author rthec
  */
 public class Csc extends UnaryExpression{
-    Expression e;    
+    Expression inner;    
 
     public Csc(Expression e) {
-        this.e = e;
+        this.inner = e;
     }
 
     public Expression getExpression() {
-        return e;
+        return inner;
     }
     
     @Override

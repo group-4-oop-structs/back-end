@@ -8,7 +8,7 @@ package Parser;
 import java.util.*;
 import Lexer.*;
 import DataStructureElements.*;
-import Utilities.Simplify;
+import Utilities.CollectLikeTerms;
 
 public class Parser {
     private Expression e;

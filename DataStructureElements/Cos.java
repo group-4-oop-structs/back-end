@@ -10,14 +10,14 @@ package DataStructureElements;
  * @author rthec
  */
 public class Cos extends UnaryExpression{
-    Expression e;
+    Expression inner;
 
     public Cos(Expression e) {
-        this.e = e;
+        this.inner = e;
     }
 
     public Expression getExpression() {
-        return e;
+        return inner;
     }
     
         

@@ -3,7 +3,7 @@ package Utilities;
 import DataStructureElements.*;
 import java.util.*;
 
-public class Simplify {
+public class CollectLikeTerms {    
     public static Sum simplifySum(Sum s){
         ArrayList<Expression> terms = s.getSum();
         ArrayList<Expression> newTerms = new ArrayList<>();
@@ -14,7 +14,7 @@ public class Simplify {
         for (int i = 1; i < terms.size(); i++){
             hit = false;
             for (int j = 0; j < newTerms.size(); j++){
-                if (Equivalent.isEqual(terms.get(i).getExpression(), newTerms.get(j).getExpression())){
+                if (Equivalent.isEquivalent(terms.get(i), newTerms.get(j))){
                     
                     hit = true;
                     break;
@@ -27,7 +27,7 @@ public class Simplify {
         return simple;
     }
     public static Product simplifyProduct(Product p){
-        ArrayList<Expression> factors = p.getProduct();
+        ArrayList<Expression> factors = p.getList();
         ArrayList<Expression> newFactors = new ArrayList<>();
         
         newFactors.add(factors.get(0));

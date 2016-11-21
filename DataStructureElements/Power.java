@@ -9,11 +9,11 @@ import java.util.*;
 
 public class Power extends UnaryExpression{
     private double power;
-    private Expression e;
+    private Expression base;
 
     public Power(double power, Expression e) {
         this.power = power;
-        this.e = e;
+        this.base = e;
     }
     
     public double getPower() {

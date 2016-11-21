@@ -46,7 +46,7 @@ public class Stringifier {
     }
     
     private static void printProduct(Product p){
-        ArrayList<Expression> list = p.getProduct();
+        ArrayList<Expression> list = p.getList();
         if (list.get(0).getExpression() instanceof Sum){
             string += "(";
             printExpression(list.get(0));

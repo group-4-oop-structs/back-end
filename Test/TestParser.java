@@ -29,4 +29,16 @@ public class TestParser {
         testString = Stringifier.stringify(e);
         System.out.println(testString);
     }
+    
+    
+    public static void test(String input){
+	ArrayList<Token> test;
+        Lexer lexer = new Lexer();
+        String testString;
+        test = lexer.lex();
+        Parser parser = new Parser();
+        Expression e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+    }
 }

@@ -9,7 +9,11 @@ import DataStructureElements.*;
 import java.util.*;
 
 public class Equivalent {
-    public static boolean isEqual(Expression e1, Expression e2){
-        return (Stringifier.stringify(e1).compareTo(Stringifier.stringify(e2)) == 0);
+    public static boolean isEquivalent(Expression e1, Expression e2){
+        
+    }
+    
+    public static String toStr(Expression e1){
+	
     }
 }

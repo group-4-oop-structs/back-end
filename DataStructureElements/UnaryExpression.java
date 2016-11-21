@@ -10,5 +10,8 @@ package DataStructureElements;
  * @author rthec
  */
 public abstract class UnaryExpression extends Expression{
-    
+    @Override
+    public void accept(Visitor v){
+	
+    }
 }

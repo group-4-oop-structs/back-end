@@ -14,7 +14,7 @@ public class Product extends Container{
         this.holder = holder;
     }
     
-    public ArrayList<Expression> getProduct() {
+    public ArrayList<Expression> getList() {
         return holder;
     }   
     

@@ -10,14 +10,14 @@ package DataStructureElements;
  * @author rthec
  */
 public class Cot extends UnaryExpression{
-    Expression e;
+    Expression inner;
 
     public Cot(Expression e) {
-        this.e = e;
+        this.inner = e;
     }
 
     public Expression getExpression() {
-        return e;
+        return inner;
     }
     
     @Override
