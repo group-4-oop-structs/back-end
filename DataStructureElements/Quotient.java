@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author rthec
  */
-public class Quotient extends Container{
+public class Quotient extends Expression{
     Expression numerator;
     Expression denominator;
 

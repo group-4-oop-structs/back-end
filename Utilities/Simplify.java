@@ -17,7 +17,7 @@ public class Simplify {
         Product p;
         
         
-        holder = s.getSum();
+        holder = s.getList();
         
         // Removes unnecessary 1's from coefficients
         // Sets term = 0 if 0 is a factor
@@ -43,58 +43,72 @@ public class Simplify {
             }
         }
         
-        newHolder.add(holder.get(0));
-        
-        Product p1;
-        Product p2;
-        boolean hit = false;
-        pHolder.clear();
-        
-        for (int i = 1; i < holder.size(); i++){
-            Constant c1;
-            Constant c2;
-            hit = false;
-            for (int j = 0; j < newHolder.size(); j++){
-                if (holder.get(i) instanceof Product && newHolder.get(j) instanceof Product){
-                    p1 = (Product) holder.get(i);
-                    p2 = (Product) newHolder.get(j);
-                                      
-                    if (p1.getList().size() != 0 && p1.getList().get(0) instanceof Constant){
-                        pHolder = p1.getList(); 
-                        c1 = (Constant) pHolder.get(0);
-                        pHolder.remove(0);
-                        p1 = new Product(pHolder);                        
-                    }
-                    else {
-                        pHolder = p1.getList();
-                        c1 = new Constant(1);
-                    }
-                    if (p2.getList().size() != 0 && p2.getList().get(0) instanceof Constant){
-                        pHolder = p2.getList(); 
-                        c2 = (Constant) pHolder.get(0);
-                        pHolder.remove(0);
-                        p2 = new Product(pHolder);
-                    }
-                    else {
-                        pHolder = p2.getList(); 
-                        c2 = new Constant(1);
-                    }
-                    if (Compare.cmp(p1, p2) == 0){
-                        c = new Constant(c1.getValue()+c2.getValue());
-                        pHolder.add(0, c);
-                        p = new Product(pHolder);
-                        newHolder.remove(j);
-                        newHolder.add(j, p);
-                        hit = true;
-                        break;
+        if (holder.size() > 1){           
+            
+            newHolder.add(holder.get(0));
+
+            Product p1;
+            Product p2;
+            boolean hit = false;
+            pHolder.clear();
+
+            for (int i = 1; i < holder.size(); i++){
+                Constant c1;
+                Constant c2;
+                hit = false;
+                for (int j = 0; j < newHolder.size(); j++){
+                    if (holder.get(i) instanceof Product && newHolder.get(j) instanceof Product){
+                        p1 = (Product) holder.get(i);
+                        p2 = (Product) newHolder.get(j);
+
+                        if (p1.getList().size() != 0 && p1.getList().get(0) instanceof Constant){
+                            pHolder = p1.getList(); 
+                            c1 = (Constant) pHolder.get(0);
+                            pHolder.remove(0);
+                            p1 = new Product(pHolder);                        
+                        }
+                        else {
+                            pHolder = p1.getList();
+                            c1 = new Constant(1);
+                        }
+                        if (p2.getList().size() != 0 && p2.getList().get(0) instanceof Constant){
+                            pHolder = p2.getList(); 
+                            c2 = (Constant) pHolder.get(0);
+                            pHolder.remove(0);
+                            p2 = new Product(pHolder);
+                        }
+                        else {
+                            pHolder = p2.getList(); 
+                            c2 = new Constant(1);
+                        }
+                        if (Compare.cmp(p1, p2) == 0){
+                            c = new Constant(c1.getValue()+c2.getValue());
+                            pHolder.add(0, c);
+                            p = new Product(pHolder);
+                            newHolder.remove(j);
+                            newHolder.add(j, p);
+                            hit = true;
+                            break;
+                        }
                     }
                 }
-            }
-            if (!hit){
-                newHolder.add(holder.get(i));
+                if (!hit){
+                    newHolder.add(holder.get(i));
+                }
             }
         }
+        else {
+            return s;
+        }
         
+        for (int i = 0; i < newHolder.size(); i++){
+            if (newHolder.get(i) instanceof Constant){
+                c = (Constant) newHolder.get(i);
+                if (c.getValue() == 0){
+                    newHolder.remove(i);
+                }
+            }
+        }
         s = new Sum(newHolder);
         return s;
     }
@@ -108,11 +122,12 @@ public class Simplify {
         boolean hit = false;
         
         holder = p.getList();
+        /*
         if (holder.size() == 1 && !(holder.get(0) instanceof Constant)){
             holder.add(0, new Constant(1));
             simpleProduct = new Product(holder);
             return simpleProduct;
-        }
+        }*/       
         
         constants = removeConstants(holder);
         
@@ -169,7 +184,7 @@ public class Simplify {
                     }                    
                 }
                  else {
-                    if (Stringifier.stringify(temp1.getExpression()).compareTo(Stringifier.stringify(temp2.getExpression())) == 0){
+                    if (Stringifier.stringify(temp1).compareTo(Stringifier.stringify(temp2)) == 0){
                         ptemp = new Power(2, temp1);
                         newHolder.remove(j);
                         newHolder.add(j, ptemp);
@@ -186,7 +201,9 @@ public class Simplify {
         if (constants.isEmpty())
             constants.add(new Constant(1));
         
-        newHolder.add(0, constants.get(0));
+        if (constants.get(0).getValue() != 1){
+            newHolder.add(0, constants.get(0));
+        }
         simpleProduct = new Product(newHolder);
         return simpleProduct;
     }

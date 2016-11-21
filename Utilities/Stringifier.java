@@ -78,7 +78,7 @@ public class Stringifier {
     }
     
     private static void printSum(Sum s){
-        ArrayList<Expression> list = s.getSum();        
+        ArrayList<Expression> list = s.getList();        
         
         printExpression(list.get(0));
         
@@ -93,7 +93,7 @@ public class Stringifier {
         Sum s = new Sum(list);
         if (list.get(0).getClass() == s.getClass()){
             s = (Sum) list.get(0);
-            if (s.getSum().size() > 1){
+            if (s.getList().size() > 1){
                 string += "(";
                 printExpression(list.get(0));
                 string += ")";
@@ -107,7 +107,7 @@ public class Stringifier {
             string += " * ";
             if (list.get(i).getClass() == s.getClass()){
                 s = (Sum) list.get(i);
-                if (s.getSum().size() > 1){
+                if (s.getList().size() > 1){
                     string += "(";
                     printExpression(list.get(i));
                     string += ")";
