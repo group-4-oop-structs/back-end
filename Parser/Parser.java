@@ -72,7 +72,7 @@ public class Parser {
         }
         if (stack.peek().getSym() == TokenType.NUMBERSYM){
             double val = stack.pop().getValue();
-            if (stack.peek().getSym() == TokenType.POWSYM){
+            if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
                 stack.pop();
                 if (stack.peek().getSym() == TokenType.LPARENTSYM){
                     stack.pop();

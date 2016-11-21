@@ -79,5 +79,5 @@ public abstract class DSEVisitor {
 
     public abstract void visitCot(Cot aThis);
 
-    public void visitExponential(Exponential aThis);
+    public abstract void visitExponential(Exponential aThis);
 }

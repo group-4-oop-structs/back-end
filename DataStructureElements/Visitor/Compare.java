@@ -5,85 +5,101 @@
  */
 package DataStructureElements.Visitor;
 
-import DataStructureElements.Arccos;
-import DataStructureElements.Arcsin;
-import DataStructureElements.Arctan;
-import DataStructureElements.Constant;
-import DataStructureElements.Cos;
-import DataStructureElements.Expression;
-import DataStructureElements.Power;
-import DataStructureElements.Product;
-import DataStructureElements.Sin;
-import DataStructureElements.Sum;
-import DataStructureElements.Tan;
+
+import DataStructureElements.*;
 import DataStructureElements.UnaryExpression;
 import DataStructureElements.Variable;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  *
  * @author gillis
  */
-public class Compare extends DSEVisitor {
-    Expression a,b;
-    int cmp;
-    Compare(Expression a, Expression b){
-	this.a = a;
-	this.b = b;
+public class Compare extends DSEClassVisitor implements Comparator<Expression>{
+    Expression o;
+    int result;
+
+    public static int cmp(Expression l, Expression r){
+	Compare c = new Compare();
+	c.compare(l, r);
+	return c.result;
     }
     
     @Override
     public void visitVariable(Variable aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
+	if(!(o instanceof Variable)){
+	    result = -1;
+	} else {
+	    result = 0;
+	}
     }
 
     @Override
-    public void visitProduct(Product aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
+    public void visitProduct(Product a) {
+	if(!(o instanceof Product)){
+	    result = -1;
+	    return;
+	}
+	Product po = (Product) o;
+	result = a.equals(po) ? 0 : -1;
     }
 
     @Override
-    public void visitSum(Sum aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
+    public void visitSum(Sum a) {
+	if(!(o instanceof Sum)){
+	    result = -1;
+	    return;
+	}
+	Sum so = (Sum) o;
+	result =  a.equals(so) ? 0 : -1;
+	return;
     }
 
-    @Override
-    public void visitTan(Tan aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void visitSin(Sin aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void visitATan(Arctan aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    
     @Override
     public void visitPower(Power aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
+	if(!(o instanceof Power)){
+	    result = -1;
+	    return;
+	}
+	Power po = (Power) o;
+	result =  aThis.equals(po) ? 0 : -1;
+	return;
+	
     }
-
-    @Override
-    public void visitACos(Arccos aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
+    
+    public void visitUnaryExpression(UnaryExpression expr){
+	if(!(o instanceof UnaryExpression)){
+	    result = -1;
+	    return;
+	} else {
+	    result = expr.equals((UnaryExpression)o) ? 0 : -1;
+	    return;
+	}
     }
 
     @Override
     public void visitConstant(Constant aThis) {
+	if(!(o instanceof Constant)){
+	    result = -1;
+	    return;
+	} else {
+	    result = ((Constant)o).equals((Constant)o) ? 0 : -1;
+	    return;
+	}	
+    }
+
+    @Override
+    public void visitExponential(Exponential aThis) {
 	throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void visitCos(Cos aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void visitASin(Arcsin aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
+    public int compare(Expression o1, Expression o2) {
+	this.o = o2;
+	this.visit(o1);
+	return this.result;
     }
     
     

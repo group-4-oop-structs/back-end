@@ -5,10 +5,11 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.Compare;
 import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 import java.lang.Math;
-public class Exponential extends Expression{
+public class Exponential extends Expression {
     Double base;
     Expression e;
 
@@ -54,5 +55,13 @@ public class Exponential extends Expression{
     public int getPEMDASLevel() {
 	return 3;
     }
+    
+    public boolean equals(Exponential o) {
+	if(getBase() == o.getBase() && Compare.cmp(e, o.e) ==0)
+	    return true;
+	else
+	    return false;
+    }
+
     
 } 

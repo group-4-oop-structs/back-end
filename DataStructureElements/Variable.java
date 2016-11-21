@@ -11,7 +11,7 @@ import DataStructureElements.Visitor.DSEVisitor;
  *
  * @author rthec
  */
-public class Variable extends TerminalExpression{
+public class Variable extends TerminalExpression implements Comparable<Variable>{
 
     public Variable() {
     }
@@ -34,6 +34,11 @@ public class Variable extends TerminalExpression{
     @Override
     public void accept(DSEVisitor v) {
 	v.visitVariable(this);
+    }
+
+    @Override
+    public int compareTo(Variable o) {
+	return 0;
     }
     
 }

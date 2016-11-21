@@ -5,14 +5,25 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.Compare;
+
 /**
  *
  * @author rthec
  */
-public abstract class UnaryExpression extends Expression{
+public abstract class UnaryExpression extends Expression
+{
     public abstract String getName();
     @Override
     public int getPEMDASLevel(){
 	return 100;
+    }
+    
+    public boolean equals(UnaryExpression ue){
+	if(this.getName().equals(ue.getName()))
+	{
+	    return Compare.cmp(this.getExpression(), ue.getExpression()) ==0;
+	}
+	return false;
     }
 }
