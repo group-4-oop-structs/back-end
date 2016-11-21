@@ -77,7 +77,8 @@ public class Integrate extends DSEVisitor {
 	if(nfactors.size() !=factors.size()){
 	    result =  integrate(nfactors.get(0));
 	    coeffs.add(result);
-	    result =  new Product(coeffs);
+	    result =  Simplify.simplifyProduct(new Product(coeffs));
+	    result = ShrinkTree.shrink(result);
 	}else if (nfactors.size() ==1){
 	    result = integrate(nfactors.get(0));
 	}else {
@@ -87,12 +88,12 @@ public class Integrate extends DSEVisitor {
 
     @Override
     public void visitSum(Sum aThis) {
-	ArrayList<Expression> terms = aThis.getSum(),
+	ArrayList<Expression> terms = aThis.getList(),
 		nsum = new ArrayList<>();
 	for(Expression e : terms){
 	    nsum.add(integrate(e));
 	}
-	result = new Sum(nsum);
+	result = Simplify.simplifySum(new Sum(nsum));
     }
 
     @Override
@@ -204,10 +205,19 @@ class USub extends Integrate {
 	ArrayList<Expression> all = (ArrayList<Expression>) p.getList().clone();
 	all = removeConstants(all);
 	
-	for(int split =0; split<= all.size(); split++ ){
-	    ArrayList<Expression>
-		    left = (ArrayList<Expression>) all.subList(0, split),
-		    right = (ArrayList<Expression>) all.subList(split, all.size());
+	if(all.size() == 2){
+	    
+	}
+	
+	for(int split =1; split<= all.size(); split++ ){
+	    List<Expression>
+		    ll = all.subList(0, split),
+		    lr =all.subList(split, all.size());
+	    
+	    ArrayList<Expression> left = new ArrayList<>(),
+		    right = new ArrayList<>();
+	    left.addAll(ll);
+	    right.addAll(lr);
 	    
 	    Product pl = new Product(left);
 	    pl = Simplify.simplifyProduct(pl);
@@ -234,8 +244,10 @@ class USub extends Integrate {
 	dright = ShrinkTree.shrink(dright);
 	if(Compare.cmp(all.get(0), dleft) == 0){
 	    result = Integrate.integrate(all.get(0));
+	    return;
 	} else if (Compare.cmp(all.get(1), dright) == 0){
 	    result = Integrate.integrate(all.get(1));
+	    return;
 	}
 	throw new UnsupportedOperationException("too hard of a usub");
     }

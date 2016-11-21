@@ -213,7 +213,26 @@ public class Parser {
                 stack.pop();
                 product.add(new Cot(new Variable()));
             }
-        }
+        } else if (stack.peek().getSym() == TokenType.ARCTANSYM){
+	    
+            stack.pop();
+ 
+            if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                stack.pop();
+                Container temp = (Container) gatherTerms();
+                //insert error if no rparent
+                stack.pop();
+                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
+                    product.add(new Arctan(temp.getList().get(0)));
+                else
+                    product.add(new Arctan(temp));
+            }
+            else {
+                //insert error if no x
+                stack.pop();
+                product.add(new Arctan(new Variable()));
+            }
+	}
         else if (stack.peek().getSym() == TokenType.IDENTSYM){
             stack.pop();
             if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
@@ -230,7 +249,8 @@ public class Parser {
             else {
                 product.add(new Variable());
             }
-        }      
+        }     
+	
         else if (stack.peek().getSym() == TokenType.LPARENTSYM){
             stack.pop();
             Expression temp = gatherTerms();

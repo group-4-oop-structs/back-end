@@ -33,7 +33,7 @@ public class TestIntegral {
 	    "x^2+x^3",
 	    "x^(-1)",
 	    "0.5*x*(x^2+1)",
-//	    "cos x * sin x",
+	    "cos x * sin x",
 	    "x*(x^2+1)"
 	};
 	

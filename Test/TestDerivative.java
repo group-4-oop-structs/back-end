@@ -75,6 +75,16 @@ public class TestDerivative {
         d = e.getDerivative();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
+	
+	System.out.println();
+        System.out.println("Test Case 5");
+        test = lexer.lex("cos(x)");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
         
         //Test Case 6
         System.out.println();
@@ -311,6 +321,17 @@ public class TestDerivative {
         System.out.println();
         System.out.println("Test Case 27");
         test = lexer.lex("(x+1)/(x^2-1)");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+	
+	//Test Case 27
+        System.out.println();
+        System.out.println("Test Case 20xx");
+        test = lexer.lex("atan x");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
