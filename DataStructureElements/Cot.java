@@ -5,6 +5,8 @@
  */
 package DataStructureElements;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author rthec
@@ -22,7 +24,17 @@ public class Cot extends UnaryExpression{
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Power p = new Power(2, new Csc(e));
+        ArrayList<Expression> product = new ArrayList<>();
+        product.add(new Constant(-1));
+        product.add(p);
+        if (e instanceof Variable){
+            return new Product(product);
+        }
+        else{
+            product.add(e.getDerivative());
+            return new Product(product);
+        }
     }
 
     @Override

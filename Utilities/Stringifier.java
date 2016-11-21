@@ -42,6 +42,26 @@ public class Stringifier {
             printExpression(e.getExpression());
             string += ")";
         }
+        else if (e instanceof Tan){
+            string += "tan(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Sec){
+            string += "sec(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Csc){
+            string += "csc(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Cot){
+            string += "cot(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
         else if (e instanceof Exponential){
             string += ((Exponential)e).getBase();
             string += "^(";

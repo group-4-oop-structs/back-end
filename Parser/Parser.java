@@ -127,6 +127,82 @@ public class Parser {
                 product.add(new Cos(new Variable()));
             }
         }
+        else if (stack.peek().getSym() == TokenType.TANSYM){
+            stack.pop();
+ 
+            if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                stack.pop();
+                Sum temp = (Sum) gatherTerms();
+                //insert error if no rparent
+                stack.pop();
+                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
+                    product.add(new Tan(temp.getSum().get(0)));
+                else
+                    product.add(new Tan(temp));
+            }
+            else {
+                //insert error if no x
+                stack.pop();
+                product.add(new Tan(new Variable()));
+            }
+        }
+        else if (stack.peek().getSym() == TokenType.SECSYM){
+            stack.pop();
+ 
+            if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                stack.pop();
+                Sum temp = (Sum) gatherTerms();
+                //insert error if no rparent
+                stack.pop();
+                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
+                    product.add(new Sec(temp.getSum().get(0)));
+                else
+                    product.add(new Sec(temp));
+            }
+            else {
+                //insert error if no x
+                stack.pop();
+                product.add(new Sec(new Variable()));
+            }
+        }
+        else if (stack.peek().getSym() == TokenType.CSCSYM){
+            stack.pop();
+ 
+            if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                stack.pop();
+                Sum temp = (Sum) gatherTerms();
+                //insert error if no rparent
+                stack.pop();
+                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
+                    product.add(new Csc(temp.getSum().get(0)));
+                else
+                    product.add(new Csc(temp));
+            }
+            else {
+                //insert error if no x
+                stack.pop();
+                product.add(new Csc(new Variable()));
+            }
+        }
+        else if (stack.peek().getSym() == TokenType.COTSYM){
+            stack.pop();
+ 
+            if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                stack.pop();
+                Sum temp = (Sum) gatherTerms();
+                //insert error if no rparent
+                stack.pop();
+                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
+                    product.add(new Cot(temp.getSum().get(0)));
+                else
+                    product.add(new Cot(temp));
+            }
+            else {
+                //insert error if no x
+                stack.pop();
+                product.add(new Cot(new Variable()));
+            }
+        }
         else if (stack.peek().getSym() == TokenType.IDENTSYM){
             stack.pop();
             if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
