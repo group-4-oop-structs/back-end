@@ -6,6 +6,8 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
+import Utilities.ShrinkTree;
+import Utilities.Simplify;
 import java.util.ArrayList;
 
 /**
@@ -26,6 +28,7 @@ public class Tan extends UnaryExpression{
     @Override
     public Expression getDerivative() {
         Power p = new Power(2, new Sec(e));
+        Product pr;
         ArrayList<Expression> product = new ArrayList<>();
         
         if (e instanceof Variable){
@@ -34,7 +37,10 @@ public class Tan extends UnaryExpression{
         else{
             product.add(p);
             product.add(e.getDerivative());
-            return new Product(product);
+            pr = new Product(product);
+            pr = (Product) ShrinkTree.shrink(pr);
+            pr = Simplify.simplifyProduct(pr);
+            return pr;
         }
     }
 

@@ -7,6 +7,8 @@ package DataStructureElements;
 
 import java.util.ArrayList;
 import DataStructureElements.Visitor.DSEVisitor;
+import Utilities.ShrinkTree;
+import Utilities.Simplify;
 
 /**
  *
@@ -26,15 +28,20 @@ public class Cot extends UnaryExpression{
     @Override
     public Expression getDerivative() {
         Power p = new Power(2, new Csc(e));
+        Product pr;
         ArrayList<Expression> product = new ArrayList<>();
         product.add(new Constant(-1));
         product.add(p);
         if (e instanceof Variable){
-            return new Product(product);
+            pr = new Product(product);
+            return pr;
         }
         else{
             product.add(e.getDerivative());
-            return new Product(product);
+            pr = new Product(product);
+            pr = (Product) ShrinkTree.shrink(pr);
+            pr = Simplify.simplifyProduct(pr);
+            return pr;
         }
     }
 
