@@ -22,7 +22,7 @@ public class Constant extends TerminalExpression{
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new Constant(0);
     }
 
     @Override

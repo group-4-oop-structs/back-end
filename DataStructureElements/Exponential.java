@@ -6,34 +6,34 @@
 package DataStructureElements;
 
 import java.util.*;
-
-/**
- *
- * @author rthec
- */
-public class Cos extends UnaryExpression{
+import java.lang.Math;
+public class Exponential extends UnaryExpression{
+    Double base;
     Expression e;
 
-    public Cos(Expression e) {
+    public Exponential(Double base, Expression e) {
+        this.base = base;
         this.e = e;
     }
 
+    public Double getBase() {
+        return base;
+    }
+    
     @Override
     public Expression getExpression() {
         return e;
     }
-    
-        
+
     @Override
     public Expression getDerivative() {
-        Sin s = new Sin(e);
         ArrayList<Expression> product = new ArrayList<>();
-        product.add(new Constant(-1));
-        product.add(s);
+        product.add(new Constant(Math.log(this.base)));
+        product.add(this);
         if (e instanceof Variable){
             return new Product(product);
         }
-        else {
+        else{
             product.add(e.getDerivative());
             return new Product(product);
         }

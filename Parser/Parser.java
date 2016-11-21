@@ -66,7 +66,66 @@ public class Parser {
             stack.pop();
         }
         if (stack.peek().getSym() == TokenType.NUMBERSYM){
-            product.add(new Constant(stack.pop().getValue()));
+            double val = stack.pop().getValue();
+            if (stack.peek().getSym() == TokenType.POWSYM){
+                stack.pop();
+                if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                    stack.pop();
+                    Sum temp = (Sum) gatherTerms();
+                    //insert error if no rparent
+                    stack.pop();
+                    if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
+                        product.add(new Exponential(val, temp.getSum().get(0)));
+                    else
+                        product.add(new Exponential(val, temp));
+                }
+                else {
+                    //insert error if no x
+                    stack.pop();
+                    product.add(new Exponential(val, new Variable()));
+                }
+            }
+            else{
+                product.add(new Constant(val));
+            }
+        }
+        else if (stack.peek().getSym() == TokenType.SINSYM){
+            stack.pop();
+ 
+            if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                stack.pop();
+                Sum temp = (Sum) gatherTerms();
+                //insert error if no rparent
+                stack.pop();
+                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
+                    product.add(new Sin(temp.getSum().get(0)));
+                else
+                    product.add(new Sin(temp));
+            }
+            else {
+                //insert error if no x
+                stack.pop();
+                product.add(new Sin(new Variable()));
+            }
+        }
+        else if (stack.peek().getSym() == TokenType.COSSYM){
+            stack.pop();
+ 
+            if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                stack.pop();
+                Sum temp = (Sum) gatherTerms();
+                //insert error if no rparent
+                stack.pop();
+                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
+                    product.add(new Cos(temp.getSum().get(0)));
+                else
+                    product.add(new Cos(temp));
+            }
+            else {
+                //insert error if no x
+                stack.pop();
+                product.add(new Cos(new Variable()));
+            }
         }
         else if (stack.peek().getSym() == TokenType.IDENTSYM){
             stack.pop();

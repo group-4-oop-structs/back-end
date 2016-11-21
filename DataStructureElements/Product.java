@@ -38,7 +38,7 @@ public class Product extends Container{
         for (int i = 0; i < tempHolder.size(); i++){
             if (!(tempHolder.get(i) instanceof Constant)){
                 countExpressions++;
-                holderD.add(holder.get(i).getDerivative());
+                holderD.add(tempHolder.get(i).getDerivative());
             }
             else{
                 c = new Constant(((Constant)tempHolder.get(i)).getValue());
@@ -63,13 +63,16 @@ public class Product extends Container{
         
         s = new Sum(sumHolder);
         if (c != null){
+            if (sumHolder.size() == 0){
+                return c.getDerivative();
+            }
             pHolder.add(c);
             pHolder.add(s);
             p = new Product(pHolder);
             return p;
         }
         else {
-            
+            return s;
         }
     }
 

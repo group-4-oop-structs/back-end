@@ -32,6 +32,22 @@ public class Stringifier {
         else if (e instanceof Constant){
             string += ((Constant) e).getValue();
         }
+        else if (e instanceof Sin){
+            string += "sin(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Cos){
+            string += "cos(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Exponential){
+            string += ((Exponential)e).getBase();
+            string += "^(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
     }
     
     private static void printSum(Sum s){

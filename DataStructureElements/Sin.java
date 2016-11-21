@@ -5,10 +5,8 @@
  */
 package DataStructureElements;
 
-/**
- *
- * @author rthec
- */
+import java.util.*;
+
 public class Sin extends UnaryExpression{
     Expression e;
 
@@ -23,7 +21,17 @@ public class Sin extends UnaryExpression{
         
     @Override
     public Expression getDerivative() {
-        return (new Cos(e));
+        Cos c = new Cos(e);
+        ArrayList<Expression> product = new ArrayList<>();
+        
+        if (e instanceof Variable){
+            return c;
+        }
+        else {
+            product.add(c);
+            product.add(e.getDerivative());
+            return new Product(product);
+        }
     }
 
     @Override
