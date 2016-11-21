@@ -32,6 +32,42 @@ public class Stringifier {
         else if (e instanceof Constant){
             string += ((Constant) e).getValue();
         }
+        else if (e instanceof Sin){
+            string += "sin(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Cos){
+            string += "cos(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Tan){
+            string += "tan(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Sec){
+            string += "sec(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Csc){
+            string += "csc(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Cot){
+            string += "cot(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Exponential){
+            string += ((Exponential)e).getBase();
+            string += "^(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
     }
     
     private static void printSum(Sum s){
@@ -58,7 +94,7 @@ public class Stringifier {
         
         for (int i = 1; i < list.size(); i++){
             string += " * ";
-            if (list.get(i).getExpression() instanceof Sum){
+            if (list.get(i) instanceof Sum){
                 string += "(";
                 printExpression(list.get(i));
                 string += ")";

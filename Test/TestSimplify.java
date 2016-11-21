@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class TestSimplify {
     public static void main(String[] args){
-//	test("x+x");
+	test("x+x");
 	test("x+2*x");
 	test("x*x");
 	test("x*x^2");

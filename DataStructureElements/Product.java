@@ -18,9 +18,67 @@ public class Product extends Container{
         return holder;
     }   
     
+    public ArrayList<Expression> getProduct() {
+        return holder;
+    }   
+     
+    
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Sum s;
+        Product p;
+        Constant c = null;
+        ArrayList<Expression> sumHolder = new ArrayList<>();
+        ArrayList<Expression> holderD = new ArrayList<>();
+        ArrayList<Expression> tempHolder = new ArrayList<>();
+        ArrayList<Expression> pHolder = new ArrayList<>();
+        
+        int countExpressions = 0;
+        
+        
+        for (int i = 0; i < holder.size(); i++){
+            tempHolder.add(holder.get(i));
+        }
+        
+        for (int i = 0; i < tempHolder.size(); i++){
+            if (!(tempHolder.get(i) instanceof Constant)){
+                countExpressions++;
+                holderD.add(tempHolder.get(i).getDerivative());
+            }
+            else{
+                c = new Constant(((Constant)tempHolder.get(i)).getValue());
+                tempHolder.remove(i);
+                i--;
+            }
+        }
+        
+        for (int i = 0; i < countExpressions; i++){
+            ArrayList<Expression>  productHolder = new ArrayList<>();
+            for (int j = 0; j < countExpressions; j++){
+                if (i == j){
+                    productHolder.add(holderD.get(i));
+                }
+                else{
+                    productHolder.add(tempHolder.get(j));
+                }
+            }
+            p = new Product(productHolder);
+            sumHolder.add(p);
+        }
+        
+        s = new Sum(sumHolder);
+        if (c != null){
+            if (sumHolder.size() == 0){
+                return c.getDerivative();
+            }
+            pHolder.add(c);
+            pHolder.add(s);
+            p = new Product(pHolder);
+            return p;
+        }
+        else {
+            return s;
+        }
     }
 
     @Override

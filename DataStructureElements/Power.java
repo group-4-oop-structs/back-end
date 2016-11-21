@@ -9,11 +9,11 @@ import java.util.*;
 
 public class Power extends UnaryExpression{
     private double power;
-    private Expression base;
+    private Expression e;
 
     public Power(double power, Expression e) {
         this.power = power;
-        this.base = e;
+        this.e = e;
     }
     
     public double getPower() {
@@ -22,12 +22,30 @@ public class Power extends UnaryExpression{
 
     @Override
     public Expression getExpression() {
-        return base;
+        return e;
     }
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Product p;
+        ArrayList<Expression> product = new ArrayList<>();
+        
+        if (power > 2){
+            product.add(new Constant(power));
+            product.add(new Power(power-1,e));
+        }
+        else {
+            product.add(new Constant(power));
+            product.add(e);
+        }
+        
+        if (!(e instanceof Variable)){
+            product.add(e.getDerivative());
+        }
+        
+        p = new Product(product);
+        
+        return p;
     }
 
     @Override
