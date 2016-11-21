@@ -224,6 +224,27 @@ public class Parser {
                 Power p = new Power(stack.pop().getValue(), temp);
                 product.add(p);
             }
+            else if (!stack.isEmpty() && stack.peek().getSym() == TokenType.DIVSYM){
+                Expression num = temp;
+                stack.pop();
+                if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                    stack.pop();
+                    Expression denom = gatherTerms();
+                    //insert error if no rparent
+                    stack.pop();
+                    product.add(new Quotient(num, denom));
+                }
+                else {
+                    if (stack.peek().getSym() == TokenType.NUMBERSYM){
+                        product.add(new Quotient(num, new Constant(stack.pop().getValue())));
+                    }
+                    else if (stack.peek().getSym() == TokenType.IDENTSYM){
+                        stack.pop();
+                        product.add(new Quotient(num, new Variable()));
+                    }
+                    //insert stuff for other unary operations
+                }
+            }
             else {
                 product.add(temp);
             }

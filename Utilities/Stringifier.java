@@ -68,6 +68,13 @@ public class Stringifier {
             printExpression(e.getExpression());
             string += ")";
         }
+        else if (e instanceof Quotient){
+            string += "(";
+            printExpression(((Quotient)e).getNumerator());
+            string += ")/(";
+            printExpression(((Quotient)e).getDenominator());
+            string += ")";
+        }
     }
     
     private static void printSum(Sum s){

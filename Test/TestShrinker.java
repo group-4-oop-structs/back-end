@@ -25,9 +25,11 @@ public class TestShrinker {
         String testString;
         //test case 1
         System.out.println("Test Case 1");
-        test = lexer.lex("3+(3+(x+1))");
+        test = lexer.lex("x + 2 * x");
         Parser parser = new Parser();
         Expression e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
         e = ShrinkTree.shrink(e);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -36,6 +38,28 @@ public class TestShrinker {
         System.out.println("Test Case 2");
         test = lexer.lex("3*(3*(x+1))");
         e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        e = ShrinkTree.shrink(e);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        
+        //test case 3
+        System.out.println("Test Case 3");
+        test = lexer.lex("4+3*((x-1)*(x+4)^2)+(x-7)");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        e = ShrinkTree.shrink(e);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        
+        //test case 4
+        System.out.println("Test Case 4");
+        test = lexer.lex("sec(2*(3*(x-4)))+(tan x - csc x)^2+(sin x - 2^x)");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
         e = ShrinkTree.shrink(e);
         testString = Stringifier.stringify(e);
         System.out.println(testString);

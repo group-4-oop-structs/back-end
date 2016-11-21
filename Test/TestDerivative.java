@@ -277,6 +277,16 @@ public class TestDerivative {
         d = e.getDerivative();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
+        
+        //Test Case 27
+        System.out.println("Test Case 27");
+        test = lexer.lex("(x+1)/(x^2-1)");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
     }
     
 }
