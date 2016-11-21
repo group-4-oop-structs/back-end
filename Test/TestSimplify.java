@@ -33,6 +33,7 @@ public class TestSimplify {
 	test("x*(x+1)*x^2");
         test("sin x * sin x");
         test("(sin x)^2 * sin x");
+	test("sin x * cos x");
 	
 	test("sin x + sin x");
         test("(x-5)^2 + 3*(x-5)^2");

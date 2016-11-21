@@ -23,6 +23,7 @@ import DataStructureElements.Sin;
 import DataStructureElements.Sum;
 import DataStructureElements.Tan;
 import DataStructureElements.*;
+import DataStructureElements.Visitor.Compare;
 import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 
@@ -48,7 +49,7 @@ public class Integrate extends DSEVisitor {
     @Override
     public void visitVariable(Variable aThis) {
 	ArrayList<Expression> factors = new ArrayList<>();
-	factors.add(new Constant(1.0/2.0));
+	factors.add(new Constant(1.0/2.0d));
 	factors.add(new Power(2, aThis));
 	
 	result = new Product(factors);
@@ -103,12 +104,18 @@ public class Integrate extends DSEVisitor {
     public void visitPower(Power aThis) {
 	ArrayList<Expression> list = new ArrayList<>();
 	
-	double new_n = aThis.getPower()+1;
-	list.add(new Constant(1.0/new_n));
-	
-	Power p = new Power(new_n, aThis.getExpression());
-	list.add(p);
-	result = new Product(list);
+	double n = aThis.getPower();
+	if(n == -1.0d){
+	    result = new Ln(aThis.getExpression());
+	} else if (aThis.getExpression() instanceof Variable){
+	    list.add(new Constant(1.0/(n+1)));
+
+	    Power p = new Power(n+1, aThis.getExpression());
+	    list.add(p);
+	    result = ShrinkTree.shrink(new Product(list));
+	} else {
+	    throw new UnsupportedOperationException("needs to be expanded");
+	}
     }
 
     @Override
@@ -123,7 +130,11 @@ public class Integrate extends DSEVisitor {
 
     @Override
     public void visitCos(Cos aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
+	Expression inner = aThis.getExpression();
+	inner = ShrinkTree.shrink(inner);
+	if(!(inner instanceof Variable))
+	    throw new UnsupportedOperationException("too advanced of a usub");
+	result = new Sin(inner);
     }
 
     @Override
@@ -190,7 +201,52 @@ class USub extends Integrate {
     
     @Override
     public void visitProduct(Product p){
+	ArrayList<Expression> all = (ArrayList<Expression>) p.getList().clone();
+	all = removeConstants(all);
 	
+	for(int split =0; split<= all.size(); split++ ){
+	    ArrayList<Expression>
+		    left = (ArrayList<Expression>) all.subList(0, split),
+		    right = (ArrayList<Expression>) all.subList(split, all.size());
+	    
+	    Product pl = new Product(left);
+	    pl = Simplify.simplifyProduct(pl);
+	    Product pr = new Product(right);
+	    pr = Simplify.simplifyProduct(pr);
+	    Expression eleft = ShrinkTree.shrink(pl), 
+		    eright = ShrinkTree.shrink(pr);
+	    Expression dleft = ShrinkTree.shrink(eleft.getDerivative());
+	    Expression dright = ShrinkTree.shrink(eright.getDerivative());
+	    if(Compare.cmp(pl, dleft) == 0){
+		result =  Integrate.integrate(pl);
+		return;
+	    } else if(Compare.cmp(pr, dright) == 0){
+		result =  Integrate.integrate(pr);
+		return;
+	    }
+	    
+	}
+	Expression dleft = ShrinkTree.shrink(all.get(0).getDerivative());
+//	dleft = removeConstants(dleft);
+	Expression dright = all.get(1).getDerivative();
+//	dright = removeConstants(dright);
+	
+	dright = ShrinkTree.shrink(dright);
+	if(Compare.cmp(all.get(0), dleft) == 0){
+	    result = Integrate.integrate(all.get(0));
+	} else if (Compare.cmp(all.get(1), dright) == 0){
+	    result = Integrate.integrate(all.get(1));
+	}
+	throw new UnsupportedOperationException("too hard of a usub");
+    }
+    
+    static ArrayList<Expression> removeConstants(ArrayList<Expression> l){
+	ArrayList<Expression> n = new ArrayList<>();
+	for(Expression e : l){
+	    if(!(e instanceof Constant))
+		n.add(e);
+	}
+	return n;
     }
     
 }

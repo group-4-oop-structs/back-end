@@ -26,10 +26,15 @@ public class TestIntegral {
 	    "x^2",
 	    "3*x",
 	    "x+3",
-//	    "1",
+	    "1",
 	    "2",
 	    "x+1",
-	    "1+x"
+	    "1+x",
+	    "x^2+x^3",
+	    "x^(-1)",
+	    "0.5*x*(x^2+1)",
+//	    "cos x * sin x",
+	    "x*(x^2+1)"
 	};
 	
 	for(String s : test_vals){
@@ -39,13 +44,19 @@ public class TestIntegral {
     }
     static int testNum =0;
         public static void test(String s){
-	System.out.println("\nTest Case #" + ++testNum);
-	System.out.println("Input:             " + s);
-	ArrayList<Token> test;
-        Expression e = Parser.parseString(s);
-	Expression integral = ShrinkTree.shrink(Integrate.integrate(e));
-        String testString = Stringifier.stringify(e);
-        System.out.printf("Parsed Expression: %s\n", testString);
-	System.out.printf("Integral:          %s\n", Stringifier.stringify(integral));
+//	    try{
+		System.out.println("\nTest Case #" + ++testNum);
+		System.out.println("Input:             " + s);
+		ArrayList<Token> test;
+		Expression e = Parser.parseString(s);
+		String testString = Stringifier.stringify(e);
+		System.out.printf("Parsed Expression: %s\n", testString);
+		Expression integral = ShrinkTree.shrink(Integrate.integrate(e));
+		System.out.printf("Integral:          %s\n", Stringifier.stringify(integral));
+//	    } catch( Throwable e){
+//		System.err.println("Message: " + e.getMessage());
+//		System.err.println("Cause: "+ e.getCause());
+//		System.err.println(e.getStackTrace());
+//	    }
     }
 }
