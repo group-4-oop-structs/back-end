@@ -5,9 +5,10 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 import java.lang.Math;
-public class Exponential extends UnaryExpression{
+public class Exponential extends Expression{
     Double base;
     Expression e;
 
@@ -43,5 +44,15 @@ public class Exponential extends UnaryExpression{
     public Expression getIntegral() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitExponential(this);
+    }
+
+    @Override
+    public int getPEMDASLevel() {
+	return 3;
+    }
     
-}
+} 

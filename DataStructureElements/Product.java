@@ -5,17 +5,18 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 
 public class Product extends Container{
-    private ArrayList<Expression> holder = new ArrayList<>();
+    private final ArrayList<Expression> holder;
 
     public Product(ArrayList<Expression> holder) {
-        this.holder = holder;
+        this.holder = (ArrayList<Expression>) holder.clone();
     }
     
-    public ArrayList<Expression> getProduct() {
-        return holder;
+    public ArrayList<Expression> getList() {
+        return (ArrayList<Expression>) holder.clone();
     }   
     
     @Override
@@ -84,6 +85,16 @@ public class Product extends Container{
     @Override
     public Expression getExpression() {
         return this; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitProduct(this);
+    }
+
+    @Override
+    public int getPEMDASLevel() {
+	return 2;
     }
     
 }

@@ -11,4 +11,8 @@ package DataStructureElements;
  */
 public abstract class TerminalExpression extends Expression{
     
+    @Override
+    public int getPEMDASLevel(){
+	return 100;
+    }
 }

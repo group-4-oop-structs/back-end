@@ -5,6 +5,12 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
+
+/**
+ *
+ * @author rthec
+ */
 import java.util.*;
 
 public class Sin extends UnaryExpression{
@@ -37,6 +43,16 @@ public class Sin extends UnaryExpression{
     @Override
     public Expression getIntegral() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getName() {
+	return "sin";
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitSin(this);
     }
     
 }

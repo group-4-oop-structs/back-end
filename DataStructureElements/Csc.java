@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
 import java.util.ArrayList;
 
 /**
@@ -40,6 +41,16 @@ public class Csc extends UnaryExpression{
     @Override
     public Expression getIntegral() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getName() {
+	return "csc";
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitCSC(this);
     }
     
 }

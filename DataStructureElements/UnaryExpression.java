@@ -10,5 +10,9 @@ package DataStructureElements;
  * @author rthec
  */
 public abstract class UnaryExpression extends Expression{
-    
+    public abstract String getName();
+    @Override
+    public int getPEMDASLevel(){
+	return 100;
+    }
 }

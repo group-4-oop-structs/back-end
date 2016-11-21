@@ -5,6 +5,8 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
+
 /**
  *
  * @author rthec
@@ -13,4 +15,7 @@ public abstract class Expression {
     public abstract Expression getExpression();
     public abstract Expression getDerivative();
     public abstract Expression getIntegral();
+    
+    public abstract void accept(DSEVisitor v);
+    public abstract int getPEMDASLevel();
 }

@@ -5,6 +5,8 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
+
 /**
  *
  * @author rthec
@@ -28,6 +30,16 @@ public class Ln extends UnaryExpression{
     @Override
     public Expression getIntegral() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getName() {
+	return "ln";
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

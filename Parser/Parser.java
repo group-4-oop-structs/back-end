@@ -13,6 +13,11 @@ import Utilities.Simplify;
 public class Parser {
     private Expression e;
     private ArrayDeque<Token> stack = new ArrayDeque<>();
+    public static Expression parseString(String s){
+	Lexer l = new Lexer();
+	Parser p = new Parser();
+	return p.parse(l.lex(s));
+    }
     
     public Expression parse(ArrayList<Token> list){
         for (int i = list.size()-1; i >= 0; i--){
@@ -35,8 +40,8 @@ public class Parser {
             sum.add(gatherFactors());
         }
         Sum s = new Sum(sum);
-        //Sum simple = Simplify.simplifySum(s);
-        return s;
+        Sum simple = Simplify.simplifySum(s);
+        return simple;
     }
     
     private Expression gatherFactors(){
@@ -53,7 +58,7 @@ public class Parser {
             return product.get(0);
         }
         else if (product.size() > 1){
-            return new Product(product);
+            return Simplify.simplifyProduct(new Product(product));
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");

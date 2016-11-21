@@ -44,4 +44,16 @@ public class TestParser {
         testString = Stringifier.stringify(e);
         System.out.println(testString);
     }
+    
+    
+    public static void test(String input){
+	ArrayList<Token> test;
+        Lexer lexer = new Lexer();
+        String testString;
+        test = lexer.lex("3*x^4*x^3*x^2");
+        Parser parser = new Parser();
+        Expression e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+    }
 }

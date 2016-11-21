@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 
 /**
@@ -42,6 +43,16 @@ public class Cos extends UnaryExpression{
     @Override
     public Expression getIntegral() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getName() {
+	return "cos";
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitCos(this);
     }
     
 }

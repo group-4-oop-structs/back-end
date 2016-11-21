@@ -5,6 +5,8 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
+
 /**
  *
  * @author rthec
@@ -33,6 +35,11 @@ public class Constant extends TerminalExpression{
     @Override
     public Expression getExpression() {
         return this; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitConstant(this);
     }
     
 }

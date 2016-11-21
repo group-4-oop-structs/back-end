@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
 
 public class Sum extends Container{
@@ -15,7 +16,7 @@ public class Sum extends Container{
     }
 
     public ArrayList<Expression> getSum() {
-        return holder;
+        return (ArrayList<Expression>) holder.clone();
     }
     
     @Override
@@ -40,6 +41,16 @@ public class Sum extends Container{
     @Override
     public Expression getExpression() {
         return this; //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitSum(this);
+    }
+    
+    @Override
+    public int getPEMDASLevel(){
+	return 1;
     }
     
 }
