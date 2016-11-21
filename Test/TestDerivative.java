@@ -330,8 +330,74 @@ public class TestDerivative {
 	
 	//Test Case 27
         System.out.println();
-        System.out.println("Test Case 20xx");
-        test = lexer.lex("atan x");
+        System.out.println("Test Case atan x");
+        test = lexer.lex("arctan x");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+	
+	//Test Case 27
+        System.out.println();
+        System.out.println("Test Case asin x");
+        test = lexer.lex("arcsin x");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+	
+	//Test Case 27
+        System.out.println();
+        System.out.println("Test Case arccos x");
+        test = lexer.lex("arccos x");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+	
+	//Test Case 27
+        System.out.println();
+        System.out.println("Test Case arctan x");
+        test = lexer.lex("arctan x");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+	
+	//Test Case 27
+        System.out.println();
+        System.out.println("Test Case arccsc x");
+        test = lexer.lex("arccsc x");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+	
+	//Test Case 27
+        System.out.println();
+        System.out.println("Test Case arcsec x");
+        test = lexer.lex("arcsec x");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+	
+	//Test Case 27
+        System.out.println();
+        System.out.println("Test Case arccot x");
+        test = lexer.lex("arccot x");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);

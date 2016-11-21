@@ -6,6 +6,7 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,7 +25,11 @@ public class Arccsc extends UnaryExpression{
 
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Arcsec asec = new Arcsec(e);
+	ArrayList<Expression> p = new ArrayList<Expression>();
+	p.add(new Constant(-1));
+	p.add(asec.getDerivative());
+	return new Product(p);
     }
 
     @Override

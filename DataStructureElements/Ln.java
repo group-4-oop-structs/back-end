@@ -24,7 +24,8 @@ public class Ln extends UnaryExpression{
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Quotient(e.getDerivative(),e);
+	
     }
 
     @Override
