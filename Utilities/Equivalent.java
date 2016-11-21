@@ -13,7 +13,4 @@ public class Equivalent {
         
     }
     
-    public static String toStr(Expression e1){
-	
-    }
 }

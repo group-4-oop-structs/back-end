@@ -22,7 +22,7 @@ public class Power extends UnaryExpression{
 
     @Override
     public Expression getExpression() {
-        return e;
+        return base;
     }
     
     @Override

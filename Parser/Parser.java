@@ -8,11 +8,16 @@ package Parser;
 import java.util.*;
 import Lexer.*;
 import DataStructureElements.*;
-import Utilities.CollectLikeTerms;
+import Utilities.Simplify;
 
 public class Parser {
     private Expression e;
     private ArrayDeque<Token> stack = new ArrayDeque<>();
+    public static Expression parseString(String s){
+	Lexer l = new Lexer();
+	Parser p = new Parser();
+	return p.parse(l.lex(s));
+    }
     
     public Expression parse(ArrayList<Token> list){
         for (int i = list.size()-1; i >= 0; i--){
