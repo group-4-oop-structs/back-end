@@ -30,6 +30,7 @@ public class TestDerivative {
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         //Test Case 2
+        /*
         System.out.println("Test Case 2");
         test = lexer.lex("6*x^4*x^5");
         e = parser.parse(test);
@@ -287,6 +288,7 @@ public class TestDerivative {
         d = e.getDerivative();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
+*/
     }
     
 }

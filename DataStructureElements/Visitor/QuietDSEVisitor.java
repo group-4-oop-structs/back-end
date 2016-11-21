@@ -15,8 +15,10 @@ import DataStructureElements.Constant;
 import DataStructureElements.Cos;
 import DataStructureElements.Cot;
 import DataStructureElements.Csc;
+import DataStructureElements.Exponential;
 import DataStructureElements.Power;
 import DataStructureElements.Product;
+import DataStructureElements.Quotient;
 import DataStructureElements.Sec;
 import DataStructureElements.Sin;
 import DataStructureElements.Sum;
@@ -97,6 +99,16 @@ public class QuietDSEVisitor extends DSEVisitor {
 
     @Override
     public void visitCot(Cot aThis) {
+    }
+
+    @Override
+    public void visitQuotient(Quotient aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void visitExponential(Exponential aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

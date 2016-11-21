@@ -90,10 +90,14 @@ public class Stringifier {
     
     private static void printProduct(Product p){
         ArrayList<Expression> list = p.getList();
-        if (list.get(0).getExpression() instanceof Sum){
-            string += "(";
-            printExpression(list.get(0));
-            string += ")";
+        Sum s = new Sum(list);
+        if (list.get(0).getClass() == s.getClass()){
+            s = (Sum) list.get(0);
+            if (s.getSum().size() > 1){
+                string += "(";
+                printExpression(list.get(0));
+                string += ")";
+            }
         }
         else{
             printExpression(list.get(0));
@@ -102,9 +106,12 @@ public class Stringifier {
         for (int i = 1; i < list.size(); i++){
             string += " * ";
             if (list.get(i) instanceof Sum){
-                string += "(";
-                printExpression(list.get(i));
-                string += ")";
+                s = (Sum) list.get(i);
+                if (s.getSum().size() > 1){
+                    string += "(";
+                    printExpression(list.get(0));
+                    string += ")";
+                }
             }
             else{
                 printExpression(list.get(i));   

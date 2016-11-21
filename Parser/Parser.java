@@ -8,6 +8,7 @@ package Parser;
 import java.util.*;
 import Lexer.*;
 import DataStructureElements.*;
+import Utilities.ShrinkTree;
 import Utilities.Simplify;
 
 public class Parser {
@@ -39,8 +40,9 @@ public class Parser {
             }
             sum.add(gatherFactors());
         }
-        Sum s = new Sum(sum);
-        Sum simple = Simplify.simplifySum(s);
+        Expression s = new Sum(sum);
+        s = ShrinkTree.shrink(s);
+        Expression simple = Simplify.simplifySum((Sum) s);
         return simple;
     }
     
@@ -54,11 +56,12 @@ public class Parser {
             gatherer(product);
         }        
         
-        if (product.size() == 1){
-            return product.get(0);
-        }
-        else if (product.size() > 1){
-            return Simplify.simplifyProduct(new Product(product));
+        Expression p = new Product(product);
+        p = ShrinkTree.shrink(p);
+        p = Simplify.simplifyProduct((Product) p);
+        
+        if (product.size() >= 1){
+            return p;
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
@@ -72,7 +75,7 @@ public class Parser {
         }
         if (stack.peek().getSym() == TokenType.NUMBERSYM){
             double val = stack.pop().getValue();
-            if (stack.peek().getSym() == TokenType.POWSYM){
+            if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
                 stack.pop();
                 if (stack.peek().getSym() == TokenType.LPARENTSYM){
                     stack.pop();

@@ -21,6 +21,10 @@ public class Power extends Expression{
         return power;
     }
 
+    public void setPower(double power) {
+        this.power = power;
+    }
+
     @Override
     public Expression getExpression() {
         return base;

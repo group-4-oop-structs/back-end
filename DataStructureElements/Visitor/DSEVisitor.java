@@ -25,6 +25,7 @@ import DataStructureElements.Sum;
 import DataStructureElements.Tan;
 import DataStructureElements.UnaryExpression;
 import DataStructureElements.Variable;
+import DataStructureElements.Quotient;
 
 /**
  *
@@ -78,6 +79,8 @@ public abstract class DSEVisitor {
     public abstract void visitACSC(Arccsc aThis);
 
     public abstract void visitCot(Cot aThis);
+    
+    public abstract void visitQuotient(Quotient aThis);
 
-    public void visitExponential(Exponential aThis);
+    public abstract void visitExponential(Exponential aThis);
 }

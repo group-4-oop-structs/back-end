@@ -21,6 +21,10 @@ public class Constant extends TerminalExpression{
     public double getValue() {
         return value;
     }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
     
     @Override
     public Expression getDerivative() {

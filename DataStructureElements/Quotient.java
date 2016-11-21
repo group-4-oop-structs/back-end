@@ -5,6 +5,7 @@
  */
 package DataStructureElements;
 
+import DataStructureElements.Visitor.DSEVisitor;
 import java.util.ArrayList;
 
 /**
@@ -64,6 +65,15 @@ public class Quotient extends Container{
     @Override
     public Expression getIntegral() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void accept(DSEVisitor v) {
+	v.visitQuotient(this);
+    }
+    
+    public int getPEMDASLevel() {
+	return 2;
     }
     
 }
