@@ -19,7 +19,7 @@ public class TestDerivative {
         String testString;
         Expression e, d;
         Parser parser = new Parser();
-        /*
+        
         //Test Case 1
         System.out.println();
         System.out.println("Test Case 1");
@@ -64,7 +64,7 @@ public class TestDerivative {
         d = e.getDerivative();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
-        */
+        
         //Test Case 5
         System.out.println();
         System.out.println("Test Case 5");
@@ -317,6 +317,16 @@ public class TestDerivative {
         d = e.getDerivative();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
-    }
-    
+        
+        //Test Case 28
+        System.out.println();
+        System.out.println("Test Case 27");
+        test = lexer.lex("ln(x)");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = e.getDerivative();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+    }  
 }

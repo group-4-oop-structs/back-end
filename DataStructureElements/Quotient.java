@@ -6,6 +6,8 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
+import Utilities.ShrinkTree;
+import Utilities.Simplify;
 import java.util.ArrayList;
 
 /**
@@ -48,10 +50,14 @@ public class Quotient extends Expression{
         product1.add(denominator);
         product1.add(numerator.getDerivative());
         p1 = new Product(product1);
+        p1 = (Product) ShrinkTree.shrink(p1);
+        p1 = Simplify.simplifyProduct(p1);
         
         product2.add(numerator);
         product2.add(denominator.getDerivative());
         p2 = new Product(product2);
+        p2 = (Product) ShrinkTree.shrink(p2);
+        p2 = Simplify.simplifyProduct(p2);
         
         sum.add(p1);
         sum.add(p2);
