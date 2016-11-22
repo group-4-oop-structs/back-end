@@ -8,6 +8,7 @@ package DataStructureElements;
 import DataStructureElements.Visitor.DSEVisitor;
 import Utilities.ShrinkTree;
 import Utilities.Simplify;
+import Utilities.Stringifier;
 import java.util.ArrayList;
 
 /**
@@ -43,18 +44,30 @@ public class Quotient extends Expression{
         Product p2;
         Power denom;
         Sum num;
+        
+        super.addStep("Remember the quotient rule: d/dx(f / g) = (g*f' - f*g')/g^2");
+        
+        super.addStep("f = " + Stringifier.stringify(numerator));
+        super.addStep("g = " + Stringifier.stringify(denominator));
+        super.addStep("Now find f' and g'");
+        
         ArrayList<Expression> sum = new ArrayList<>();
         ArrayList<Expression> product1 = new ArrayList<>();
         ArrayList<Expression> product2 = new ArrayList<>();
         
+        super.addStep("To find f':");
         product1.add(denominator);
         product1.add(numerator.getDerivative());
+        super.addStep("f' = " + Stringifier.stringify(numerator.getDerivative()));
         p1 = new Product(product1);
         p1 = (Product) ShrinkTree.shrink(p1);
         p1 = Simplify.simplifyProduct(p1);
         
+        
+        super.addStep("To find g':");
         product2.add(numerator);
         product2.add(denominator.getDerivative());
+        super.addStep("g' = " + Stringifier.stringify(numerator.getDerivative()));
         p2 = new Product(product2);
         p2 = (Product) ShrinkTree.shrink(p2);
         p2 = Simplify.simplifyProduct(p2);
@@ -64,6 +77,9 @@ public class Quotient extends Expression{
         num = new Sum(sum);
         
         denom = new Power(2, denominator);
+        
+        super.addStep("Now substitute everything in to the quotient rule to get " + 
+                Stringifier.stringify(new Quotient(num, denom)));
         
         return new Quotient(num, denom);
     }
@@ -80,6 +96,10 @@ public class Quotient extends Expression{
     
     public int getPEMDASLevel() {
 	return 2;
+    }
+
+    public Expression getUsub() {
+        return new Variable();
     }
     
 }

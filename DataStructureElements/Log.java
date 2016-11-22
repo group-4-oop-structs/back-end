@@ -46,5 +46,9 @@ public class Log extends UnaryExpression{
     public void accept(DSEVisitor v) {
 	throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public Expression getUsub() {
+        return new Log(new Variable());
+    }
     
 }

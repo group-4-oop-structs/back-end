@@ -41,6 +41,8 @@ public class Constant extends TerminalExpression implements Comparable<Constant>
         return this; //To change body of generated methods, choose Tools | Templates.
     }
 
+    
+    
     @Override
     public void accept(DSEVisitor v) {
 	v.visitConstant(this);
@@ -49,6 +51,10 @@ public class Constant extends TerminalExpression implements Comparable<Constant>
     @Override
     public int compareTo(Constant o) {
 	return (int) (this.getValue() - o.value);
+    }
+
+    public Expression getUsub() {
+        return new Constant(this.value);
     }
     
 }

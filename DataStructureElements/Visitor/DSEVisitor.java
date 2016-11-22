@@ -17,6 +17,8 @@ import DataStructureElements.Cot;
 import DataStructureElements.Csc;
 import DataStructureElements.Exponential;
 import DataStructureElements.Expression;
+import DataStructureElements.Ln;
+import DataStructureElements.Log;
 import DataStructureElements.Power;
 import DataStructureElements.Product;
 import DataStructureElements.Sec;
@@ -83,4 +85,8 @@ public abstract class DSEVisitor {
     public abstract void visitQuotient(Quotient aThis);
 
     public abstract void visitExponential(Exponential aThis);
+    
+    public abstract void visitLn(Ln aThis);
+    
+    public abstract void visitLog(Log aThis);
 }

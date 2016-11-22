@@ -7,6 +7,7 @@ package DataStructureElements;
 
 import java.util.ArrayList;
 import DataStructureElements.Visitor.DSEVisitor;
+import Utilities.Stringifier;
 
 /**
  *
@@ -32,7 +33,14 @@ public class Sec extends UnaryExpression{
             return new Product(product);
         }
         else {
+            super.addStep("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
+            super.addStep("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
+                        
             product.add(e.getDerivative());
+            
+            super.addStep("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
+            super.addStep("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(this.getUsub()));
+            super.addStep("f'(u) = " + Stringifier.stringifyu(this.getUsub().getDerivative()));
             return new Product(product);
         }
     }
@@ -50,6 +58,10 @@ public class Sec extends UnaryExpression{
     @Override
     public void accept(DSEVisitor v) {
 	v.visitSec(this);
+    }
+
+    public Expression getUsub() {
+        return  new Sec(new Variable());
     }
     
 }

@@ -6,6 +6,7 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
+import Utilities.Stringifier;
 
 /**
  *
@@ -24,7 +25,20 @@ public class Ln extends UnaryExpression{
     
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (!(e instanceof Variable)){
+            super.addStep("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
+            super.addStep("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
+            Expression temp = e.getDerivative();
+            super.addStep("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
+            super.addStep("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(this.getUsub()));
+            super.addStep("f'(u) = " + Stringifier.stringifyu(this.getUsub().getDerivative()));
+            super.addStep("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(new Quotient(e.getDerivative(),e)));
+            return new Quotient(temp,e);
+        }
+        else        
+            return new Quotient(e.getDerivative(),e);
+	
     }
 
     @Override
@@ -40,6 +54,10 @@ public class Ln extends UnaryExpression{
     @Override
     public void accept(DSEVisitor v) {
 	throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Expression getUsub() {
+        return new Ln(new Variable());
     }
     
 }

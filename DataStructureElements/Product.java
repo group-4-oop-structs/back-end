@@ -9,6 +9,7 @@ import static DataStructureElements.Visitor.Compare.cmp;
 import DataStructureElements.Visitor.DSEVisitor;
 import Utilities.ShrinkTree;
 import Utilities.Simplify;
+import Utilities.Stringifier;
 import java.util.*;
 
 public class Product extends Container{
@@ -40,16 +41,24 @@ public class Product extends Container{
             tempHolder.add(holder.get(i));
         }
         
+        if (tempHolder.get(0) instanceof Constant){
+            tempHolder.remove(0);
+        }
+        
+        if (tempHolder.size() > 1){
+            super.addStep("Now we must use the product rule to take the derivative of f = f1 * f2");
+            super.addStep("Remember d/dx(f1 * f2) = f1'*f2 + f1'*f2");
+            super.addStep("Start by finding the derivative of each function: ");
+        }
+        
         for (int i = 0; i < tempHolder.size(); i++){
             if (!(tempHolder.get(i) instanceof Constant)){
-                countExpressions++;
+                countExpressions++;                
                 holderD.add(tempHolder.get(i).getDerivative());
-            }
-            else{
-                c = new Constant(((Constant)tempHolder.get(i)).getValue());
-                tempHolder.remove(i);
-                i--;
-            }
+                if (tempHolder.size() > 1){
+                    super.addStep("f" + (i+1) + "' = " + Stringifier.stringify(holderD.get(i)));
+                }
+            }            
         }
         
         if (countExpressions == 1){
@@ -61,17 +70,28 @@ public class Product extends Container{
             p = ShrinkTree.shrink(p);
             p = Simplify.simplifyProduct((Product) p);
             return p;
+        }        
+        
+        if (countExpressions > 2)
+            super.addStep("Since we have more than 2 functions: d/dx(f1 * f2 *...* fn) = f1'*f2*f3...*fn + f1*f2'...*fn + f1*f2*...*fn'");
+        
+        for (int i = 0; i < countExpressions; i++){
+            super.addStep("f" + (i+1) + " = " + Stringifier.stringify(tempHolder.get(i)));
         }
         
+        super.addStep("f' = ");
         for (int i = 0; i < countExpressions; i++){
             ArrayList<Expression>  productHolder = new ArrayList<>();
             for (int j = 0; j < countExpressions; j++){
                 if (i == j){
+                    super.addStep("f" + (i+1) + "' = " + Stringifier.stringify(holderD.get(i)));
                     productHolder.add(holderD.get(i));
                 }
                 else{
+                    super.addStep("f" + (j+1) + " = " + Stringifier.stringify(tempHolder.get(j)));
                     productHolder.add(tempHolder.get(j));
                 }
+                super.addStep("+");
             }
             p = new Product(productHolder);
             p = ShrinkTree.shrink(p);
@@ -82,7 +102,7 @@ public class Product extends Container{
         s = new Sum(sumHolder);
         s = ShrinkTree.shrink(s);
         s = Simplify.simplifySum((Sum) s);
-        
+        super.addStep("So f' = " + Stringifier.stringify(s));
         if (c != null){
             if (sumHolder.size() == 0){
                 return c.getDerivative();
@@ -137,4 +157,9 @@ public class Product extends Container{
 	return true;
     }
     
+    public Expression getUsub() {
+        ArrayList<Expression> temp = new ArrayList<>();
+        temp.add(new Variable());
+        return new Sum(temp);
+    }    
 }

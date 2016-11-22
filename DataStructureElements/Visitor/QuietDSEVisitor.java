@@ -17,6 +17,8 @@ import DataStructureElements.Cot;
 import DataStructureElements.Csc;
 import DataStructureElements.Exponential;
 import DataStructureElements.Expression;
+import DataStructureElements.Ln;
+import DataStructureElements.Log;
 import DataStructureElements.Power;
 import DataStructureElements.Product;
 import DataStructureElements.Quotient;
@@ -128,6 +130,16 @@ public class QuietDSEVisitor extends DSEVisitor {
 
     @Override
     public void visitQuotient(Quotient aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void visitLn(Ln aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void visitLog(Log aThis) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

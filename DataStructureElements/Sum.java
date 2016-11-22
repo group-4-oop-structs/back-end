@@ -9,6 +9,7 @@ import static DataStructureElements.Visitor.Compare.cmp;
 import DataStructureElements.Visitor.DSEVisitor;
 import Utilities.ShrinkTree;
 import Utilities.Simplify;
+import Utilities.Stringifier;
 import java.util.*;
 
 public class Sum extends Container{
@@ -27,7 +28,7 @@ public class Sum extends Container{
     public Expression getDerivative() {
        Expression s;
        ArrayList<Expression> holderD = new ArrayList<>();
-       
+       super.addStep("Find the derivative of each term in " + Stringifier.stringify(this));
        for (int i = 0; i < holder.size(); i++){
            holderD.add(holder.get(i).getDerivative());
        }
@@ -75,6 +76,12 @@ public class Sum extends Container{
 	    }
 	}	
 	return true;
+    }
+
+    public Expression getUsub() {
+        ArrayList<Expression> temp = new ArrayList<>();
+        temp.add(new Variable());
+        return new Sum(temp);
     }
     
 }

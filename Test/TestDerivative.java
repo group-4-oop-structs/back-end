@@ -27,7 +27,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         d = ShrinkTree.shrink(d);
         testString = Stringifier.stringify(d);
         System.out.println(testString);
@@ -39,7 +40,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -50,7 +52,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -61,7 +64,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -72,7 +76,19 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+	
+	System.out.println();
+        System.out.println("Test Case 5");
+        test = lexer.lex("cos(x)");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -83,7 +99,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -94,7 +111,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -105,7 +123,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -116,7 +135,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -127,7 +147,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -138,7 +159,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -149,7 +171,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -160,7 +183,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -171,7 +195,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -182,7 +207,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -193,7 +219,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -204,7 +231,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -215,7 +243,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -226,7 +255,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -237,7 +267,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -248,7 +279,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -259,7 +291,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -271,6 +304,7 @@ public class TestDerivative {
         testString = Stringifier.stringify(e);
         System.out.println(testString);
         d = e.getDerivative();
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -281,7 +315,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -292,7 +327,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -303,7 +339,8 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
         
@@ -314,19 +351,19 @@ public class TestDerivative {
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
-        
-        //Test Case 28
-        System.out.println();
-        System.out.println("Test Case 27");
-        test = lexer.lex("ln(x)");
-        e = parser.parse(test);
-        testString = Stringifier.stringify(e);
-        System.out.println(testString);
-        d = e.getDerivative();
-        testString = Stringifier.stringify(d);
-        System.out.println(testString);
-    }  
+    }
+    
+    static int place = -1;
+    public static void printInstructions(){
+        System.out.println("Steps");
+        List steps = Derive.getSteps();
+        for (int i = place+1; i < steps.size(); i++){
+            System.out.println(steps.get(i));
+            place = i;
+        }
+    }
 }

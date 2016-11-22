@@ -8,6 +8,7 @@ package DataStructureElements;
 import DataStructureElements.Visitor.DSEVisitor;
 import Utilities.ShrinkTree;
 import Utilities.Simplify;
+import Utilities.Stringifier;
 import java.util.ArrayList;
 
 /**
@@ -35,11 +36,18 @@ public class Tan extends UnaryExpression{
             return p;
         }
         else{
+            super.addStep("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
+            super.addStep("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
+                        
             product.add(p);
             product.add(e.getDerivative());
             pr = new Product(product);
             pr = (Product) ShrinkTree.shrink(pr);
             pr = Simplify.simplifyProduct(pr);
+            super.addStep("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
+            super.addStep("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(this.getUsub()));
+            super.addStep("f'(u) = " + Stringifier.stringifyu(this.getUsub().getDerivative()));
+            super.addStep("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(pr));
             return pr;
         }
     }
@@ -57,6 +65,10 @@ public class Tan extends UnaryExpression{
     @Override
     public void accept(DSEVisitor v) {
 	v.visitTan(this);
+    }
+
+    public Expression getUsub() {
+        return  new Tan(new Variable());
     }
     
 }

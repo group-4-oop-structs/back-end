@@ -26,6 +26,7 @@ import DataStructureElements.*;
 import DataStructureElements.Visitor.Compare;
 import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
+import java.lang.*;
 
 /**
  *
@@ -34,6 +35,11 @@ import java.util.*;
 public class Integrate extends DSEVisitor {
 
     Expression result;
+    static List<String> steps = new ArrayList<>();
+    
+    public static List<String> getSteps(){
+        return steps;
+    }
     
     public static  Expression integrate(Expression e){
 	Integrate i = new Integrate();
@@ -70,6 +76,7 @@ public class Integrate extends DSEVisitor {
         Constant cu;
         Constant cdu;
         Product p;
+        Constant stepcu = new Constant(1);
         
 	holder = aThis.getList();
         Constant c;
@@ -80,13 +87,16 @@ public class Integrate extends DSEVisitor {
         else {
             c = new Constant(1);
         }
+        // Integral of a constant
         if (holder.size() == 0){
+            steps.add("Take the integral of " + Stringifier.stringify(c));
             result = integrate(c);
             return;
         }
         if (holder.size() == 1){
             if (holder.get(0).getExpression() instanceof Variable ||
                     holder.get(0) instanceof Constant){
+                steps.add("Take of integral of " + Stringifier.stringify(holder.get(0)));
                 holder.add(integrate(holder.get(0)));
                 holder.remove(0);
                 holder.add(0, c);
@@ -100,7 +110,7 @@ public class Integrate extends DSEVisitor {
                 holder.add(0, new Constant(1));
             }
         }
-        else if (holder.size() == 2){
+        if (holder.size() <= 2){
             for (int i = 0; i < holder.size(); i++){
                 holderTemp.addAll(holder);
                 holderTemp.remove(i);                
@@ -124,6 +134,7 @@ public class Integrate extends DSEVisitor {
                 if (u instanceof Product){
                     holderU = ((Product)u).getList();
                     if (holderU.get(0) instanceof Constant){
+                        stepcu = new Constant(((Constant) holderU.get(0)).getValue());
                         cu = new Constant(1 / ((Constant) holderU.get(0)).getValue());
                         holderU.remove(0);
                     }
@@ -141,14 +152,41 @@ public class Integrate extends DSEVisitor {
                     du = new Product(holderDU);
                 }
                 if (Compare.cmp(u, du) == 0){
+                    steps.add("Let u = " + Stringifier.stringify(holderTemp.get(0).getExpression()));
+                    steps.add("So du = " + Stringifier.stringify(stepcu) + " * " + Stringifier.stringify(du));
+                    steps.add(Stringifier.stringify(du) + " = " + Stringifier.stringify(cu) + " * du");
+                    steps.add("Using u-substitution we replace " + Stringifier.stringify(du) + " with " + Stringifier.stringify(cu) + " du");
+                    steps.add("and we replace " + Stringifier.stringify(holderTemp.get(0).getExpression()) + " with u.");
                     holder.clear();
                     holder.add(0, c);
                     holder.add(0, cu);
                     holder.add(0, cdu);
                     holder.add(integrate(holderTemp.get(0)));
+                    Expression dummy = holderTemp.get(0);
+                    if (holderTemp.get(0) instanceof Sin){
+                        dummy = ((Sin)dummy).getUsub();
+                    }
+                    else if (holderTemp.get(0) instanceof Cos){
+                        dummy = ((Cos)dummy).getUsub();
+                    }
+                    else if (holderTemp.get(0) instanceof Exponential){
+                        dummy = ((Exponential)dummy).getUsub();
+                    }
+                    else if (holderTemp.get(0) instanceof Power){
+                        dummy = ((Power)dummy).getUsub();
+                    }
+                    else if (holderTemp.get(0) instanceof Sum){
+                        dummy = ((Sum)dummy).getUsub();
+                    }
+                    else if (holderTemp.get(0) instanceof Product){
+                        dummy = ((Product)dummy).getUsub();
+                    }
+                    steps.add("Now we take the integral of " + Stringifier.stringifyu(dummy) + " which is " + Stringifier.stringifyu(Integrate.integrate(dummy)));
+                    steps.add("Replace u with " + Stringifier.stringify(holderTemp.get(0).getExpression()) + " to get our final answer:");
                     p = new Product(holder);
                     p = (Product) ShrinkTree.shrink(p);
                     p = Simplify.simplifyProduct(p);
+                    steps.add(Stringifier.stringify(p));
                     result = p;
                     return;
                 }
@@ -161,15 +199,24 @@ public class Integrate extends DSEVisitor {
     public void visitSum(Sum aThis) {
 	ArrayList<Expression> terms = aThis.getList(),
 		nsum = new ArrayList<>();
+        steps.add("Integrate each term");
 	for(Expression e : terms){
 	    nsum.add(integrate(e));
 	}
-	result = new Sum(nsum);
+	result = Simplify.simplifySum(new Sum(nsum));
     }
 
     @Override
     public void visitExponential(Exponential aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
+	ArrayList<Expression> holder = new ArrayList<>();
+        Constant c = new Constant(1 / Math.log(aThis.getBase()));
+        Product p;
+        holder.add(c);
+        holder.add(aThis);
+        p = new Product(holder);
+        p = (Product) ShrinkTree.shrink(p);
+        p = Simplify.simplifyProduct(p);
+        result = p;
     }
 
     @Override
@@ -195,16 +242,19 @@ public class Integrate extends DSEVisitor {
 
     @Override
     public void visitSin(Sin aThis) {
-	throw new UnsupportedOperationException("Not supported yet.");
+        ArrayList<Expression> holder = new ArrayList<>();
+	Product p;
+        holder.add(new Constant(-1));
+        holder.add(new Cos(aThis.getExpression()));
+        p = new Product(holder);
+        p = (Product) ShrinkTree.shrink(p);
+        p = Simplify.simplifyProduct(p);
+        result = p;
     }
 
     @Override
     public void visitCos(Cos aThis) {
-	Expression inner = aThis.getExpression();
-	inner = ShrinkTree.shrink(inner);
-	if(!(inner instanceof Variable))
-	    throw new UnsupportedOperationException("too advanced of a usub");
-	result = new Sin(inner);
+	result = new Sin(aThis.getExpression());
     }
 
     @Override
@@ -256,6 +306,16 @@ public class Integrate extends DSEVisitor {
     public void visitQuotient(Quotient aThis) {
 	throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public void visitLn(Ln aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void visitLog(Log aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 }
@@ -274,10 +334,19 @@ class USub extends Integrate {
 	ArrayList<Expression> all = (ArrayList<Expression>) p.getList().clone();
 	all = removeConstants(all);
 	
-	for(int split =0; split<= all.size(); split++ ){
-	    ArrayList<Expression>
-		    left = (ArrayList<Expression>) all.subList(0, split),
-		    right = (ArrayList<Expression>) all.subList(split, all.size());
+	if(all.size() == 2){
+	    
+	}
+	
+	for(int split =1; split<= all.size(); split++ ){
+	    List<Expression>
+		    ll = all.subList(0, split),
+		    lr =all.subList(split, all.size());
+	    
+	    ArrayList<Expression> left = new ArrayList<>(),
+		    right = new ArrayList<>();
+	    left.addAll(ll);
+	    right.addAll(lr);
 	    
 	    Product pl = new Product(left);
 	    pl = Simplify.simplifyProduct(pl);
@@ -304,8 +373,10 @@ class USub extends Integrate {
 	dright = ShrinkTree.shrink(dright);
 	if(Compare.cmp(all.get(0), dleft) == 0){
 	    result = Integrate.integrate(all.get(0));
+	    return;
 	} else if (Compare.cmp(all.get(1), dright) == 0){
 	    result = Integrate.integrate(all.get(1));
+	    return;
 	}
 	throw new UnsupportedOperationException("too hard of a usub");
     }

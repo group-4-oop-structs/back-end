@@ -10,10 +10,11 @@ package FrontEndInterface;
  * @author gillis
  */
 public class Operation {
+    /*
     public static Result solveDerivative(String input){
 	throw new UnsupportedOperationException();
     }
     public static Result solveIntegral(String input){
 	throw new UnsupportedOperationException();
-    }
+    }*/
 }

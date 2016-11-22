@@ -42,5 +42,9 @@ public class Variable extends TerminalExpression implements Comparable<Variable>
     public int compareTo(Variable o) {
 	return 0;
     }
+
+    public Expression getUsub() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

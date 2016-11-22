@@ -6,6 +6,7 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
+import java.util.ArrayList;
 
 /**
  *
@@ -24,7 +25,16 @@ public class Arctan extends UnaryExpression{
 
     @Override
     public Expression getDerivative() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Expression> denom = new ArrayList<>();
+	denom.add(new Constant(1));
+	denom.add(new Power(2,e));
+	Sum d = new Sum(denom);
+	
+	if(e instanceof Variable){
+	    return new Quotient(new Constant(1), d);
+	} else {
+	    return new Quotient(e.getDerivative(), d);
+	}
     }
 
     @Override
@@ -40,6 +50,10 @@ public class Arctan extends UnaryExpression{
     @Override
     public void accept(DSEVisitor v) {
 	v.visitATan(this);
+    }
+
+    public Expression getUsub() {
+        return new Arctan(new Variable());
     }
     
 }
