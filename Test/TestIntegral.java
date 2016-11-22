@@ -21,20 +21,13 @@ import java.util.ArrayList;
 public class TestIntegral {
     
     public static void main(String[] args){
-	String[] test_vals = {
-	    "x",
-	    "x^2",
-	    "3*x",
-	    "x+3",
-	    "1",
-	    "2",
-	    "x+1",
-	    "1+x",
-	    "x^2+x^3",
-	    "x^(-1)",
-	    "0.5*x*(x^2+1)",
+	String[] test_vals = { 
+            "x",
+            "x^2 + 3*x",
+            "0.5*x*(x^2+1)^2",
 //	    "cos x * sin x",
-	    "x*(x^2+1)"
+	    "x*(x^2+1)^3",
+            
 	};
 	
 	for(String s : test_vals){

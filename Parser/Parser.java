@@ -44,6 +44,9 @@ public class Parser {
             return sum.get(0);
         }
         Expression s = new Sum(sum);
+        if (sum.size() == 1){
+            return sum.get(0);
+        }
         s = ShrinkTree.shrink(s);
         Expression simple = Simplify.simplifySum((Sum) s);
         return simple;
@@ -63,12 +66,10 @@ public class Parser {
         p = ShrinkTree.shrink(p);
         p = Simplify.simplifyProduct((Product) p);
         
-        if (product.size() >= 1){
-            return p;
+        if (product.size() == 1){
+            return product.get(0);
         }
-        else{
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
+        return p;
     }
     
     private void gatherer(ArrayList<Expression> product){
@@ -82,13 +83,10 @@ public class Parser {
                 stack.pop();
                 if (stack.peek().getSym() == TokenType.LPARENTSYM){
                     stack.pop();
-                    Container temp = (Container) gatherTerms();
-                    //insert error if no rparent
+                    Expression temp = gatherTerms();
+                //insert error if no rparent
                     stack.pop();
-                    if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
-                        product.add(new Exponential(val, temp.getList().get(0)));
-                    else
-                        product.add(new Exponential(val, temp));
+                    product.add(new Exponential(val, temp));
                 }
                 else {
                     //insert error if no x
@@ -105,13 +103,10 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Container temp = (Container) gatherTerms();
+                Expression temp = gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
-                    product.add(new Sin(temp.getList().get(0)));
-                else
-                    product.add(new Sin(temp));
+                product.add(new Sin(temp));
             }
             else {
                 //insert error if no x
@@ -124,13 +119,10 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Container temp = (Container) gatherTerms();
+                Expression temp = gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
-                    product.add(new Cos(temp.getList().get(0)));
-                else
-                    product.add(new Cos(temp));
+                product.add(new Cos(temp));
             }
             else {
                 //insert error if no x
@@ -143,13 +135,10 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Container temp = (Container) gatherTerms();
+                Expression temp = gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
-                    product.add(new Tan(temp.getList().get(0)));
-                else
-                    product.add(new Tan(temp));
+                product.add(new Tan(temp));
             }
             else {
                 //insert error if no x
@@ -162,13 +151,10 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Container temp = (Container) gatherTerms();
+                Expression temp = gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
-                    product.add(new Sec(temp.getList().get(0)));
-                else
-                    product.add(new Sec(temp));
+                product.add(new Sec(temp));
             }
             else {
                 //insert error if no x
@@ -181,13 +167,10 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Container temp = (Container) gatherTerms();
+                Expression temp = gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
-                    product.add(new Csc(temp.getList().get(0)));
-                else
-                    product.add(new Csc(temp));
+                product.add(new Csc(temp));
             }
             else {
                 //insert error if no x
@@ -200,13 +183,10 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Container temp = (Container) gatherTerms();
+                Expression temp = gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
-                    product.add(new Cot(temp.getList().get(0)));
-                else
-                    product.add(new Cot(temp));
+                product.add(new Cot(temp));
             }
             else {
                 //insert error if no x

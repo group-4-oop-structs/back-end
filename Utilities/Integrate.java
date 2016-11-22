@@ -43,51 +43,123 @@ public class Integrate extends DSEVisitor {
     
     @Override
     public void visitConstant(Constant aThis) {
-	result = new Variable();
+	ArrayList<Expression> holder = new ArrayList<>();
+        holder.add(aThis);
+        holder.add(new Variable());
+        result = new Product(holder);
     }
 
     @Override
     public void visitVariable(Variable aThis) {
-	ArrayList<Expression> factors = new ArrayList<>();
-	factors.add(new Constant(1.0/2.0d));
-	factors.add(new Power(2, aThis));
+	ArrayList<Expression> holder = new ArrayList<>();
+	holder.add(new Constant(1.0/2.0d));
+	holder.add(new Power(2, aThis));
 	
-	result = new Product(factors);
+	result = new Product(holder);
     }
 
     @Override
     public void visitProduct(Product aThis) {
-	
-	List<Expression> factors = aThis.getList();
-	if(factors.size() ==1){
-	    result = integrate(factors.get(0));
-	    return;
-	}
-	
-	List<Expression> nfactors= new ArrayList<>();
-	
-	
-	ArrayList<Expression>coeffs = new ArrayList<>();
-	for(Expression e : factors){
-	    if(!(e instanceof Constant))
-		nfactors.add(e);
-	    else
-		coeffs.add(e);
-	}
-	if(nfactors.size() !=factors.size()){
-	    result =  integrate(nfactors.get(0));
-	    coeffs.add(result);
-	    result =  new Product(coeffs);
-	}else if (nfactors.size() ==1){
-	    result = integrate(nfactors.get(0));
-	}else {
-	    result = USub.sub(aThis);
-	}
+	ArrayList<Expression> holder = new ArrayList<>();
+        ArrayList<Expression> holderTemp = new ArrayList<>();
+        ArrayList<Expression> holderU = new ArrayList<>();
+        ArrayList<Expression> holderDU = new ArrayList<>();
+        Product pTemp;
+        Expression u;
+        Expression du;
+        Constant cu;
+        Constant cdu;
+        Product p;
+        
+	holder = aThis.getList();
+        Constant c;
+        if (holder.get(0) instanceof Constant){
+            c = (Constant) holder.get(0);
+            holder.remove(0);
+        }
+        else {
+            c = new Constant(1);
+        }
+        if (holder.size() == 0){
+            result = integrate(c);
+            return;
+        }
+        if (holder.size() == 1){
+            if (holder.get(0).getExpression() instanceof Variable ||
+                    holder.get(0) instanceof Constant){
+                holder.add(integrate(holder.get(0)));
+                holder.remove(0);
+                holder.add(0, c);
+                p = new Product(holder);
+                p = (Product) ShrinkTree.shrink(p);
+                p = Simplify.simplifyProduct(p);
+                result = p;
+                return;
+            }
+            else {
+                holder.add(0, new Constant(1));
+            }
+        }
+        else if (holder.size() == 2){
+            for (int i = 0; i < holder.size(); i++){
+                holderTemp.addAll(holder);
+                holderTemp.remove(i);                
+                u = holderTemp.get(0).getExpression().getDerivative();
+                u = ShrinkTree.shrink(u);
+                if (u instanceof Sum){
+                    u = Simplify.simplifySum((Sum) u);
+                    if (((Sum)u).getList().size() == 1){
+                        u = ((Sum)u).getList().get(0);
+                    }
+                }
+                else if (u instanceof Product){
+                    u = Simplify.simplifyProduct((Product) u);
+                    if (((Product)u).getList().size() == 1){
+                        u = ((Product)u).getList().get(0);
+                    }
+                }
+                du = holder.get(i);
+                cu = new Constant(1);
+                cdu = new Constant(1);
+                if (u instanceof Product){
+                    holderU = ((Product)u).getList();
+                    if (holderU.get(0) instanceof Constant){
+                        cu = new Constant(1 / ((Constant) holderU.get(0)).getValue());
+                        holderU.remove(0);
+                    }
+                    if (holderU.size() == 1){
+                        u = holderU.get(0);
+                    }
+                }
+                
+                if (du instanceof Product){
+                    holderU = ((Product)du).getList();
+                    if (holderDU.get(0) instanceof Constant){
+                        cdu = (Constant) holderDU.get(0);
+                        holderDU.remove(0);
+                    }
+                    du = new Product(holderDU);
+                }
+                if (Compare.cmp(u, du) == 0){
+                    holder.clear();
+                    holder.add(0, c);
+                    holder.add(0, cu);
+                    holder.add(0, cdu);
+                    holder.add(integrate(holderTemp.get(0)));
+                    p = new Product(holder);
+                    p = (Product) ShrinkTree.shrink(p);
+                    p = Simplify.simplifyProduct(p);
+                    result = p;
+                    return;
+                }
+            }            
+        }
+        result = new Constant(0);
     }
 
     @Override
     public void visitSum(Sum aThis) {
-	ArrayList<Expression> terms = aThis.getSum(),
+	ArrayList<Expression> terms = aThis.getList(),
 		nsum = new ArrayList<>();
 	for(Expression e : terms){
 	    nsum.add(integrate(e));
@@ -102,20 +174,18 @@ public class Integrate extends DSEVisitor {
 
     @Override
     public void visitPower(Power aThis) {
-	ArrayList<Expression> list = new ArrayList<>();
+	ArrayList<Expression> holder = new ArrayList<>();
+        Constant c;
+        Product p;
 	
-	double n = aThis.getPower();
-	if(n == -1.0d){
-	    result = new Ln(aThis.getExpression());
-	} else if (aThis.getExpression() instanceof Variable){
-	    list.add(new Constant(1.0/(n+1)));
-
-	    Power p = new Power(n+1, aThis.getExpression());
-	    list.add(p);
-	    result = ShrinkTree.shrink(new Product(list));
-	} else {
-	    throw new UnsupportedOperationException("needs to be expanded");
-	}
+	double pow = aThis.getPower();
+        c = new Constant(1/(pow+1));
+        holder.add(c);
+        holder.add(new Power(pow+1, aThis.getExpression()));
+        p = new Product(holder);
+        p = (Product) ShrinkTree.shrink(p);
+        p = Simplify.simplifyProduct(p);
+        result = p;	
     }
 
     @Override
