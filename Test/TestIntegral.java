@@ -23,8 +23,8 @@ public class TestIntegral {
     
     public static void main(String[] args){
 	String[] test_vals = { 
-            "x",
-            "x^2 + 3*x",
+            //"x",
+            //"x^2 + 3*x",
             "0.5*x*(x^2+1)^2",
 	    "cos x * sin x",
 	    "x*(x^2+1)^3",
@@ -32,8 +32,9 @@ public class TestIntegral {
             "5*x^2*cos(x^3)",
             "5*x^2*sin(x^3)",
             "2^x",
-            "5*(x+3)^5"
-            
+            "5*(x+3)^5",
+            "sin x * cos x",
+            "2*x*cos(x^2)*(sin(x^2))^4"
 	};
 	
 	for(String s : test_vals){
@@ -43,6 +44,7 @@ public class TestIntegral {
     }
     static int testNum =0;
         public static void test(String s){
+            Integrate.clearSteps();
             List steps;
             System.out.println("\nTest Case #" + ++testNum);
             System.out.println("Input:             " + s);
