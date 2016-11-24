@@ -26,7 +26,6 @@ import DataStructureElements.*;
 import DataStructureElements.Visitor.Compare;
 import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
-import java.lang.*;
 
 /**
  *
@@ -110,10 +109,19 @@ public class Integrate extends DSEVisitor {
                 holder.add(0, new Constant(1));
             }
         }
+        
+        Expression tempPow;
         if (holder.size() <= 2){
             for (int i = 0; i < holder.size(); i++){
+                holderTemp.clear();
                 holderTemp.addAll(holder);
-                holderTemp.remove(i);                
+                holderTemp.remove(i);
+                if (holderTemp.get(0).getExpression() instanceof Variable){
+                    u = holderTemp.get(0);
+                    holderTemp.remove(0);
+                    tempPow = new Power(1, u);
+                    holderTemp.add(tempPow);
+                }
                 u = holderTemp.get(0).getExpression().getDerivative();
                 u = ShrinkTree.shrink(u);
                 if (u instanceof Sum){

@@ -53,7 +53,7 @@ public class Ln extends UnaryExpression{
 
     @Override
     public void accept(DSEVisitor v) {
-	throw new UnsupportedOperationException("Not supported yet.");
+	v.visitLn(this);
     }
 
     public Expression getUsub() {

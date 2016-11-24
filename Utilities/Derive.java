@@ -23,10 +23,8 @@ import DataStructureElements.Sin;
 import DataStructureElements.Sum;
 import DataStructureElements.Tan;
 import DataStructureElements.*;
-import DataStructureElements.Visitor.Compare;
 import DataStructureElements.Visitor.DSEVisitor;
 import java.util.*;
-import java.lang.*;
 
 public class Derive extends DSEVisitor{
     Expression result;
@@ -64,6 +62,7 @@ public class Derive extends DSEVisitor{
         tempHolder.addAll(holder);
         
         if (tempHolder.get(0) instanceof Constant){
+            c = (Constant) tempHolder.get(0);
             tempHolder.remove(0);
         }
         
@@ -127,7 +126,7 @@ public class Derive extends DSEVisitor{
             s = Simplify.simplifySum((Sum) s);
             steps.add("So f' = " + Stringifier.stringify(s));
             if (c != null){
-                if (sumHolder.size() == 0){
+                if (sumHolder.isEmpty()){
                     result = c.getDerivative();
                 }
                 pHolder.add(c);
