@@ -7,6 +7,8 @@ package DataStructureElements;
 
 import DataStructureElements.Visitor.Compare;
 import DataStructureElements.Visitor.DSEVisitor;
+import Utilities.ShrinkTree;
+import Utilities.Simplify;
 import java.util.*;
 
 public class Power extends Expression{
@@ -20,6 +22,10 @@ public class Power extends Expression{
     
     public double getPower() {
         return power;
+    }
+
+    public void setPower(double power) {
+        this.power = power;
     }
 
     @Override
@@ -46,6 +52,8 @@ public class Power extends Expression{
         }
         
         p = new Product(product);
+        p = (Product) ShrinkTree.shrink(p);
+        p = Simplify.simplifyProduct(p);
         
         return p;
     }

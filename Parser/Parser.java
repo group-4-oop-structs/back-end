@@ -8,6 +8,7 @@ package Parser;
 import java.util.*;
 import Lexer.*;
 import DataStructureElements.*;
+import Utilities.ShrinkTree;
 import Utilities.Simplify;
 
 public class Parser {
@@ -39,8 +40,12 @@ public class Parser {
             }
             sum.add(gatherFactors());
         }
-        Sum s = new Sum(sum);
-        Sum simple = Simplify.simplifySum(s);
+        if (sum.size() == 1){
+            return sum.get(0);
+        }
+        Expression s = new Sum(sum);
+        s = ShrinkTree.shrink(s);
+        Expression simple = Simplify.simplifySum((Sum) s);
         return simple;
     }
     
@@ -54,11 +59,12 @@ public class Parser {
             gatherer(product);
         }        
         
-        if (product.size() == 1){
-            return product.get(0);
-        }
-        else if (product.size() > 1){
-            return Simplify.simplifyProduct(new Product(product));
+        Expression p = new Product(product);
+        p = ShrinkTree.shrink(p);
+        p = Simplify.simplifyProduct((Product) p);
+        
+        if (product.size() >= 1){
+            return p;
         }
         else{
             throw new UnsupportedOperationException("Not supported yet.");
@@ -76,11 +82,11 @@ public class Parser {
                 stack.pop();
                 if (stack.peek().getSym() == TokenType.LPARENTSYM){
                     stack.pop();
-                    Sum temp = (Sum) gatherTerms();
+                    Container temp = (Container) gatherTerms();
                     //insert error if no rparent
                     stack.pop();
-                    if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
-                        product.add(new Exponential(val, temp.getSum().get(0)));
+                    if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
+                        product.add(new Exponential(val, temp.getList().get(0)));
                     else
                         product.add(new Exponential(val, temp));
                 }
@@ -99,11 +105,11 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Sum temp = (Sum) gatherTerms();
+                Container temp = (Container) gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
-                    product.add(new Sin(temp.getSum().get(0)));
+                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
+                    product.add(new Sin(temp.getList().get(0)));
                 else
                     product.add(new Sin(temp));
             }
@@ -118,11 +124,11 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Sum temp = (Sum) gatherTerms();
+                Container temp = (Container) gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
-                    product.add(new Cos(temp.getSum().get(0)));
+                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
+                    product.add(new Cos(temp.getList().get(0)));
                 else
                     product.add(new Cos(temp));
             }
@@ -137,11 +143,11 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Sum temp = (Sum) gatherTerms();
+                Container temp = (Container) gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
-                    product.add(new Tan(temp.getSum().get(0)));
+                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
+                    product.add(new Tan(temp.getList().get(0)));
                 else
                     product.add(new Tan(temp));
             }
@@ -156,11 +162,11 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Sum temp = (Sum) gatherTerms();
+                Container temp = (Container) gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
-                    product.add(new Sec(temp.getSum().get(0)));
+                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
+                    product.add(new Sec(temp.getList().get(0)));
                 else
                     product.add(new Sec(temp));
             }
@@ -175,11 +181,11 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Sum temp = (Sum) gatherTerms();
+                Container temp = (Container) gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
-                    product.add(new Csc(temp.getSum().get(0)));
+                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
+                    product.add(new Csc(temp.getList().get(0)));
                 else
                     product.add(new Csc(temp));
             }
@@ -194,11 +200,11 @@ public class Parser {
  
             if (stack.peek().getSym() == TokenType.LPARENTSYM){
                 stack.pop();
-                Sum temp = (Sum) gatherTerms();
+                Container temp = (Container) gatherTerms();
                 //insert error if no rparent
                 stack.pop();
-                if (temp.getSum().size() == 1 && temp.getSum().get(0) instanceof Variable)
-                    product.add(new Cot(temp.getSum().get(0)));
+                if (temp.getList().size() == 1 && temp.getList().get(0) instanceof Variable)
+                    product.add(new Cot(temp.getList().get(0)));
                 else
                     product.add(new Cot(temp));
             }
@@ -212,8 +218,14 @@ public class Parser {
             stack.pop();
             if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
                 stack.pop();
-                //insert error if not a number
-                product.add(new Power(stack.pop().getValue(), new Variable()));
+                if (stack.peek().getSym() == TokenType.MINUSSYM){
+                    stack.pop();
+                    product.add(new Power(-stack.pop().getValue(), new Variable()));
+                }
+                else{
+                    product.add(new Power(stack.pop().getValue(), new Variable()));
+                }
+                
             }
             else {
                 product.add(new Variable());
@@ -226,8 +238,32 @@ public class Parser {
             stack.pop();
             if (!stack.isEmpty() && stack.peek().getSym() == TokenType.POWSYM){
                 stack.pop();
-                Power p = new Power(stack.pop().getValue(), temp);
-                product.add(p);
+                if (stack.peek().getSym() == TokenType.MINUSSYM){
+                    stack.pop();
+                    product.add(new Power(-stack.pop().getValue(), temp));
+                }
+                product.add(new Power(stack.pop().getValue(), temp));
+            }
+            else if (!stack.isEmpty() && stack.peek().getSym() == TokenType.DIVSYM){
+                Expression num = temp;
+                stack.pop();
+                if (stack.peek().getSym() == TokenType.LPARENTSYM){
+                    stack.pop();
+                    Expression denom = gatherTerms();
+                    //insert error if no rparent
+                    stack.pop();
+                    product.add(new Quotient(num, denom));
+                }
+                else {
+                    if (stack.peek().getSym() == TokenType.NUMBERSYM){
+                        product.add(new Quotient(num, new Constant(stack.pop().getValue())));
+                    }
+                    else if (stack.peek().getSym() == TokenType.IDENTSYM){
+                        stack.pop();
+                        product.add(new Quotient(num, new Variable()));
+                    }
+                    //insert stuff for other unary operations
+                }
             }
             else {
                 product.add(temp);

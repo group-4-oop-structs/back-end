@@ -7,6 +7,8 @@ package DataStructureElements;
 
 import static DataStructureElements.Visitor.Compare.cmp;
 import DataStructureElements.Visitor.DSEVisitor;
+import Utilities.ShrinkTree;
+import Utilities.Simplify;
 import java.util.*;
 
 public class Product extends Container{
@@ -16,14 +18,15 @@ public class Product extends Container{
         this.holder = (ArrayList<Expression>) holder.clone();
     }
     
+    @Override
     public ArrayList<Expression> getList() {
         return (ArrayList<Expression>) holder.clone();
     }   
     
     @Override
     public Expression getDerivative() {
-        Sum s;
-        Product p;
+        Expression s;
+        Expression p;
         Constant c = null;
         ArrayList<Expression> sumHolder = new ArrayList<>();
         ArrayList<Expression> holderD = new ArrayList<>();
@@ -49,6 +52,17 @@ public class Product extends Container{
             }
         }
         
+        if (countExpressions == 1){
+            if (c != null){
+                pHolder.add(c);
+            }
+            pHolder.add(holderD.get(0));
+            p = new Product(pHolder);
+            p = ShrinkTree.shrink(p);
+            p = Simplify.simplifyProduct((Product) p);
+            return p;
+        }
+        
         for (int i = 0; i < countExpressions; i++){
             ArrayList<Expression>  productHolder = new ArrayList<>();
             for (int j = 0; j < countExpressions; j++){
@@ -60,10 +74,15 @@ public class Product extends Container{
                 }
             }
             p = new Product(productHolder);
+            p = ShrinkTree.shrink(p);
+            p = Simplify.simplifyProduct((Product) p);
             sumHolder.add(p);
         }
-        
+                
         s = new Sum(sumHolder);
+        s = ShrinkTree.shrink(s);
+        s = Simplify.simplifySum((Sum) s);
+        
         if (c != null){
             if (sumHolder.size() == 0){
                 return c.getDerivative();

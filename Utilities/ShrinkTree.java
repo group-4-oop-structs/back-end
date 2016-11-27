@@ -12,9 +12,14 @@ public class ShrinkTree {
     public static Expression shrink(Expression e){
         Sum tempSum;
         Product tempProduct;
+        
         if (!(e instanceof Container)){
             if (e instanceof Variable || e instanceof Constant)
                 return e;
+            else if (e instanceof Quotient){
+                shrink(((Quotient) e).getNumerator());
+                shrink(((Quotient) e).getDenominator());
+            }
             else
                 shrink(e.getExpression());
         }
@@ -22,15 +27,16 @@ public class ShrinkTree {
             ArrayList<Expression> holder = new ArrayList<>();
             if (e instanceof Container){
                 if (e instanceof Sum){
-                    holder = ((Sum)e).getSum();
+                    holder = ((Sum)e).getList();
                     for (int i = 0; i < holder.size(); i++){
                         shrink(holder.get(i));
                         if (holder.get(i) instanceof Sum){
                             tempSum = (Sum) holder.get(i);
-                            holder.addAll(tempSum.getSum());
+                            holder.addAll(tempSum.getList());
                             holder.remove(i);
                         }
                     }
+                    e = new Sum(holder);
                 }
                 else if (e instanceof Product){
                     holder = ((Product)e).getList();
@@ -38,9 +44,9 @@ public class ShrinkTree {
                         shrink(holder.get(i));
                         if (holder.get(i) instanceof Sum){
                             tempSum = (Sum) holder.get(i);
-                            if (tempSum.getSum().size() == 1 && 
-                                    tempSum.getSum().get(0) instanceof Product){
-                                tempProduct = (Product) tempSum.getSum().get(0);
+                            if (tempSum.getList().size() == 1 && 
+                                    tempSum.getList().get(0) instanceof Product){
+                                tempProduct = (Product) tempSum.getList().get(0);
                                 holder.addAll(tempProduct.getList());
                                 holder.remove(i);
                             }                                
@@ -51,6 +57,7 @@ public class ShrinkTree {
                             holder.remove(i);
                         }
                     }
+                    e = new Product(holder);
                 }
             }
         }

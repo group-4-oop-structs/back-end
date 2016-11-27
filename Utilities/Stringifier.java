@@ -68,10 +68,17 @@ public class Stringifier {
             printExpression(e.getExpression());
             string += ")";
         }
+        else if (e instanceof Quotient){
+            string += "(";
+            printExpression(((Quotient)e).getNumerator());
+            string += ")/(";
+            printExpression(((Quotient)e).getDenominator());
+            string += ")";
+        }
     }
     
     private static void printSum(Sum s){
-        ArrayList<Expression> list = s.getSum();        
+        ArrayList<Expression> list = s.getList();        
         
         printExpression(list.get(0));
         
@@ -83,10 +90,14 @@ public class Stringifier {
     
     private static void printProduct(Product p){
         ArrayList<Expression> list = p.getList();
-        if (list.get(0).getExpression() instanceof Sum){
-            string += "(";
-            printExpression(list.get(0));
-            string += ")";
+        Sum s = new Sum(list);
+        if (list.get(0).getClass() == s.getClass()){
+            s = (Sum) list.get(0);
+            if (s.getList().size() > 1){
+                string += "(";
+                printExpression(list.get(0));
+                string += ")";
+            }
         }
         else{
             printExpression(list.get(0));
@@ -94,10 +105,13 @@ public class Stringifier {
         
         for (int i = 1; i < list.size(); i++){
             string += " * ";
-            if (list.get(i) instanceof Sum){
-                string += "(";
-                printExpression(list.get(i));
-                string += ")";
+            if (list.get(i).getClass() == s.getClass()){
+                s = (Sum) list.get(i);
+                if (s.getList().size() > 1){
+                    string += "(";
+                    printExpression(list.get(i));
+                    string += ")";
+                }
             }
             else{
                 printExpression(list.get(i));   

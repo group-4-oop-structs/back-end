@@ -19,6 +19,7 @@ import DataStructureElements.Exponential;
 import DataStructureElements.Expression;
 import DataStructureElements.Power;
 import DataStructureElements.Product;
+import DataStructureElements.Quotient;
 import DataStructureElements.Sec;
 import DataStructureElements.Sin;
 import DataStructureElements.Sum;
@@ -124,5 +125,9 @@ public class QuietDSEVisitor extends DSEVisitor {
     
     public void visitDefault(Expression e){
     }
-    
+
+    @Override
+    public void visitQuotient(Quotient aThis) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
