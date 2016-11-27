@@ -25,24 +25,6 @@ public class Arccos extends UnaryExpression{
     }
 
     @Override
-    public Expression getDerivative() {
-        Power p = new Power(2, e);
-	ArrayList<Expression> pr = new ArrayList<>();
-	pr.add(new Constant(-1));
-	pr.add(p);
-	ArrayList<Expression> s = new ArrayList<>();
-	s.add(new Constant(1));
-	s.add(new Product(pr));
-	
-	return new Quotient(new Constant(-1), new Power(1.0/2.0, new Sum(s)));
-    }
-
-    @Override
-    public Expression getIntegral() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public String getName() {
 	return "acos";
     }

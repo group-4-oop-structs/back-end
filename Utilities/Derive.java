@@ -37,6 +37,8 @@ public class Derive extends DSEVisitor{
     public static  Expression derive(Expression e){
 	Derive i = new Derive();
 	i.visit(e);
+        i.result = ShrinkTree.shrink(i.result);
+        i.result = Simplify.simplify(i.result);
 	return i.result;
     }
     
@@ -75,7 +77,7 @@ public class Derive extends DSEVisitor{
         for (int i = 0; i < tempHolder.size(); i++){
             if (!(tempHolder.get(i) instanceof Constant)){
                 countExpressions++;                
-                holderD.add(tempHolder.get(i).getDerivative());
+                holderD.add(Derive.derive(tempHolder.get(i)));
                 if (tempHolder.size() > 1){
                     steps.add("f" + (i+1) + "' = " + Stringifier.stringify(holderD.get(i)));
                 }
@@ -100,21 +102,27 @@ public class Derive extends DSEVisitor{
             for (int i = 0; i < countExpressions; i++){
                 steps.add("f" + (i+1) + " = " + Stringifier.stringify(tempHolder.get(i)));
             }
-
-            steps.add("f' = ");
+            
             for (int i = 0; i < countExpressions; i++){
+                String dummy = "";
                 ArrayList<Expression>  productHolder = new ArrayList<>();
                 for (int j = 0; j < countExpressions; j++){
+                    if (j != i)
+                        dummy = dummy + "f" + (i+1) + "*f" + (j+1) + " = ";
+                }
+                for (int j = 0; j < countExpressions; j++){                   
+                    if (j != 0)
+                        dummy += " * ";
                     if (i == j){
-                        steps.add("f" + (i+1) + "' = " + Stringifier.stringify(holderD.get(i)));
+                        dummy += Stringifier.stringify(holderD.get(i));
                         productHolder.add(holderD.get(i));
                     }
                     else{
-                        steps.add("f" + (j+1) + " = " + Stringifier.stringify(tempHolder.get(j)));
+                        dummy += Stringifier.stringify(tempHolder.get(j));
                         productHolder.add(tempHolder.get(j));
-                    }
-                    steps.add("+");
+                    }                    
                 }
+                steps.add(dummy);
                 p = new Product(productHolder);
                 p = ShrinkTree.shrink(p);
                 p = Simplify.simplifyProduct((Product) p);
@@ -127,7 +135,7 @@ public class Derive extends DSEVisitor{
             steps.add("So f' = " + Stringifier.stringify(s));
             if (c != null){
                 if (sumHolder.isEmpty()){
-                    result = c.getDerivative();
+                    result = Derive.derive(c);
                 }
                 pHolder.add(c);
                 pHolder.add(s);
@@ -147,39 +155,27 @@ public class Derive extends DSEVisitor{
        ArrayList<Expression> holderD = new ArrayList<>();
        steps.add("Find the derivative of each term in " + Stringifier.stringify(aThis));
        for (int i = 0; i < holder.size(); i++){
-           holderD.add(holder.get(i).getDerivative());
+           holderD.add(Derive.derive(holder.get(i)));
        }
        
        s = new Sum(holderD);
        s = ShrinkTree.shrink(s);
-       s = Simplify.simplifySum((Sum) s);
+       s = Simplify.simplify(s);
        result = s;
     }
 
     @Override
     public void visitTan(Tan aThis) {
-        Expression e = aThis.getExpression();
+        Expression e;
+        e = aThis.getExpression();
         Power p = new Power(2, new Sec(e));
-        Product pr;
-        ArrayList<Expression> product = new ArrayList<>();
+        ArrayList<Expression> product = new ArrayList<>();               
         
         if (e instanceof Variable){
             result = p;
         }
         else{
-            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
-            steps.add("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
-                        
-            product.add(p);
-            product.add(e.getDerivative());
-            pr = new Product(product);
-            pr = (Product) ShrinkTree.shrink(pr);
-            pr = Simplify.simplifyProduct(pr);
-            steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
-            steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
-            steps.add("f'(u) = " + Stringifier.stringifyu(aThis.getUsub().getDerivative()));
-            steps.add("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(pr));
-            result = pr;
+            result = chainRule(p, e);
         }
     }
 
@@ -193,16 +189,7 @@ public class Derive extends DSEVisitor{
             result = c;
         }
         else {
-            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
-            steps.add("so u'(x) = " + Stringifier.stringify(e.getDerivative()));            
-                       
-            product.add(c);
-            product.add(e.getDerivative());
-            steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
-            steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
-            steps.add("f'(u) = " + Stringifier.stringifyu(aThis.getUsub().getDerivative()));
-            steps.add("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(new Product(product)));
-            result = new Product(product);
+            result = chainRule(c, e);
         }
     }
 
@@ -218,20 +205,6 @@ public class Derive extends DSEVisitor{
         ArrayList<Expression> product = new ArrayList<>();
         double power = aThis.getPower();
         
-        if (!(base instanceof Variable)){
-            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(base));
-            product.add(base.getDerivative());
-            steps.add("so u'(x) = " + Stringifier.stringify(base.getDerivative()));
-            steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
-            steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
-            steps.add("f'(u) = " + Stringifier.stringifyu(aThis.getUsub().getDerivative()));
-            p = new Product(product);
-            p = (Product) ShrinkTree.shrink(p);
-            p = Simplify.simplifyProduct(p);
-            steps.add("Replacing u with " + Stringifier.stringify(base) + " we get " + Stringifier.stringify(p));
-            result = p;
-        }
-        
         if (power > 2){
             product.add(new Constant(power));
             product.add(new Power(power-1,base));
@@ -244,7 +217,13 @@ public class Derive extends DSEVisitor{
         p = new Product(product);
         p = (Product) ShrinkTree.shrink(p);
         p = Simplify.simplifyProduct(p);
-        result = p;
+        
+        if (!(base instanceof Variable)){
+            result = chainRule(p, base);
+        }      
+        else {
+            result = p;
+        }
     }
 
     @Override
@@ -259,25 +238,19 @@ public class Derive extends DSEVisitor{
 
     @Override
     public void visitCos(Cos aThis) {
-        Expression e = aThis.getExpression();
+        Expression e, pr;
+        e = aThis.getExpression();
         Sin s = new Sin(e);
         ArrayList<Expression> product = new ArrayList<>();
         product.add(new Constant(-1));
         product.add(s);
+        
+        pr = new Product(product);
         if (e instanceof Variable){
-            result = new Product(product);
+            result = pr;
         }
         else {
-            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
-            steps.add("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
-                        
-            product.add(e.getDerivative());
-            
-            steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
-            steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
-            steps.add("f'(u) = " + Stringifier.stringifyu(aThis.getUsub().getDerivative()));
-            steps.add("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(new Product(product)));
-            result = new Product(product);
+            result = chainRule(pr, e);
         }
     }
 
@@ -293,47 +266,34 @@ public class Derive extends DSEVisitor{
 
     @Override
     public void visitSec(Sec aThis) {
-        Expression e = aThis.getExpression();
+        Expression e, pr;
+        e = aThis.getExpression();
         ArrayList<Expression> product = new ArrayList<>();
         product.add(new Sec(e));
         product.add(new Tan(e));
+        pr = new Product(product);
         if (e instanceof Variable){
-            result = new Product(product);
+            result = pr;
         }
         else {
-            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
-            steps.add("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
-                        
-            product.add(e.getDerivative());
-            
-            steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
-            steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
-            steps.add("f'(u) = " + Stringifier.stringifyu(aThis.getUsub().getDerivative()));
-            result = new Product(product);
+            result = chainRule(pr, e);
         }
     }
 
     @Override
     public void visitCSC(Csc aThis) {
-        Expression e = aThis.getExpression();
+        Expression e, pr;
+        e = aThis.getExpression();
         ArrayList<Expression> product = new ArrayList<>();
         product.add(new Constant(-1));
         product.add(new Csc(e));
         product.add(new Cot(e));
+        pr = new Product(product);
         if (e instanceof Variable){
-            result = new Product(product);
+            result = pr;
         }
         else {
-            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
-            steps.add("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
-            
-            product.add(e.getDerivative());
-            
-            steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
-            steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
-            steps.add("f'(u) = " + Stringifier.stringifyu(aThis.getUsub().getDerivative()));
-            steps.add("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(new Product(product)));
-            result = new Product(product);
+            result = chainRule(pr, e);
         }
     }
 
@@ -349,40 +309,33 @@ public class Derive extends DSEVisitor{
 
     @Override
     public void visitCot(Cot aThis) {
-        Expression e = aThis.getExpression();
-        Power p = new Power(2, new Csc(e));
-        Product pr;
-        ArrayList<Expression> product = new ArrayList<>();
+        Expression e, pr;
+        Power p;
+        ArrayList<Expression> product = new ArrayList<>();;
+        
+        e = aThis.getExpression();
+        p = new Power(2, new Csc(e));
         product.add(new Constant(-1));
         product.add(p);
-        if (e instanceof Variable){
-            pr = new Product(product);
+        pr = new Product(product);
+        
+        if (e instanceof Variable){            
             result = pr;
         }
         else{
-            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
-            steps.add("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
-            product.add(e.getDerivative());
-            pr = new Product(product);
-            pr = (Product) ShrinkTree.shrink(pr);
-            pr = Simplify.simplifyProduct(pr);
-            steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
-            steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
-            steps.add("f'(u) = " + Stringifier.stringifyu(aThis.getUsub().getDerivative()));
-            steps.add("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(pr));
-            result = pr;
+            result = chainRule(pr, e);
         }
     }
 
     @Override
     public void visitQuotient(Quotient aThis) {
         Quotient q;
-        Product p1;
-        Product p2;
         Power denom;
-        Sum num;
-        Expression numerator = aThis.getNumerator();
-        Expression denominator = aThis.getDenominator();
+        Expression p1, p2, temp, numerator, denominator, num;
+        
+
+        numerator = aThis.getNumerator();
+        denominator = aThis.getDenominator();
         
         steps.add("Remember the quotient rule: d/dx(f / g) = (g*f' - f*g')/g^2");
         
@@ -396,24 +349,30 @@ public class Derive extends DSEVisitor{
         
         steps.add("To find f':");
         product1.add(denominator);
-        product1.add(numerator.getDerivative());
-        steps.add("f' = " + Stringifier.stringify(numerator.getDerivative()));
+        temp = Derive.derive(numerator);
+        temp = ShrinkTree.shrink(temp);
+        temp = Simplify.simplify(temp);
+        
+        steps.add("f' = " + Stringifier.stringify(Derive.derive(numerator)));
+
+        product1.add(temp);
         p1 = new Product(product1);
         p1 = (Product) ShrinkTree.shrink(p1);
-        p1 = Simplify.simplifyProduct(p1);
-        
+        p1 = Simplify.simplify(p1);
+        sum.add(p1);
         
         steps.add("To find g':");
         product2.add(numerator);
-        product2.add(denominator.getDerivative());
-        steps.add("g' = " + Stringifier.stringify(numerator.getDerivative()));
+        product2.add(Derive.derive(denominator));
+        steps.add("g' = " + Stringifier.stringify(Derive.derive(denominator)));
         p2 = new Product(product2);
-        p2 = (Product) ShrinkTree.shrink(p2);
-        p2 = Simplify.simplifyProduct(p2);
-        
-        sum.add(p1);
+        p2 = ShrinkTree.shrink(p2);
+        p2 = Simplify.simplify(p2);
+                
         sum.add(p2);
         num = new Sum(sum);
+        num = ShrinkTree.shrink(num);
+        num = Simplify.simplify(num);
         
         denom = new Power(2, denominator);
         
@@ -433,15 +392,7 @@ public class Derive extends DSEVisitor{
             result = new Product(product);
         }
         else{
-            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
-            steps.add("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
-                        
-            product.add(e.getDerivative());
-            steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
-            steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
-            steps.add("f'(u) = " + Stringifier.stringifyu(aThis.getUsub().getDerivative()));
-            steps.add("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(new Product(product)));
-            result = new Product(product);            
+            result = chainRule(aThis, e);          
         }
     }
 
@@ -450,22 +401,51 @@ public class Derive extends DSEVisitor{
         Expression e = aThis.getExpression();
         if (!(e instanceof Variable)){
             steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
-            steps.add("so u'(x) = " + Stringifier.stringify(e.getDerivative()));
-            Expression temp = e.getDerivative();
+            steps.add("so u'(x) = " + Stringifier.stringify(Derive.derive(e)));
+            Expression temp = Derive.derive(e);
             steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
             steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
-            steps.add("f'(u) = " + Stringifier.stringifyu(aThis.getUsub().getDerivative()));
-            steps.add("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(new Quotient(e.getDerivative(),e)));
+            steps.add("f'(u) = " + Stringifier.stringifyu(Derive.derive(aThis.getUsub())));
+            steps.add("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(new Quotient(Derive.derive(e),e)));
             result = new Quotient(temp,e);
         }
         else        
-            result = new Quotient(e.getDerivative(),e);
+            result = new Quotient(Derive.derive(e),e);
     }
 
     @Override
     public void visitLog(Log aThis) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Expression e, p, temp;
+        ArrayList<Expression> product = new ArrayList<>();
+        e = aThis.getExpression();
+        product.add(new Constant(1/Math.log(10)));
+        
+        temp = new Product(product);
+        
+        if (!(e instanceof Variable)){
+            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
+            steps.add("so u'(x) = " + Stringifier.stringify(Derive.derive(e)));
+            product.add(Derive.derive(e));
+            temp = new Product(product);
+            steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
+            steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
+            steps.add("f'(u) = " + Stringifier.stringifyu(Derive.derive(aThis.getUsub())));
+            steps.add("Replacing u with " + Stringifier.stringify(e) + " we get " + Stringifier.stringify(new Quotient(Derive.derive(e),e)));
+            result = new Quotient(temp,e);
+        }
+        else        
+            result = new Quotient(temp,e);
     }
     
-    
+    private Expression chainRule(Expression fprime, Expression g){
+        ArrayList<Expression> product = new ArrayList<>();
+        Expression p;
+        
+        product.add(Derive.derive(g));
+        product.add(fprime);
+        p = new Product(product);
+        p = ShrinkTree.shrink(p);
+        p = Simplify.simplify(p);
+        return p;
+    }   
 }

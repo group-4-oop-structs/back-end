@@ -75,6 +75,16 @@ public class Stringifier {
             printExpression(((Quotient)e).getDenominator());
             string += ")";
         }
+        else if (e instanceof Log){
+            string += "log(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
+        else if (e instanceof Ln){
+            string += "ln(";
+            printExpression(e.getExpression());
+            string += ")";
+        }
     }
     
     private static void printSum(Sum s){

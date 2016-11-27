@@ -19,8 +19,8 @@ public class ControllerTest {
     public static void main(String[] args)
     {
         Controller controller = new Controller();
-        Integral integral = controller.solveIntegral("(x^2-4)^3 * x");
-        Derivative derivative = controller.solveDerivative("sin x * cos x");
+        Integral integral = controller.solveIntegral("cos(x)");
+        Derivative derivative = controller.solveDerivative("tan(x)");
         System.out.println(derivative.getOriginal());
         System.out.println(derivative.getSteps());
         System.out.println(derivative.getSoln());

@@ -24,20 +24,6 @@ public class Arccsc extends UnaryExpression{
     }
 
     @Override
-    public Expression getDerivative() {
-        Arcsec asec = new Arcsec(e);
-	ArrayList<Expression> p = new ArrayList<Expression>();
-	p.add(new Constant(-1));
-	p.add(asec.getDerivative());
-	return new Product(p);
-    }
-
-    @Override
-    public Expression getIntegral() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public String getName() {
 	return "acsc";
     }

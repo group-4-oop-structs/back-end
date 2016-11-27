@@ -215,7 +215,7 @@ public class TestDerivative {
         //Test Case 16
         System.out.println();
         System.out.println("Test Case 16");
-        test = lexer.lex("2^(sin x)");
+        test = lexer.lex("2^(sin (x))");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -227,7 +227,7 @@ public class TestDerivative {
         //Test Case 17
         System.out.println();
         System.out.println("Test Case 17");
-        test = lexer.lex("2^(sin x * cos x)");
+        test = lexer.lex("2^(sin(x) * cos(x)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -251,7 +251,7 @@ public class TestDerivative {
         //Test Case 19
         System.out.println();
         System.out.println("Test Case 19");
-        test = lexer.lex("tan x");
+        test = lexer.lex("tan(x)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -263,7 +263,7 @@ public class TestDerivative {
         //Test Case 20
         System.out.println();
         System.out.println("Test Case 20");
-        test = lexer.lex("sec x");
+        test = lexer.lex("sec(x)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -275,7 +275,7 @@ public class TestDerivative {
         //Test Case 21
         System.out.println();
         System.out.println("Test Case 21");
-        test = lexer.lex("sec x * tan x");
+        test = lexer.lex("sec(x) * tan(x)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -287,7 +287,7 @@ public class TestDerivative {
         //Test Case 22
         System.out.println();
         System.out.println("Test Case 22");
-        test = lexer.lex("(sec x)^2 + tan (x^2+x)");
+        test = lexer.lex("(sec(x))^2 + tan(x^2+x)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -299,11 +299,11 @@ public class TestDerivative {
         //Test Case 23
         System.out.println();
         System.out.println("Test Case 23");
-        test = lexer.lex("cot x");
+        test = lexer.lex("cot(x)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
-        d = e.getDerivative();
+        d = ShrinkTree.shrink(Derive.derive(e));
         printInstructions();
         testString = Stringifier.stringify(d);
         System.out.println(testString);
@@ -311,7 +311,7 @@ public class TestDerivative {
         //Test Case 24
         System.out.println();
         System.out.println("Test Case 24");
-        test = lexer.lex("csc x");
+        test = lexer.lex("csc(x)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -323,7 +323,7 @@ public class TestDerivative {
         //Test Case 25
         System.out.println();
         System.out.println("Test Case 25");
-        test = lexer.lex("csc x * cot x");
+        test = lexer.lex("csc(x) * cot(x)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -335,7 +335,7 @@ public class TestDerivative {
         //Test Case 26
         System.out.println();
         System.out.println("Test Case 26");
-        test = lexer.lex("(csc x)^2 + cot (x^2+x)");
+        test = lexer.lex("(csc(x))^2 + cot(x^2+x)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
@@ -348,6 +348,30 @@ public class TestDerivative {
         System.out.println();
         System.out.println("Test Case 27");
         test = lexer.lex("(x+1)/(x^2-1)");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+        
+        //Test Case 28
+        System.out.println();
+        System.out.println("Test Case 28");
+        test = lexer.lex("log(x)");
+        e = parser.parse(test);
+        testString = Stringifier.stringify(e);
+        System.out.println(testString);
+        d = ShrinkTree.shrink(Derive.derive(e));
+        printInstructions();
+        testString = Stringifier.stringify(d);
+        System.out.println(testString);
+        
+        //Test Case 29
+        System.out.println();
+        System.out.println("Test Case 29");
+        test = lexer.lex("ln(x^2+1)");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);

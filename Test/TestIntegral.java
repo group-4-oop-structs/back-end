@@ -23,18 +23,19 @@ public class TestIntegral {
     
     public static void main(String[] args){
 	String[] test_vals = { 
-            //"x",
-            //"x^2 + 3*x",
+ /*           "x",
+            "x^2 + 3*x",*/
             "0.5*x*(x^2+1)^2",
-	    "cos x * sin x",
 	    "x*(x^2+1)^3",
             "x*cos(x^2)",
             "5*x^2*cos(x^3)",
             "5*x^2*sin(x^3)",
             "2^x",
             "5*(x+3)^5",
-            "sin x * cos x",
-            "2*x*cos(x^2)*(sin(x^2))^4"
+            "sin (x) * cos (x)",
+            "2*sin (2*x)",
+            "2*x*cos(x^2)*(sin(x^2))^4",
+            "sec(x)*tan(x)*sec(x)"
 	};
 	
 	for(String s : test_vals){

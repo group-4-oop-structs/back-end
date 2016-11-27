@@ -7,6 +7,18 @@ import java.util.*;
 public class Simplify {
 
     static boolean isSimplifying = false;
+    public static Expression simplify(Expression e){
+        if (e instanceof Sum){
+            return simplifySum((Sum) e);
+        }
+        else if (e instanceof Product){
+            return simplifyProduct((Product) e);
+        }
+        else {
+            return e;
+        }
+    }
+    
     public static Sum simplifySum(Sum s){
         ArrayList<Expression> holder = new ArrayList<>();
         ArrayList<Expression> pHolder = new ArrayList<>();
@@ -129,8 +141,7 @@ public class Simplify {
             return simpleProduct;
         }*/       
         
-        constants = removeConstants(holder);
-        
+        constants = removeConstants(holder);       
         
         //Multiplies all constants in a product together
         for (int i = 1; i < constants.size(); i++){
@@ -138,10 +149,9 @@ public class Simplify {
             constants.get(0).setValue(temp * constants.get(i).getValue());
         }
         
-        if (holder.isEmpty()){
-            newHolder.add(constants.get(0));
-            simpleProduct = new Product(newHolder);
-            return simpleProduct;
+        if (holder.size() <= 1){
+            holder.add(0, constants.get(0));
+            return new Product(holder);
         }
         
         //Multiplies all terms that can be multiplied together

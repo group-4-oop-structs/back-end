@@ -24,9 +24,7 @@ public abstract class Expression {
         return steps;
     }
     
-    public abstract Expression getExpression();
-    public abstract Expression getDerivative();
-    public abstract Expression getIntegral();    
+    public abstract Expression getExpression();   
     
     public abstract void accept(DSEVisitor v);
     public abstract int getPEMDASLevel();
