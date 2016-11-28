@@ -7,14 +7,10 @@ package DataStructureElements;
 
 import DataStructureElements.Visitor.Compare;
 import DataStructureElements.Visitor.DSEVisitor;
-import Utilities.ShrinkTree;
-import Utilities.Simplify;
-import Utilities.Stringifier;
-import java.util.*;
 
 public class Power extends Expression{
     private double power;
-    private Expression base;
+    private final Expression base;
 
     public Power(double power, Expression e) {
         this.power = power;

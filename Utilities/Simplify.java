@@ -20,14 +20,13 @@ public class Simplify {
     }
     
     public static Sum simplifySum(Sum s){
-        ArrayList<Expression> holder = new ArrayList<>();
+        ArrayList<Expression> holder;
         ArrayList<Expression> pHolder = new ArrayList<>();
         ArrayList<Expression> newHolder = new ArrayList<>();
-        ArrayList<Expression> temp = new ArrayList<>();
-        Product pTerm;
+        ArrayList<Expression> temp;
         Constant c;
-        Product p;
-        
+        Product p, p1, p2;
+        boolean hit;
         
         holder = s.getList();
         
@@ -58,10 +57,6 @@ public class Simplify {
         if (holder.size() > 1){           
             
             newHolder.add(holder.get(0));
-
-            Product p1;
-            Product p2;
-            boolean hit = false;
             pHolder.clear();
 
             for (int i = 1; i < holder.size(); i++){
@@ -73,7 +68,7 @@ public class Simplify {
                         p1 = (Product) holder.get(i);
                         p2 = (Product) newHolder.get(j);
 
-                        if (p1.getList().size() != 0 && p1.getList().get(0) instanceof Constant){
+                        if (!p1.getList().isEmpty() && p1.getList().get(0) instanceof Constant){
                             pHolder = p1.getList(); 
                             c1 = (Constant) pHolder.get(0);
                             pHolder.remove(0);
@@ -83,7 +78,7 @@ public class Simplify {
                             pHolder = p1.getList();
                             c1 = new Constant(1);
                         }
-                        if (p2.getList().size() != 0 && p2.getList().get(0) instanceof Constant){
+                        if (!p2.getList().isEmpty() && p2.getList().get(0) instanceof Constant){
                             pHolder = p2.getList(); 
                             c2 = (Constant) pHolder.get(0);
                             pHolder.remove(0);
@@ -127,20 +122,13 @@ public class Simplify {
            
     public static Product simplifyProduct(Product p){
 	ArrayList<Expression> withoutConstants = new ArrayList<>();
-        ArrayList<Expression> holder = new ArrayList<>();
-        ArrayList<Constant> constants = new ArrayList<>();
+        ArrayList<Expression> holder;
+        ArrayList<Constant> constants;
         ArrayList<Expression> newHolder = new ArrayList<>();
         Product simpleProduct;
-        boolean hit = false;
+        boolean hit;
         
-        holder = p.getList();
-        /*
-        if (holder.size() == 1 && !(holder.get(0) instanceof Constant)){
-            holder.add(0, new Constant(1));
-            simpleProduct = new Product(holder);
-            return simpleProduct;
-        }*/       
-        
+        holder = p.getList();    
         constants = removeConstants(holder);       
         
         //Multiplies all constants in a product together

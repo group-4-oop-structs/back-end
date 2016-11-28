@@ -12,6 +12,7 @@ public class ShrinkTree {
     public static Expression shrink(Expression e){
         Sum tempSum;
         Product tempProduct;
+        ArrayList<Expression> holder;
         
         if (!(e instanceof Container)){
             if (e instanceof Variable || e instanceof Constant)
@@ -23,16 +24,8 @@ public class ShrinkTree {
             else
                 shrink(e.getExpression());
         }
-        else {
-            /*
-            Would be ideal, but would have to change a lot to make it work...
-            if (((Container)e).getList().size() == 1){
-                e = ((Container)e).getList().get(0);
-                return e;
-            }
-            */
-            ArrayList<Expression> holder = new ArrayList<>();
-            if (e instanceof Container){
+        else {            
+            if (e instanceof Container){                
                 if (((Container)e).getList().size() == 1){
                     e = ((Container)e).getList().get(0);
                     return e;

@@ -14,7 +14,7 @@ import Utilities.Simplify;
 
 public class Parser {
     private Expression e;
-    private ArrayDeque<Token> stack = new ArrayDeque<>();
+    private final ArrayDeque<Token> stack = new ArrayDeque<>();
     private ErrorCode errorCode = ErrorCode.NOERR;
     
     public static Expression parseString(String s){

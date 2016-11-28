@@ -1,9 +1,6 @@
 
 package Lexer;
 
-import Lexer.Token;
-import Lexer.TokenType;
-
 public class Number extends Token{
     private final double value;
     private final TokenType t;

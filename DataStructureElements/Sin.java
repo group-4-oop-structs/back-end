@@ -6,13 +6,6 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
-import Utilities.Stringifier;
-
-/**
- *
- * @author rthec
- */
-import java.util.*;
 
 public class Sin extends UnaryExpression{
     Expression e;

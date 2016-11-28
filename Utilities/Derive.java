@@ -5,25 +5,8 @@
  */
 package Utilities;
 
-import DataStructureElements.Arccos;
-import DataStructureElements.Arccot;
-import DataStructureElements.Arccsc;
-import DataStructureElements.Arcsec;
-import DataStructureElements.Arcsin;
-import DataStructureElements.Arctan;
-import DataStructureElements.Constant;
-import DataStructureElements.Cos;
-import DataStructureElements.Cot;
-import DataStructureElements.Csc;
-import DataStructureElements.Exponential;
-import DataStructureElements.Power;
-import DataStructureElements.Product;
-import DataStructureElements.Sec;
-import DataStructureElements.Sin;
-import DataStructureElements.Sum;
-import DataStructureElements.Tan;
 import DataStructureElements.*;
-import DataStructureElements.Visitor.DSEVisitor;
+import DataStructureElements.Visitor.*;
 import java.util.*;
 
 public class Derive extends DSEVisitor{
@@ -174,8 +157,8 @@ public class Derive extends DSEVisitor{
         if (e instanceof Variable){
             result = p;
         }
-        else{
-            result = chainRule(p, e);
+        else{            
+            result = chainRule(p, e, aThis);
         }
     }
 
@@ -189,7 +172,8 @@ public class Derive extends DSEVisitor{
             result = c;
         }
         else {
-            result = chainRule(c, e);
+            steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
+            result = chainRule(c, e, aThis);
         }
     }
 
@@ -219,7 +203,7 @@ public class Derive extends DSEVisitor{
         p = Simplify.simplifyProduct(p);
         
         if (!(base instanceof Variable)){
-            result = chainRule(p, base);
+            result = chainRule(p, base, aThis);
         }      
         else {
             result = p;
@@ -249,8 +233,8 @@ public class Derive extends DSEVisitor{
         if (e instanceof Variable){
             result = pr;
         }
-        else {
-            result = chainRule(pr, e);
+        else {            
+            result = chainRule(pr, e, aThis);
         }
     }
 
@@ -275,8 +259,8 @@ public class Derive extends DSEVisitor{
         if (e instanceof Variable){
             result = pr;
         }
-        else {
-            result = chainRule(pr, e);
+        else {            
+            result = chainRule(pr, e, aThis);
         }
     }
 
@@ -292,8 +276,8 @@ public class Derive extends DSEVisitor{
         if (e instanceof Variable){
             result = pr;
         }
-        else {
-            result = chainRule(pr, e);
+        else {            
+            result = chainRule(pr, e, aThis);
         }
     }
 
@@ -323,7 +307,7 @@ public class Derive extends DSEVisitor{
             result = pr;
         }
         else{
-            result = chainRule(pr, e);
+            result = chainRule(pr, e, aThis);
         }
     }
 
@@ -384,15 +368,18 @@ public class Derive extends DSEVisitor{
 
     @Override
     public void visitExponential(Exponential aThis) {
-        Expression e = aThis.getExpression();
+        Expression e, p;
+        e = aThis.getExpression();
+
         ArrayList<Expression> product = new ArrayList<>();
         product.add(new Constant(Math.log(aThis.getBase())));
         product.add(aThis);
-        if (e instanceof Variable){
-            result = new Product(product);
+        p = new Product(product);
+        if (e instanceof Variable){            
+            result = p;
         }
-        else{
-            result = chainRule(aThis, e);          
+        else{            
+            result = chainRule(p, e, aThis);          
         }
     }
 
@@ -403,6 +390,8 @@ public class Derive extends DSEVisitor{
             steps.add("For this term we use the chain rule take the derivative of the inside, let u(x) = " + Stringifier.stringify(e));
             steps.add("so u'(x) = " + Stringifier.stringify(Derive.derive(e)));
             Expression temp = Derive.derive(e);
+            temp = ShrinkTree.shrink(temp);
+            temp = Simplify.simplify(temp);
             steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
             steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
             steps.add("f'(u) = " + Stringifier.stringifyu(Derive.derive(aThis.getUsub())));
@@ -427,6 +416,8 @@ public class Derive extends DSEVisitor{
             steps.add("so u'(x) = " + Stringifier.stringify(Derive.derive(e)));
             product.add(Derive.derive(e));
             temp = new Product(product);
+            temp = ShrinkTree.shrink(temp);
+            temp = Simplify.simplify(temp);
             steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");        
             steps.add("Now take the derivative of the outside with respect to u, f(u) = " + Stringifier.stringifyu(aThis.getUsub()));
             steps.add("f'(u) = " + Stringifier.stringifyu(Derive.derive(aThis.getUsub())));
@@ -437,15 +428,28 @@ public class Derive extends DSEVisitor{
             result = new Quotient(temp,e);
     }
     
-    private Expression chainRule(Expression fprime, Expression g){
+    private Expression chainRule(Expression fprime, Expression u, Expression orig){
         ArrayList<Expression> product = new ArrayList<>();
-        Expression p;
+        Expression p, uprime;
         
-        product.add(Derive.derive(g));
+                
+        steps.add("Remember that with the chain rule d/dx(f(u(x)) = u'(x) * f'(u(x)) ");
+        steps.add("Let u(x) = " + Stringifier.stringify(u));
+        steps.add("Let f(u) = " + Stringifier.stringifyu(orig.getUsub()));
+        uprime = Derive.derive(u);
+        uprime = ShrinkTree.shrink(uprime);
+        uprime = Simplify.simplify(uprime);
+        
+        product.add(uprime);
+        steps.add("so u'(x) = " + Stringifier.stringify(uprime));
+        steps.add("and f'(u) = " + Stringifier.stringifyu(Derive.derive(orig.getUsub())));
+        
         product.add(fprime);
+        
         p = new Product(product);
         p = ShrinkTree.shrink(p);
         p = Simplify.simplify(p);
+        steps.add("Replacing u with " + Stringifier.stringify(u) + " we get " + Stringifier.stringify(p));
         return p;
     }   
 }

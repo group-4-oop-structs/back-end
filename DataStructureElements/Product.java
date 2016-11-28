@@ -7,9 +7,6 @@ package DataStructureElements;
 
 import static DataStructureElements.Visitor.Compare.cmp;
 import DataStructureElements.Visitor.DSEVisitor;
-import Utilities.ShrinkTree;
-import Utilities.Simplify;
-import Utilities.Stringifier;
 import java.util.*;
 
 public class Product extends Container{

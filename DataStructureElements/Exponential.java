@@ -7,9 +7,7 @@ package DataStructureElements;
 
 import DataStructureElements.Visitor.Compare;
 import DataStructureElements.Visitor.DSEVisitor;
-import Utilities.Stringifier;
-import java.util.*;
-import java.lang.Math;
+import java.util.Objects;
 public class Exponential extends Expression {
     Double base;
     Expression e;
@@ -39,7 +37,7 @@ public class Exponential extends Expression {
     }
     
     public boolean equals(Exponential o) {
-	if(getBase() == o.getBase() && Compare.cmp(e, o.e) ==0)
+	if(Objects.equals(this.getBase(), o.getBase()) && Compare.cmp(e, o.e) ==0)
 	    return true;
 	else
 	    return false;

@@ -5,26 +5,8 @@
  */
 package Utilities;
 
-import DataStructureElements.Arccos;
-import DataStructureElements.Arccot;
-import DataStructureElements.Arccsc;
-import DataStructureElements.Arcsec;
-import DataStructureElements.Arcsin;
-import DataStructureElements.Arctan;
-import DataStructureElements.Constant;
-import DataStructureElements.Cos;
-import DataStructureElements.Cot;
-import DataStructureElements.Csc;
-import DataStructureElements.Exponential;
-import DataStructureElements.Power;
-import DataStructureElements.Product;
-import DataStructureElements.Sec;
-import DataStructureElements.Sin;
-import DataStructureElements.Sum;
-import DataStructureElements.Tan;
 import DataStructureElements.*;
-import DataStructureElements.Visitor.Compare;
-import DataStructureElements.Visitor.DSEVisitor;
+import DataStructureElements.Visitor.*;
 import java.util.*;
 
 /**

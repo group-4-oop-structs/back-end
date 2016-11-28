@@ -5,11 +5,7 @@
  */
 package DataStructureElements;
 
-import java.util.ArrayList;
 import DataStructureElements.Visitor.DSEVisitor;
-import Utilities.ShrinkTree;
-import Utilities.Simplify;
-import Utilities.Stringifier;
 
 /**
  *

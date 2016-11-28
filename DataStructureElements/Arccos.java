@@ -6,7 +6,6 @@
 package DataStructureElements;
 
 import DataStructureElements.Visitor.DSEVisitor;
-import java.util.ArrayList;
 
 /**
  *
@@ -20,6 +19,7 @@ public class Arccos extends UnaryExpression{
         this.e = e;
     }
 
+    @Override
     public Expression getExpression() {
         return e;
     }

@@ -5,9 +5,7 @@
  */
 package DataStructureElements;
 
-import java.util.ArrayList;
 import DataStructureElements.Visitor.DSEVisitor;
-import Utilities.Stringifier;
 
 /**
  *

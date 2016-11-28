@@ -7,7 +7,6 @@ package Test;
 
 import DataStructureElements.*;
 import DataStructureElements.Visitor.*;
-import static DataStructureElements.Visitor.Compare.cmp;
 import Parser.Parser;
 
 /**

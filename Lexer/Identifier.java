@@ -3,7 +3,7 @@ package Lexer;
 
 public class Identifier extends Token{
     private final TokenType t;
-    private String name;
+    private final String name;
     
     public Identifier(String content, TokenType t){
         this.name = content;
