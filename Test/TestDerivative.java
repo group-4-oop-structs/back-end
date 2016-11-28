@@ -227,7 +227,7 @@ public class TestDerivative {
         //Test Case 17
         System.out.println();
         System.out.println("Test Case 17");
-        test = lexer.lex("2^(sin(x) * cos(x)");
+        test = lexer.lex("2^(sin(x) * cos(x))");
         e = parser.parse(test);
         testString = Stringifier.stringify(e);
         System.out.println(testString);
